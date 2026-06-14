@@ -548,9 +548,9 @@
         let showLimit = 3; // Mostrar 3 por defecto, aumentar al pulsar "Ver todas"
 
         async function fetchProperties() {
-            if (supabase) {
+            if (supabaseClient) {
                 try {
-                    const { data, error } = await supabase
+                    const { data, error } = await supabaseClient
                         .from('properties')
                         .select('*')
                         .order('id', { ascending: false });

@@ -333,7 +333,7 @@
 
         // 1. Verificar Inicialización de Supabase
         function checkInitMode() {
-            if (!supabase) {
+            if (!supabaseClient) {
                 statusBar.classList.remove('hidden');
                 console.error("Supabase no está configurado o inicializado. Revisa supabase-config.js.");
             } else {
@@ -344,7 +344,7 @@
 
         // 2. Control de Sesión en Supabase
         async function checkSupabaseSession() {
-            const { data, error } = await supabase.auth.getSession();
+            const { data, error } = await supabaseClient.auth.getSession();
             if (data.session) {
                 showDashboard(data.session.user.email);
             } else {
@@ -376,14 +376,14 @@
                 const email = loginEmail.value.trim();
                 const password = loginPassword.value;
 
-                if (!supabase) {
+                if (!supabaseClient) {
                     showToast('Error: Supabase no está inicializado. Verifica las credenciales.');
                     return;
                 }
 
                 showToast('Iniciando sesión...');
                 try {
-                    const { data, error } = await supabase.auth.signInWithPassword({
+                    const { data, error } = await supabaseClient.auth.signInWithPassword({
                         email: email,
                         password: password
                     });
@@ -403,8 +403,8 @@
 
         if (logoutBtn) {
             logoutBtn.addEventListener('click', async () => {
-                if (supabase) {
-                    await supabase.auth.signOut();
+                if (supabaseClient) {
+                    await supabaseClient.auth.signOut();
                     showToast('Sesión cerrada correctamente.');
                 }
                 showLogin();
@@ -432,8 +432,8 @@
 
         // 5. Gestión del listado de propiedades
         async function refreshPropertiesList() {
-            if (!supabase) return;
-            const { data, error } = await supabase
+            if (!supabaseClient) return;
+            const { data, error } = await supabaseClient
                 .from('properties')
                 .select('*')
                 .order('id', { ascending: false });
@@ -492,20 +492,20 @@
                 return;
             }
 
-            if (!supabase) {
+            if (!supabaseClient) {
                 showToast('Error: Supabase no está inicializado.');
                 return;
             }
 
             // 1. Obtener la propiedad para saber qué imágenes eliminar del Storage
-            const { data: propData } = await supabase
+            const { data: propData } = await supabaseClient
                 .from('properties')
                 .select('images')
                 .eq('id', id)
                 .single();
 
             // 2. Eliminar registro de base de datos
-            const { error } = await supabase
+            const { error } = await supabaseClient
                 .from('properties')
                 .delete()
                 .eq('id', id);
@@ -518,7 +518,7 @@
                     for (const url of propData.images) {
                         if (url.includes('property-images')) {
                             const filename = url.substring(url.lastIndexOf('/') + 1);
-                            await supabase.storage.from('property-images').remove([filename]);
+                            await supabaseClient.storage.from('property-images').remove([filename]);
                         }
                     }
                 }
@@ -534,7 +534,7 @@
                     return;
                 }
 
-                if (!supabase) {
+                if (!supabaseClient) {
                     showToast('Error: Supabase no está inicializado.');
                     return;
                 }
@@ -563,7 +563,7 @@
                     exclusive: p.exclusive
                 }));
 
-                const { error } = await supabase
+                const { error } = await supabaseClient
                     .from('properties')
                     .insert(formatted);
 
@@ -617,7 +617,7 @@
             propertyForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                if (!supabase) {
+                if (!supabaseClient) {
                     showToast('Error: Supabase no está inicializado.');
                     return;
                 }
@@ -654,7 +654,7 @@
                         const fileExt = file.name.split('.').pop();
                         const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}.${fileExt}`;
                         
-                        const { data: uploadData, error: uploadError } = await supabase.storage
+                        const { data: uploadData, error: uploadError } = await supabaseClient.storage
                             .from('property-images')
                             .upload(fileName, file);
 
@@ -662,7 +662,7 @@
                             throw new Error(`Error subiendo imagen: ${uploadError.message}`);
                         }
 
-                        const { data: publicUrlData } = supabase.storage
+                        const { data: publicUrlData } = supabaseClient.storage
                             .from('property-images')
                             .getPublicUrl(fileName);
 
@@ -674,7 +674,7 @@
                     }
 
                     // 2. Insertar registro en Supabase Database
-                    const { error: dbError } = await supabase
+                    const { error: dbError } = await supabaseClient
                         .from('properties')
                         .insert({
                             title,

@@ -386,9 +386,9 @@ Enviar Solicitud
         let currentIndex = 0;
 
         async function initPage() {
-            if (supabase) {
+            if (supabaseClient) {
                 try {
-                    const { data, error } = await supabase
+                    const { data, error } = await supabaseClient
                         .from('properties')
                         .select('*')
                         .eq('id', propertyId)
@@ -736,9 +736,9 @@ Enviar Solicitud
             similarGrid.innerHTML = '';
 
             let list = [];
-            if (supabase) {
+            if (supabaseClient) {
                 try {
-                    const { data } = await supabase
+                    const { data } = await supabaseClient
                         .from('properties')
                         .select('*')
                         .neq('id', propertyId)

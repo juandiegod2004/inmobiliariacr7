@@ -7,13 +7,13 @@ if (SUPABASE_URL && !SUPABASE_URL.startsWith("http://") && !SUPABASE_URL.startsW
     SUPABASE_URL = `https://${SUPABASE_URL}.supabase.co`;
 }
 
-let supabase = null;
+let supabaseClient = null;
 
 try {
     if (SUPABASE_URL && SUPABASE_URL !== "YOUR_SUPABASE_URL" && SUPABASE_ANON_KEY && SUPABASE_ANON_KEY !== "YOUR_SUPABASE_ANON_KEY") {
         if (window.supabase) {
-            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            console.log("Supabase inicializado correctamente.");
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log("Supabase cliente inicializado correctamente.");
         } else {
             console.error("El SDK de Supabase no se cargó. Asegúrate de incluir la biblioteca de Supabase en el HTML.");
         }
