@@ -377,21 +377,26 @@
                 const password = loginPassword.value;
 
                 if (!supabase) {
-                    showToast('Error: Supabase no está inicializado.');
+                    showToast('Error: Supabase no está inicializado. Verifica las credenciales.');
                     return;
                 }
 
                 showToast('Iniciando sesión...');
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
+                try {
+                    const { data, error } = await supabase.auth.signInWithPassword({
+                        email: email,
+                        password: password
+                    });
 
-                if (error) {
-                    showToast(`Error de acceso: ${error.message}`);
-                } else {
-                    showToast('¡Sesión iniciada con éxito!');
-                    showDashboard(data.user.email);
+                    if (error) {
+                        showToast(`Error de acceso: ${error.message}`);
+                    } else {
+                        showToast('¡Sesión iniciada con éxito!');
+                        showDashboard(data.user.email);
+                    }
+                } catch (err) {
+                    showToast(`Fallo de conexión o error de script: ${err.message || err}`);
+                    console.error("Excepción al iniciar sesión:", err);
                 }
             });
         }
