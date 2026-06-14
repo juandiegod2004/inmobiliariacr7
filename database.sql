@@ -11,6 +11,10 @@ create table if not exists public.profiles (
   created_at timestamptz default now()
 );
 
+-- Asegurar que las columnas existen en caso de que la tabla ya existiera de ejecuciones previas
+alter table public.profiles add column if not exists email text;
+alter table public.profiles add column if not exists is_active boolean not null default true;
+
 -- Trigger para crear perfil automáticamente al registrar un usuario nuevo
 create or replace function public.handle_new_user()
 returns trigger as $$
@@ -26,13 +30,21 @@ begin
 end;
 $$ language plpgsql security definer;
 
+-- Eliminar trigger si existe para evitar duplicidades
+drop trigger if exists on_auth_user_created on auth.users;
+
 -- Crear el trigger en auth.users
-create or replace trigger on_auth_user_created
+create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
 
 -- Habilitar seguridad a nivel de fila (Row Level Security) en profiles
 alter table public.profiles enable row level security;
+
+-- Eliminar políticas previas para evitar colisiones
+drop policy if exists "Usuarios ven su propio perfil" on public.profiles;
+drop policy if exists "Solo ADMIN ve todos los perfiles" on public.profiles;
+drop policy if exists "Solo ADMIN actualiza perfiles" on public.profiles;
 
 -- Políticas RLS para profiles
 create policy "Usuarios ven su propio perfil"
@@ -80,8 +92,18 @@ create table if not exists public.properties (
   created_at timestamptz default now()
 );
 
+-- Asegurar que las columnas existen en caso de que la tabla ya existiera
+alter table public.properties add column if not exists is_active boolean default true;
+alter table public.properties add column if not exists images text[] default '{}';
+
 -- Habilitar seguridad a nivel de fila (Row Level Security) en properties
 alter table public.properties enable row level security;
+
+-- Eliminar políticas previas para evitar colisiones
+drop policy if exists "Propiedades activas son públicas" on public.properties;
+drop policy if exists "ADMIN y AGENT crean propiedades" on public.properties;
+drop policy if exists "AGENT edita sus propiedades, ADMIN edita todas" on public.properties;
+drop policy if exists "Solo ADMIN elimina propiedades" on public.properties;
 
 -- 1. Cualquiera puede VER propiedades activas (incluye usuarios no autenticados)
 create policy "Propiedades activas son públicas"
