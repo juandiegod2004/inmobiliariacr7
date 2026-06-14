@@ -120,7 +120,7 @@
 <nav class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-md shadow-md shadow-primary/5">
 <div class="flex justify-between items-center px-margin-mobile py-3 max-w-container-max mx-auto">
 <a class="flex items-center" href="#">
-<img id="nav-logo-img" alt="CR7 Inmobiliaria Logo" class="h-10" src="images/logo.svg"/>
+<img id="nav-logo-img" alt="CR7 Inmobiliaria Logo" class="h-10" src="images/logo.png"/>
 </a>
 <div class="hidden md:flex gap-6 items-center">
 <a class="text-secondary font-semibold border-b-2 border-secondary font-label-md text-label-md" id="nav-home-link" href="#">Inicio</a>
@@ -154,17 +154,24 @@
 <div>
 <label class="block text-primary font-label-md text-label-md mb-1 ml-1">Tipo de negocio</label>
 <select id="search-business-type" class="w-full border-outline-variant rounded-lg font-body-md text-on-surface-variant focus:ring-primary focus:border-primary">
-<option>Comprar</option>
-<option>Arrendar</option>
+<option value="todos">Todos</option>
+<option value="Venta">Comprar</option>
+<option value="Arriendo">Arrendar</option>
 </select>
 </div>
 <div>
 <label class="block text-primary font-label-md text-label-md mb-1 ml-1">Tipo de inmueble</label>
 <select id="search-property-type" class="w-full border-outline-variant rounded-lg font-body-md text-on-surface-variant focus:ring-primary focus:border-primary">
-<option>Apartamento</option>
-<option>Casa</option>
-<option>Lote/Terreno</option>
-<option>Local Comercial</option>
+<option value="todos">Todos los tipos</option>
+<option value="Apartaestudio">Apartaestudio</option>
+<option value="Apartamento">Apartamento</option>
+<option value="Cabaña">Cabaña</option>
+<option value="Campos, Chacras y Quintas">Campos, Chacras y Quintas</option>
+<option value="Casa">Casa</option>
+<option value="Casa de Playa">Casa de Playa</option>
+<option value="Dúplex">Dúplex</option>
+<option value="Hostal">Hostal</option>
+<option value="Lote / Terreno">Lote / Terreno</option>
 </select>
 </div>
 <div>
@@ -215,68 +222,11 @@
 <button id="filter-rent-btn" class="flex-1 py-2 px-4 rounded-full text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors">En Arriendo</button>
 </div>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter mb-10">
-<!-- Card 1 -->
-<a href="property-detail.html" class="block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all reveal">
-<div class="relative h-64">
-<img id="card-apartment-img" alt="Apartamento Vista al Mar" class="w-full h-full object-cover" src="images/interior_apartment.png"/>
-<div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-label-md font-label-md">Venta</div>
-<div class="absolute top-4 right-4 bg-secondary text-white px-3 py-1 rounded-full text-label-md font-label-md">Exclusivo</div>
-</div>
-<div class="p-6">
-<h3 class="text-primary font-headline-sm text-headline-sm mb-1">Apartamento Vista al Mar</h3>
-<p class="text-on-surface-variant text-body-sm flex items-center gap-1 mb-4">
-<span class="material-symbols-outlined text-[18px]">location_on</span> Bello Horizonte, Santa Marta
-                        </p>
-<p class="text-secondary font-headline-md text-headline-md mb-4">$850.000.000 COP</p>
-<div class="flex justify-between border-t border-outline-variant pt-4 text-on-surface-variant font-body-sm">
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> 3 Hab</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> 2 Baños</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> 115 m²</span>
-</div>
-</div>
-</a>
-<!-- Card 2 -->
-<div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all reveal">
-<div class="relative h-64">
-<img id="card-house-img" alt="Casa Oasis Tropical" class="w-full h-full object-cover" src="images/exterior_house.png"/>
-<div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-label-md font-label-md">Venta</div>
-</div>
-<div class="p-6">
-<h3 class="text-primary font-headline-sm text-headline-sm mb-1">Casa Oasis Tropical</h3>
-<p class="text-on-surface-variant text-body-sm flex items-center gap-1 mb-4">
-<span class="material-symbols-outlined text-[18px]">location_on</span> Mamatoco, Santa Marta
-                        </p>
-<p class="text-secondary font-headline-md text-headline-md mb-4">$1.200.000.000 COP</p>
-<div class="flex justify-between border-t border-outline-variant pt-4 text-on-surface-variant font-body-sm">
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> 4 Hab</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> 3 Baños</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> 240 m²</span>
-</div>
-</div>
-</div>
-<!-- Card 3 -->
-<div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all reveal">
-<div class="relative h-64">
-<img alt="Penthouse Moderno" class="w-full h-full object-cover" data-alt="Modern penthouse apartment in Santa Marta Colombia with a terrace overlooking the Caribbean sea. Bright blue skies, white furniture on the balcony, and palm trees in the background. The style is professional architectural photography with high-end luxury vibes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHlMbAl8TILkAYalrAjNzgq9b1BPBBhDARX0gzkN8ujOLu6Ku7V8nu-fLGNnR8SW93dJz1RDH7RbBaENd5TsJ6I54U4YdrZKpIxpdICc4Fintkx_v2quFueS3K-cVQ4wq31drWuh99m4KR1Jn8UdCKfSLdM73eAgyMP9WE9phsAwg9WM6oQmTckA738XXGYyYoY0z2ryN1gUkwsO5M4JxZK03BqNpX3dDlZk-XWpXhZWbB78UOaNfy1cOhkBmmKBvxSohAJb5NAxk"/>
-<div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-label-md font-label-md">Arriendo</div>
-</div>
-<div class="p-6">
-<h3 class="text-primary font-headline-sm text-headline-sm mb-1">Penthouse El Rodadero</h3>
-<p class="text-on-surface-variant text-body-sm flex items-center gap-1 mb-4">
-<span class="material-symbols-outlined text-[18px]">location_on</span> El Rodadero, Santa Marta
-                        </p>
-<p class="text-secondary font-headline-md text-headline-md mb-4">$4.500.000 / mes</p>
-<div class="flex justify-between border-t border-outline-variant pt-4 text-on-surface-variant font-body-sm">
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> 2 Hab</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> 2 Baños</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> 95 m²</span>
-</div>
-</div>
-</div>
+<div id="featured-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter mb-10">
+  <!-- Tarjetas dinámicas se insertan aquí -->
 </div>
 <div class="text-center">
-<button class="bg-primary text-on-primary px-8 py-3 rounded-full font-headline-sm text-headline-sm hover:opacity-90 transition-all shadow-lg">
+<button id="view-all-properties-btn" class="bg-primary text-on-primary px-8 py-3 rounded-full font-headline-sm text-headline-sm hover:opacity-90 transition-all shadow-lg">
                     Ver todas las propiedades
                 </button>
 </div>
@@ -312,9 +262,15 @@
 <div>
 <label class="block text-primary font-label-md text-label-md mb-1">Tipo de inmueble</label>
 <select id="valuation-property-type" class="w-full border-outline-variant rounded-lg font-body-md text-on-surface-variant focus:ring-primary focus:border-primary">
+<option>Apartaestudio</option>
 <option>Apartamento</option>
+<option>Cabaña</option>
+<option>Campos, Chacras y Quintas</option>
 <option>Casa</option>
-<option>Lote</option>
+<option>Casa de Playa</option>
+<option>Dúplex</option>
+<option>Hostal</option>
+<option>Lote / Terreno</option>
 </select>
 </div>
 </div>
@@ -332,6 +288,26 @@
 <!-- 6. Benefits Grid -->
 <section class="py-16 bg-surface-container-low" id="about">
 <div class="px-margin-mobile max-w-container-max mx-auto">
+<!-- Sección Nosotros -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20 pb-16 border-b border-outline-variant/60">
+  <div class="reveal">
+    <span class="text-secondary font-bold text-label-md uppercase tracking-wider block mb-2">Sobre Nosotros</span>
+    <h2 class="text-primary font-display-lg-mobile text-display-lg-mobile md:text-headline-md mb-6">CR7 Inmobiliaria</h2>
+    <div class="text-on-surface-variant font-body-md space-y-4 leading-relaxed">
+      <p>En CR7 Inmobiliaria trabajamos con pasión y compromiso para ayudarte a cumplir el sueño de tener vivienda propia en Santa Marta y sus alrededores. Con más de 150 propiedades vendidas, nos especializamos en la venta, arriendo y administración de inmuebles, acompañando a nuestros clientes en cada paso del proceso: desde la búsqueda, el financiamiento y la firma, hasta la entrega de llaves.</p>
+      <p>Nuestra fortaleza está en el asesoramiento transparente, el respaldo legal y financiero, y un equipo dispuesto a brindar soluciones efectivas. Además, ofrecemos oportunidades de inversión en proyectos VIS, casas multifamiliares y propiedades de alto valor en sectores estratégicos de la ciudad.</p>
+      <p class="font-semibold text-primary">En CR7 Inmobiliaria creemos que cada inmueble es una oportunidad de crecimiento y estabilidad para tu familia. Por eso, nuestro propósito es entregarte un servicio confiable, cercano y de calidad.</p>
+    </div>
+  </div>
+  <div class="reveal relative h-[450px] rounded-3xl overflow-hidden shadow-2xl border border-outline-variant/50 group">
+    <img src="images/hero.png" alt="Nosotros CR7 Inmobiliaria" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"/>
+    <div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent"></div>
+    <div class="absolute bottom-8 left-8 text-white">
+      <p class="text-5xl font-black text-secondary-fixed mb-1">150+</p>
+      <p class="text-lg font-bold tracking-wide uppercase opacity-90">Propiedades Vendidas</p>
+    </div>
+  </div>
+</div>
 <h2 class="text-primary font-display-lg-mobile text-display-lg-mobile mb-12 text-center">¿Por qué elegir CR7 Inmobiliaria?</h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
 <div class="bg-white p-8 rounded-2xl shadow-md reveal text-center flex flex-col items-center">
@@ -524,7 +500,7 @@
 <div class="px-margin-mobile max-w-container-max mx-auto">
 <div class="flex flex-col md:flex-row justify-between gap-12 mb-12">
 <div class="flex-1">
-<img id="footer-logo-img" alt="CR7 Inmobiliaria" class="h-12 mb-6 brightness-0 invert" src="images/logo.svg"/>
+<img id="footer-logo-img" alt="CR7 Inmobiliaria" class="h-12 mb-6 brightness-0 invert" src="images/logo.png"/>
 <p class="text-on-primary/70 font-body-sm max-w-xs">
                         Tu aliado experto en el mercado inmobiliario de Santa Marta. Transparencia, compromiso y resultados garantizados.
                     </p>
@@ -556,14 +532,187 @@
 </div>
 </div>
 </footer>
+<script src="properties.js"></script>
 <script>
+        // Cargar y Renderizar Propiedades Dinámicamente
+        const featuredGrid = document.getElementById('featured-grid');
+        const filterAllBtn = document.getElementById('filter-all-btn');
+        const filterSaleBtn = document.getElementById('filter-sale-btn');
+        const filterRentBtn = document.getElementById('filter-rent-btn');
+        const viewAllBtn = document.getElementById('view-all-properties-btn');
+
+        let currentFilter = 'Todos'; // 'Todos', 'Venta', 'Arriendo'
+        let showLimit = 3; // Mostrar 3 por defecto, aumentar al pulsar "Ver todas"
+
+        function renderProperties() {
+            if (!featuredGrid) return;
+            featuredGrid.innerHTML = '';
+
+            // Filtrar las propiedades
+            let filtered = PROPERTIES;
+            if (currentFilter !== 'Todos') {
+                filtered = PROPERTIES.filter(p => p.operation === currentFilter);
+            }
+
+            // Limitar las propiedades a mostrar
+            const visible = filtered.slice(0, showLimit);
+
+            if (visible.length === 0) {
+                featuredGrid.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-on-surface-variant">
+                        <span class="material-symbols-outlined text-4xl mb-2 text-outline">search_off</span>
+                        <p class="font-semibold">No se encontraron propiedades que coincidan con los criterios.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            visible.forEach(p => {
+                const card = document.createElement('a');
+                card.href = `property-detail.html?id=${p.id}`;
+                card.className = "block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all reveal active";
+                card.innerHTML = `
+                    <div class="relative h-64">
+                        <img alt="${p.title}" class="w-full h-full object-cover" src="${p.images[0]}"/>
+                        <div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-label-md font-label-md">${p.operation}</div>
+                        ${p.exclusive ? `<div class="absolute top-4 right-4 bg-secondary text-white px-3 py-1 rounded-full text-label-md font-label-md">Exclusivo</div>` : ''}
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-primary font-headline-sm text-headline-sm mb-1">${p.title}</h3>
+                        <p class="text-on-surface-variant text-body-sm flex items-center gap-1 mb-4">
+                            <span class="material-symbols-outlined text-[18px]">location_on</span> ${p.location}
+                        </p>
+                        <p class="text-secondary font-headline-md text-headline-md mb-4">${p.priceFormatted}</p>
+                        <div class="flex justify-between border-t border-outline-variant pt-4 text-on-surface-variant font-body-sm">
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> ${p.rooms} Hab</span>
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> ${p.baths} ${p.baths === 1 ? 'Baño' : 'Baños'}</span>
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> ${p.area} m²</span>
+                        </div>
+                    </div>
+                `;
+                featuredGrid.appendChild(card);
+            });
+
+            // Volver a verificar la animación de reveal
+            setTimeout(reveal, 50);
+        }
+
+        // Configurar botones de filtro rápido
+        function setFilter(filter, activeBtn, inactiveBtns) {
+            currentFilter = filter;
+            showLimit = 3; // Reset limit on tab change
+            
+            // Estilos activos
+            activeBtn.className = "flex-1 py-2 px-4 rounded-full bg-secondary text-on-secondary font-label-md text-label-md";
+            
+            // Estilos inactivos
+            inactiveBtns.forEach(btn => {
+                btn.className = "flex-1 py-2 px-4 rounded-full text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors";
+            });
+
+            renderProperties();
+        }
+
+        if (filterAllBtn && filterSaleBtn && filterRentBtn) {
+            filterAllBtn.addEventListener('click', () => setFilter('Todos', filterAllBtn, [filterSaleBtn, filterRentBtn]));
+            filterSaleBtn.addEventListener('click', () => setFilter('Venta', filterSaleBtn, [filterAllBtn, filterRentBtn]));
+            filterRentBtn.addEventListener('click', () => setFilter('Arriendo', filterRentBtn, [filterAllBtn, filterSaleBtn]));
+        }
+
+        // Botón "Ver todas las propiedades"
+        if (viewAllBtn) {
+            viewAllBtn.addEventListener('click', () => {
+                showLimit = PROPERTIES.length;
+                renderProperties();
+                // Desplazar suavemente a la cuadrícula
+                featuredGrid.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        }
+
+        // Búsqueda desde el Hero
+        const searchSubmitBtn = document.getElementById('search-submit-btn');
+        if (searchSubmitBtn) {
+            searchSubmitBtn.addEventListener('click', () => {
+                const businessType = document.getElementById('search-business-type').value;
+                const propertyType = document.getElementById('search-property-type').value;
+                const zoneInput = document.getElementById('search-zone-input').value.toLowerCase().trim();
+
+                // Filtrar propiedades basado en la búsqueda
+                let filtered = PROPERTIES;
+
+                if (businessType !== 'todos') {
+                    filtered = filtered.filter(p => p.operation === businessType);
+                }
+
+                if (propertyType !== 'todos') {
+                    filtered = filtered.filter(p => p.subtype === propertyType);
+                }
+
+                if (zoneInput) {
+                    filtered = filtered.filter(p => p.location.toLowerCase().includes(zoneInput));
+                }
+
+                // Renderizar resultados filtrados
+                if (featuredGrid) {
+                    featuredGrid.innerHTML = '';
+                    filtered.forEach(p => {
+                        const card = document.createElement('a');
+                        card.href = `property-detail.html?id=${p.id}`;
+                        card.className = "block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all reveal active";
+                        card.innerHTML = `
+                            <div class="relative h-64">
+                                <img alt="${p.title}" class="w-full h-full object-cover" src="${p.images[0]}"/>
+                                <div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-label-md font-label-md">${p.operation}</div>
+                                ${p.exclusive ? `<div class="absolute top-4 right-4 bg-secondary text-white px-3 py-1 rounded-full text-label-md font-label-md">Exclusivo</div>` : ''}
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-primary font-headline-sm text-headline-sm mb-1">${p.title}</h3>
+                                <p class="text-on-surface-variant text-body-sm flex items-center gap-1 mb-4">
+                                    <span class="material-symbols-outlined text-[18px]">location_on</span> ${p.location}
+                                </p>
+                                <p class="text-secondary font-headline-md text-headline-md mb-4">${p.priceFormatted}</p>
+                                <div class="flex justify-between border-t border-outline-variant pt-4 text-on-surface-variant font-body-sm">
+                                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> ${p.rooms} Hab</span>
+                                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> ${p.baths} ${p.baths === 1 ? 'Baño' : 'Baños'}</span>
+                                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> ${p.area} m²</span>
+                                </div>
+                            </div>
+                        `;
+                        featuredGrid.appendChild(card);
+                    });
+
+                    if (filtered.length === 0) {
+                        featuredGrid.innerHTML = `
+                            <div class="col-span-full py-12 text-center text-on-surface-variant">
+                                <span class="material-symbols-outlined text-4xl mb-2 text-outline">search_off</span>
+                                <p class="font-semibold">No se encontraron propiedades que coincidan con la búsqueda.</p>
+                            </div>
+                        `;
+                    }
+
+                    // Ir a la sección destacados
+                    const featuredSection = document.getElementById('featured');
+                    if (featuredSection) {
+                        featuredSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+
+                    setTimeout(reveal, 50);
+                }
+            });
+        }
+
+        // Renderizado inicial
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProperties();
+        });
+
         // Reveal animation on scroll
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 150;
+                var elementVisible = 100;
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
                 }

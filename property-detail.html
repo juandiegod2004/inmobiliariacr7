@@ -119,7 +119,9 @@
 <header class="bg-surface sticky top-0 z-50 border-b border-outline-variant shadow-sm flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full max-w-container-max mx-auto">
 <div class="flex items-center gap-4">
 <a href="index.html" id="back-to-landing-btn" class="material-symbols-outlined text-primary hover:bg-surface-container-low transition-colors p-2 rounded-full scale-95 active:opacity-80 flex items-center justify-center">arrow_back</a>
-<a href="index.html" id="nav-brand-link" class="font-display-lg text-display-lg-mobile text-primary tracking-tight md:text-headline-md hover:opacity-95 transition-opacity">CR7 INMOBILIARIA</a>
+<a href="index.html" id="nav-brand-link" class="flex items-center hover:opacity-95 transition-opacity">
+  <img id="nav-logo-img" alt="CR7 Inmobiliaria Logo" class="h-10" src="images/logo.png"/>
+</a>
 </div>
 <div class="flex items-center gap-2">
 <button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full">search</button>
@@ -129,18 +131,18 @@
 <main class="w-full max-w-container-max mx-auto pb-48">
 <!-- 1. Breadcrumbs -->
 <nav class="px-margin-mobile md:px-margin-desktop py-4 flex items-center text-label-md font-label-md text-on-surface-variant gap-2 overflow-x-auto no-scrollbar whitespace-nowrap">
-<span class="hover:text-primary cursor-pointer transition-colors">Inicio</span>
+<span class="hover:text-primary cursor-pointer transition-colors" onclick="window.location.href='index.html'">Inicio</span>
 <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-<span class="hover:text-primary cursor-pointer transition-colors">Apartamentos en Venta</span>
+<span id="breadcrumb-category" class="hover:text-primary cursor-pointer transition-colors">Propiedades</span>
 <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-<span class="text-primary font-bold">Apartamento Vista al Mar</span>
+<span id="breadcrumb-title" class="text-primary font-bold">Cargando...</span>
 </nav>
 <!-- 2. Gallery Component -->
 <section class="relative md:px-margin-desktop md:mb-12">
 <div class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar md:grid md:grid-cols-2 md:gap-4 md:rounded-xl md:overflow-hidden">
 <div class="min-w-full md:min-w-0 snap-center relative aspect-[4/3] md:aspect-video group overflow-hidden">
 <img id="gallery-main-img" alt="Living Room" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="images/interior_apartment.png" fetchpriority="high"/>
-<div class="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 rounded font-label-md text-label-md uppercase tracking-wider">EN VENTA</div>
+<div id="gallery-operation-badge" class="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 rounded font-label-md text-label-md uppercase tracking-wider">VENTA</div>
 </div>
 <div class="min-w-full md:min-w-0 snap-center relative aspect-[4/3] md:aspect-video group overflow-hidden">
 <img id="gallery-sub-img" alt="Exterior Pool View" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="images/exterior_house.png"/>
@@ -156,39 +158,39 @@
 <!-- 3. Header Info -->
 <section class="pt-6">
 <div class="flex flex-col gap-2">
-<h1 class="font-display-lg text-display-lg-mobile text-primary tracking-tight">Apartamento Vista al Mar</h1>
+<h1 id="property-title" class="font-display-lg text-display-lg-mobile text-primary tracking-tight">Apartamento Vista al Mar</h1>
 <div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
 <span class="material-symbols-outlined text-[18px]">location_on</span>
-                            Bello Horizonte, Santa Marta, Magdalena
+<span id="property-location">Bello Horizonte, Santa Marta, Magdalena</span>
                         </div>
 </div>
 <div class="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-<span class="font-display-lg text-display-lg-mobile text-primary md:text-display-lg">$850.000.000 COP</span>
+<span id="property-price" class="font-display-lg text-display-lg-mobile text-primary md:text-display-lg">$850.000.000 COP</span>
 <div class="flex flex-wrap gap-2">
-<span class="bg-surface-container-low text-on-surface-variant px-3 py-1.5 rounded-lg border border-outline-variant font-label-md text-label-md flex items-center gap-1.5">
+<span id="property-type-badge" class="bg-surface-container-low text-on-surface-variant px-3 py-1.5 rounded-lg border border-outline-variant font-label-md text-label-md flex items-center gap-1.5">
 <span class="material-symbols-outlined text-[16px]">apartment</span> Apartamento
                             </span>
-<span class="bg-secondary-container text-on-secondary-container px-3 py-1.5 rounded-lg font-label-md text-label-md flex items-center gap-1.5">
-<span class="material-symbols-outlined text-[16px]">verified</span> Nuevo
+<span id="property-exclusive-badge" class="bg-secondary-container text-on-secondary-container px-3 py-1.5 rounded-lg font-label-md text-label-md flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">verified</span> Exclusivo
                             </span>
 </div>
 </div>
 <div class="mt-8 grid grid-cols-4 gap-2 bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-soft-coastal">
 <div class="flex flex-col items-center justify-center border-r border-outline-variant py-2">
 <span class="material-symbols-outlined text-primary mb-1">bed</span>
-<span class="font-label-md text-label-md text-on-surface-variant">3 Hab</span>
+<span id="spec-rooms" class="font-label-md text-label-md text-on-surface-variant">3 Hab</span>
 </div>
 <div class="flex flex-col items-center justify-center border-r border-outline-variant py-2">
 <span class="material-symbols-outlined text-primary mb-1">bathtub</span>
-<span class="font-label-md text-label-md text-on-surface-variant">2 Baños</span>
+<span id="spec-baths" class="font-label-md text-label-md text-on-surface-variant">2 Baños</span>
 </div>
 <div class="flex flex-col items-center justify-center border-r border-outline-variant py-2">
 <span class="material-symbols-outlined text-primary mb-1">garage</span>
-<span class="font-label-md text-label-md text-on-surface-variant">1 Garaje</span>
+<span id="spec-garages" class="font-label-md text-label-md text-on-surface-variant">1 Garaje</span>
 </div>
 <div class="flex flex-col items-center justify-center py-2">
 <span class="material-symbols-outlined text-primary mb-1">square_foot</span>
-<span class="font-label-md text-label-md text-on-surface-variant">115 m²</span>
+<span id="spec-area" class="font-label-md text-label-md text-on-surface-variant">115 m²</span>
 </div>
 </div>
 </section>
@@ -196,7 +198,7 @@
 <section>
 <h2 class="font-headline-sm text-headline-sm text-primary mb-4 border-b border-outline-variant pb-2">Descripción del inmueble</h2>
 <div class="text-on-surface-variant font-body-md space-y-4 leading-relaxed">
-<p>Descubre el epítome del lujo costero en este espectacular apartamento ubicado en la prestigiosa zona de Bello Horizonte. Con una vista panorámica inigualable del Mar Caribe, esta propiedad ha sido diseñada para maximizar la entrada de luz natural y la brisa marina.</p>
+<p id="desc-paragraph-1">Descubre el epítome del lujo costero en este espectacular apartamento ubicado en la prestigiosa zona de Bello Horizonte. Con una vista panorámica inigualable del Mar Caribe, esta propiedad ha sido diseñada para maximizar la entrada de luz natural y la brisa marina.</p>
 <p id="desc-extra-paragraph" class="hidden md:block transition-all duration-300">Cuenta con acabados de alta gama, pisos de mármol, y una cocina integral moderna tipo americano. El balcón terraza es el lugar perfecto para contemplar los atardeceres más hermosos de Santa Marta.</p>
 <button id="desc-toggle-btn" class="text-secondary font-bold hover:underline transition-all flex items-center gap-1 md:hidden">
     <span id="desc-toggle-text">Leer más</span>
@@ -214,7 +216,7 @@
 </div>
 <div>
 <p class="text-label-md font-label-md text-on-surface-variant uppercase">Estrato</p>
-<p class="font-headline-sm text-headline-sm text-primary">6</p>
+<p id="tech-stratum" class="font-headline-sm text-headline-sm text-primary">6</p>
 </div>
 </div>
 <div class="flex items-center gap-3">
@@ -223,7 +225,7 @@
 </div>
 <div>
 <p class="text-label-md font-label-md text-on-surface-variant uppercase">Piso</p>
-<p class="font-headline-sm text-headline-sm text-primary">12</p>
+<p id="tech-floor" class="font-headline-sm text-headline-sm text-primary">12</p>
 </div>
 </div>
 <div class="flex items-center gap-3">
@@ -232,7 +234,7 @@
 </div>
 <div>
 <p class="text-label-md font-label-md text-on-surface-variant uppercase">Año</p>
-<p class="font-headline-sm text-headline-sm text-primary">2023</p>
+<p id="tech-year" class="font-headline-sm text-headline-sm text-primary">2023</p>
 </div>
 </div>
 <div class="flex items-center gap-3">
@@ -241,7 +243,7 @@
 </div>
 <div>
 <p class="text-label-md font-label-md text-on-surface-variant uppercase">Área privada</p>
-<p class="font-headline-sm text-headline-sm text-primary">108 m²</p>
+<p id="tech-private-area" class="font-headline-sm text-headline-sm text-primary">108 m²</p>
 </div>
 </div>
 <div class="flex items-center gap-3">
@@ -250,7 +252,7 @@
 </div>
 <div>
 <p class="text-label-md font-label-md text-on-surface-variant uppercase">Amoblado</p>
-<p class="font-headline-sm text-headline-sm text-primary">No</p>
+<p id="tech-furnished" class="font-headline-sm text-headline-sm text-primary">No</p>
 </div>
 </div>
 <div class="flex items-center gap-3">
@@ -259,7 +261,7 @@
 </div>
 <div>
 <p class="text-label-md font-label-md text-on-surface-variant uppercase">Mascotas</p>
-<p class="font-headline-sm text-headline-sm text-primary">Sí</p>
+<p id="tech-pets" class="font-headline-sm text-headline-sm text-primary">Sí</p>
 </div>
 </div>
 </div>
@@ -328,78 +330,142 @@ Enviar Solicitud
 <!-- 7. Related Properties -->
 <section class="mt-16 px-margin-mobile md:px-margin-desktop">
 <h2 class="font-headline-md text-headline-md text-primary mb-8">Propiedades similares</h2>
-<div class="flex overflow-x-auto gap-gutter pb-8 no-scrollbar -mx-margin-mobile px-margin-mobile md:mx-0 md:px-0">
-<!-- Card 1 -->
-<div class="min-w-[280px] md:min-w-0 md:flex-1 bg-surface-container-lowest rounded-2xl overflow-hidden shadow-soft-coastal border border-outline-variant group cursor-pointer">
-<div class="relative h-48 overflow-hidden">
-<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Exterior view of a luxury penthouse in Santa Marta with an infinity pool overlooking the ocean. The architecture is modern with glass railings and clean white lines. The lighting is golden hour, creating a warm and premium atmosphere. The style is consistent with high-end real estate photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi9EcawI9JBZtwo7w7jhDfD8iYI3kvkCVcInS8VHiUw1a1BukoalX5e1nugg6nq5ga9-6nsAVYSrgg3x_YDPGi4PIzmFsUYJJz7AUTyFN98PtrnK1ehjogiNQxjfP5aZTNcLJGa7Y06M7LLXxS--KflApHpBqaYvfLa0MUOCH2TU2V7cMWDNks8gWpIB4fUyvlsoYfajd7wLOnPRk56pvxiy8tfAVCHL_Dt6N0wtMuzmE9k9BjuKtXdDO5PvBlcvfsoUxehPa1VoQ"/>
-<div class="absolute top-3 left-3 bg-primary text-white text-label-md px-2 py-0.5 rounded font-bold shadow-md">$1.250M</div>
-<div class="absolute top-3 right-3 bg-secondary text-white text-label-md px-2 py-0.5 rounded font-bold shadow-md">EXCLUSIVO</div>
-</div>
-<div class="p-4">
-<h3 class="font-headline-sm text-headline-sm text-primary mb-1 truncate">Penthouse Rodadero</h3>
-<p class="text-body-sm text-on-surface-variant flex items-center gap-1 mb-3">
-<span class="material-symbols-outlined text-[16px]">location_on</span> El Rodadero, Santa Marta
-                        </p>
-<div class="flex items-center gap-3 text-on-surface-variant font-label-md">
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> 4</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> 3</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> 180m²</span>
-</div>
-</div>
-</div>
-<!-- Card 2 -->
-<div class="min-w-[280px] md:min-w-0 md:flex-1 bg-surface-container-lowest rounded-2xl overflow-hidden shadow-soft-coastal border border-outline-variant group cursor-pointer">
-<div class="relative h-48 overflow-hidden">
-<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A modern coastal apartment interior with open plan living area and floor-to-ceiling windows. The decor is minimalist with light wood accents and turquoise textiles reflecting the Caribbean sea. Bright, airy, and luxurious aesthetic for a high-end real estate listing in Colombia." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfJ31IbubT3N5LapnV6pVoObL-BCWn6rZ1ELFhfcjxQkPeiiSMdFmrZd6SXNbfeBKpvFkiqRUAl4xJUCrqPIn3NGqP_NASPBm-gq6Oh8JDQ68GsB0u4N_DoMS46-9uFELBt7sKgyCmjvXGpYN7QZEQeQS6RBDyzdI2POyoEbetpqZ_6LmOE3VZuu_O91S0SHLodbXyTtWBIvOGbcDeLn3O5Hegtuj6XDF0Z1gFfPULVqNHtuqQJggBgcjQf-z18Mt77p7bYyML--o"/>
-<div class="absolute top-3 left-3 bg-primary text-white text-label-md px-2 py-0.5 rounded font-bold shadow-md">$720M</div>
-</div>
-<div class="p-4">
-<h3 class="font-headline-sm text-headline-sm text-primary mb-1 truncate">Apartamento Pozos Colorados</h3>
-<p class="text-body-sm text-on-surface-variant flex items-center gap-1 mb-3">
-<span class="material-symbols-outlined text-[16px]">location_on</span> Pozos Colorados
-                        </p>
-<div class="flex items-center gap-3 text-on-surface-variant font-label-md">
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> 2</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> 2</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> 95m²</span>
-</div>
-</div>
-</div>
-<!-- Card 3 -->
-<div class="min-w-[280px] md:min-w-0 md:flex-1 bg-surface-container-lowest rounded-2xl overflow-hidden shadow-soft-coastal border border-outline-variant group cursor-pointer">
-<div class="relative h-48 overflow-hidden">
-<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Modern building facade with balcony overlooking the Santa Marta bay. High-contrast architectural shot with deep blue skies and white stucco walls. The image conveys a sense of high-status living and exclusivity in a prime coastal location." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM_yEPCKO8pJqqeGx0MpDDx9Bo946QbY5wum53nZ3LZaYPvwD_xjZQh3CpLjmfLNjLOhJsfknkNduxPgsMJo0DZR5LcqZttw413pzNo1SDZspvy3vp91n3iu70bbdaeQqe1y4t6WbWwEc_zARWBcEDlHA9Jri5fTgzlBz8FTfdvFvRttsWcsHmtwAxdtstg9ae6FGvrceZ3iiR54KPGRIoxql-w5IKXYboVvk2QmXQ6NpXbCVwVsTOTin-jFwyuk_6aH4Cu_yBdqQ"/>
-<div class="absolute top-3 left-3 bg-primary text-white text-label-md px-2 py-0.5 rounded font-bold shadow-md">$980M</div>
-<div class="absolute top-3 right-3 bg-secondary text-white text-label-md px-2 py-0.5 rounded font-bold shadow-md">NEW</div>
-</div>
-<div class="p-4">
-<h3 class="font-headline-sm text-headline-sm text-primary mb-1 truncate">Luxury Suite Irotama</h3>
-<p class="text-body-sm text-on-surface-variant flex items-center gap-1 mb-3">
-<span class="material-symbols-outlined text-[16px]">location_on</span> Sector Irotama
-                        </p>
-<div class="flex items-center gap-3 text-on-surface-variant font-label-md">
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> 3</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> 3</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> 130m²</span>
-</div>
-</div>
-</div>
+<div id="similar-properties-grid" class="flex overflow-x-auto gap-gutter pb-8 no-scrollbar -mx-margin-mobile px-margin-mobile md:mx-0 md:px-0">
+  <!-- Tarjetas dinámicas se insertan aquí -->
 </div>
 </section>
 </main>
-<!-- Footer (Universal) -->
-<footer class="w-full py-12 px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-gutter bg-primary text-on-primary mt-16"><div class="flex flex-col gap-4 items-center md:items-start">
-<span class="font-headline-sm text-headline-sm text-white">CR7 INMOBILIARIA</span>
-<p class="font-body-sm text-body-sm text-white/90 max-w-[300px] text-center md:text-left">© 2024 CR7 Inmobiliaria Santa Marta. Real Estate Excellence.</p>
+<!-- Footer (Universal - Coincide con index.html) -->
+<footer class="bg-primary text-on-primary pt-16 pb-8 border-t border-white/10 mt-16">
+<div class="px-margin-mobile max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between gap-12 mb-12">
+<div class="flex-1">
+<img id="footer-logo-img" alt="CR7 Inmobiliaria" class="h-12 mb-6 brightness-0 invert" src="images/logo.png"/>
+<p class="text-on-primary/70 font-body-sm max-w-xs">
+                        Tu aliado experto en el mercado inmobiliario de Santa Marta. Transparencia, compromiso y resultados garantizados.
+                    </p>
 </div>
-<div class="flex gap-6">
-<a class="text-white/80 hover:text-white hover:underline transition-all" href="#">Propiedades</a>
-<a class="text-white/80 hover:text-white hover:underline transition-all" href="#">Nosotros</a>
-<a class="text-white/80 hover:text-white hover:underline transition-all" href="#">Contacto</a>
-</div></footer>
+<div class="flex-1 grid grid-cols-2 gap-8 text-left">
+<div>
+<h4 class="font-headline-sm mb-6">Enlaces</h4>
+<ul class="space-y-3 font-body-sm text-on-primary/80">
+<li><a class="hover:text-white transition-colors" href="index.html">Inicio</a></li>
+<li><a class="hover:text-white transition-colors" href="index.html#featured">Propiedades</a></li>
+<li><a class="hover:text-white transition-colors" href="index.html#featured">Vender</a></li>
+<li><a class="hover:text-white transition-colors" href="index.html#about">Nosotros</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-headline-sm mb-6">Legal</h4>
+<ul class="space-y-3 font-body-sm text-on-primary/80">
+<li><a class="hover:text-white transition-colors" href="#">Privacidad</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Términos</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Cookies</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="border-t border-white/10 pt-8 flex flex-col items-center text-center gap-4">
+<p class="font-body-sm text-on-primary/60">
+                    © 2026 CR7 Inmobiliaria Santa Marta. Todos los derechos reservados.
+                </p>
+</div>
+</div>
+</footer>
 <!-- Mobile Sticky Navigation/Contact (Task Override) -->
+<script src="properties.js"></script>
 <script>
+        // 0. Cargar datos de propiedad dinámicamente de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const propertyId = parseInt(urlParams.get('id'), 10) || 1;
+        const property = PROPERTIES.find(p => p.id === propertyId) || PROPERTIES[0];
+
+        // Rellenar datos en la página
+        document.title = `${property.title} - ${property.location} | CR7 INMOBILIARIA`;
+        
+        const bCategory = document.getElementById('breadcrumb-category');
+        const bTitle = document.getElementById('breadcrumb-title');
+        if (bCategory) bCategory.textContent = `${property.type} en ${property.operation}`;
+        if (bTitle) bTitle.textContent = property.title;
+
+        // Galería del cuerpo principal
+        const mainImg = document.getElementById('gallery-main-img');
+        const subImg = document.getElementById('gallery-sub-img');
+        const opBadge = document.getElementById('gallery-operation-badge');
+        
+        if (mainImg) mainImg.src = property.images[0] || "images/interior_apartment.png";
+        if (subImg) subImg.src = property.images[1] || property.images[0] || "images/exterior_house.png";
+        if (opBadge) opBadge.textContent = `EN ${property.operation.toUpperCase()}`;
+
+        // Textos y etiquetas principales
+        const pTitle = document.getElementById('property-title');
+        const pLoc = document.getElementById('property-location');
+        const pPrice = document.getElementById('property-price');
+        const pTypeBadge = document.getElementById('property-type-badge');
+        const pExBadge = document.getElementById('property-exclusive-badge');
+
+        if (pTitle) pTitle.textContent = property.title;
+        if (pLoc) pLoc.textContent = property.location;
+        if (pPrice) pPrice.textContent = property.priceFormatted;
+        if (pTypeBadge) {
+            pTypeBadge.innerHTML = `<span class="material-symbols-outlined text-[16px]">apartment</span> ${property.subtype}`;
+        }
+        if (pExBadge) {
+            if (property.exclusive) {
+                pExBadge.style.display = 'flex';
+                pExBadge.innerHTML = `<span class="material-symbols-outlined text-[16px]">verified</span> Exclusivo`;
+            } else {
+                pExBadge.style.display = 'none';
+            }
+        }
+
+        // Especificaciones
+        const specRooms = document.getElementById('spec-rooms');
+        const specBaths = document.getElementById('spec-baths');
+        const specGarages = document.getElementById('spec-garages');
+        const specArea = document.getElementById('spec-area');
+
+        if (specRooms) specRooms.textContent = `${property.rooms} ${property.rooms === 1 ? 'Hab' : 'Hab'}`;
+        if (specBaths) specBaths.textContent = `${property.baths} ${property.baths === 1 ? 'Baño' : 'Baños'}`;
+        if (specGarages) specGarages.textContent = `${property.garages} ${property.garages === 1 ? 'Garaje' : 'Garajes'}`;
+        if (specArea) specArea.textContent = `${property.area} m²`;
+
+        // Descripción con colapsado dinámico
+        const descPara1 = document.getElementById('desc-paragraph-1');
+        const descExtra = document.getElementById('desc-extra-paragraph');
+        const descToggleBtn = document.getElementById('desc-toggle-btn');
+        
+        if (descPara1 && descExtra) {
+            const fullDesc = property.description;
+            const midpoint = Math.floor(fullDesc.length / 2);
+            const splitIndex = fullDesc.indexOf('. ', midpoint);
+            
+            if (splitIndex !== -1) {
+                descPara1.textContent = fullDesc.substring(0, splitIndex + 1);
+                descExtra.textContent = fullDesc.substring(splitIndex + 2);
+                if (descToggleBtn) descToggleBtn.style.display = 'flex';
+            } else {
+                descPara1.textContent = fullDesc;
+                descExtra.textContent = '';
+                if (descToggleBtn) descToggleBtn.style.display = 'none';
+            }
+        }
+
+        // Características Técnicas
+        const tStratum = document.getElementById('tech-stratum');
+        const tFloor = document.getElementById('tech-floor');
+        const tYear = document.getElementById('tech-year');
+        const tPrivateArea = document.getElementById('tech-private-area');
+        const tFurnished = document.getElementById('tech-furnished');
+        const tPets = document.getElementById('tech-pets');
+
+        if (tStratum) tStratum.textContent = property.stratum || 'N/A';
+        if (tFloor) tFloor.textContent = property.floor || 'N/A';
+        if (tYear) tYear.textContent = property.year || 'N/A';
+        if (tPrivateArea) tPrivateArea.textContent = `${property.privateArea || property.area} m²`;
+        if (tFurnished) tFurnished.textContent = property.furnished ? 'Sí' : 'No';
+        if (tPets) tPets.textContent = property.pets ? 'Sí' : 'No';
+
         // 1. Description read more collapse/expand
         const toggleBtn = document.getElementById('desc-toggle-btn');
         const extraPara = document.getElementById('desc-extra-paragraph');
@@ -411,10 +477,13 @@ Enviar Solicitud
                 const isHidden = extraPara.classList.contains('hidden');
                 if (isHidden) {
                     extraPara.classList.remove('hidden');
+                    extraPara.classList.remove('hidden', 'md:block');
+                    extraPara.classList.add('block');
                     toggleText.textContent = 'Leer menos';
                     toggleIcon.textContent = 'keyboard_arrow_up';
                 } else {
-                    extraPara.classList.add('hidden');
+                    extraPara.classList.remove('block');
+                    extraPara.classList.add('hidden', 'md:block');
                     toggleText.textContent = 'Leer más';
                     toggleIcon.textContent = 'keyboard_arrow_down';
                 }
@@ -428,19 +497,30 @@ Enviar Solicitud
         const lightboxMainImg = document.getElementById('lightbox-main-img');
         const prevBtn = document.getElementById('lightbox-prev-btn');
         const nextBtn = document.getElementById('lightbox-next-btn');
-        const thumbs = document.querySelectorAll('.lightbox-thumb');
 
-        const images = [
-            "images/interior_apartment.png",
-            "images/exterior_house.png",
-            "images/hero.png"
-        ];
+        const images = property.images;
         let currentIndex = 0;
+
+        // Generar miniaturas del Lightbox dinámicamente
+        const thumbsContainer = document.getElementById('lightbox-thumbs-container');
+        if (thumbsContainer) {
+            thumbsContainer.innerHTML = '';
+            images.forEach((imgSrc, i) => {
+                const img = document.createElement('img');
+                img.className = `lightbox-thumb w-20 h-16 object-cover rounded-lg border-2 ${i === 0 ? 'border-secondary' : 'border-transparent'} cursor-pointer hover:opacity-90 transition-all`;
+                img.src = imgSrc;
+                img.setAttribute('data-index', i);
+                img.alt = `Miniatura ${i + 1}`;
+                img.addEventListener('click', () => updateLightbox(i));
+                thumbsContainer.appendChild(img);
+            });
+        }
 
         function updateLightbox(index) {
             currentIndex = index;
             lightboxMainImg.src = images[currentIndex];
             // Highlight current thumbnail
+            const thumbs = document.querySelectorAll('.lightbox-thumb');
             thumbs.forEach((thumb, i) => {
                 if (i === currentIndex) {
                     thumb.classList.add('border-secondary');
@@ -463,7 +543,6 @@ Enviar Solicitud
             closeGalleryBtn.addEventListener('click', () => galleryModal.close());
         }
 
-        // Close on backdrop click (Light Dismiss fallback)
         if (galleryModal) {
             galleryModal.addEventListener('click', (e) => {
                 if (e.target === galleryModal) galleryModal.close();
@@ -486,13 +565,6 @@ Enviar Solicitud
             });
         }
 
-        thumbs.forEach((thumb) => {
-            thumb.addEventListener('click', () => {
-                const idx = parseInt(thumb.getAttribute('data-index'), 10);
-                updateLightbox(idx);
-            });
-        });
-
         // 3. Share Button & Copy Link
         const shareBtn = document.getElementById('share-btn');
         if (shareBtn) {
@@ -500,14 +572,13 @@ Enviar Solicitud
                 if (navigator.share) {
                     try {
                         await navigator.share({
-                            title: 'Apartamento Vista al Mar - Bello Horizonte',
+                            title: property.title,
                             url: window.location.href
                         });
                     } catch (err) {
                         console.log('Error sharing:', err);
                     }
                 } else {
-                    // Fallback to copy clipboard
                     try {
                         await navigator.clipboard.writeText(window.location.href);
                         showToast('¡Enlace copiado al portapapeles!');
@@ -532,12 +603,10 @@ Enviar Solicitud
 
             container.appendChild(toast);
 
-            // Trigger animation
             setTimeout(() => {
                 toast.classList.remove('translate-y-4', 'opacity-0');
             }, 50);
 
-            // Remove after 3s
             setTimeout(() => {
                 toast.classList.add('translate-y-4', 'opacity-0');
                 setTimeout(() => toast.remove(), 300);
@@ -554,7 +623,6 @@ Enviar Solicitud
 
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
-                // Show loading spinner
                 btn.disabled = true;
                 btn.innerHTML = `
                     <svg class="animate-spin h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -565,7 +633,6 @@ Enviar Solicitud
                 `;
 
                 setTimeout(() => {
-                    // Success response
                     form.reset();
                     btn.disabled = false;
                     btn.innerHTML = originalHTML;
@@ -577,19 +644,43 @@ Enviar Solicitud
         setupForm('info-request-form', 'info-submit-btn', '¡Solicitud de información recibida!');
         setupForm('schedule-visit-form', 'visit-submit-btn', '¡Visita agendada con éxito!');
 
-        // 6. Mobile Sticky Contact Bar Action (Calls carlos rodriguez)
+        // 6. Mobile Sticky Contact Bar Action
         const mobileCallBtn = document.getElementById('mobile-call-btn');
         if (mobileCallBtn) {
             mobileCallBtn.addEventListener('click', () => {
-                window.location.href = 'tel:+573002510313';
+                window.location.href = `tel:${property.agent.phone}`;
             });
         }
 
-        // Micro-interactions for gallery scrolling
-        const gallery = document.querySelector('.snap-x');
-        if(gallery) {
-            gallery.addEventListener('scroll', () => {
-                // Potential for dot indicators logic here
+        // Renderizar propiedades similares
+        const similarGrid = document.getElementById('similar-properties-grid');
+        if (similarGrid) {
+            similarGrid.innerHTML = '';
+            const similars = PROPERTIES.filter(p => p.id !== property.id).slice(0, 3);
+            
+            similars.forEach(s => {
+                const card = document.createElement('a');
+                card.href = `property-detail.html?id=${s.id}`;
+                card.className = "min-w-[280px] md:min-w-0 md:flex-1 bg-surface-container-lowest rounded-2xl overflow-hidden shadow-soft-coastal border border-outline-variant group cursor-pointer block hover:shadow-lg transition-all";
+                card.innerHTML = `
+                    <div class="relative h-48 overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="${s.images[0]}" alt="${s.title}"/>
+                        <div class="absolute top-3 left-3 bg-primary text-white text-label-md px-2 py-0.5 rounded font-bold shadow-md">${s.priceFormatted}</div>
+                        ${s.exclusive ? `<div class="absolute top-3 right-3 bg-secondary text-white text-label-md px-2 py-0.5 rounded font-bold shadow-md">EXCLUSIVO</div>` : ''}
+                    </div>
+                    <div class="p-4 text-left">
+                        <h3 class="font-headline-sm text-headline-sm text-primary mb-1 truncate">${s.title}</h3>
+                        <p class="text-body-sm text-on-surface-variant flex items-center gap-1 mb-3">
+                            <span class="material-symbols-outlined text-[16px]">location_on</span> ${s.location}
+                        </p>
+                        <div class="flex items-center gap-3 text-on-surface-variant font-label-md">
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> ${s.rooms}</span>
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> ${s.baths}</span>
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> ${s.area}m²</span>
+                        </div>
+                    </div>
+                `;
+                similarGrid.appendChild(card);
             });
         }
     </script>
@@ -624,10 +715,8 @@ Enviar Solicitud
         <button id="lightbox-next-btn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-surface-container-lowest/90 hover:bg-white text-primary w-12 h-12 rounded-full flex items-center justify-center shadow-lg active:scale-95 transition-all"><span class="material-symbols-outlined">chevron_right</span></button>
       </div>
       <!-- Thumbnail indicators -->
-      <div class="flex gap-4 mt-6 overflow-x-auto w-full justify-center py-2 no-scrollbar">
-        <img class="lightbox-thumb w-20 h-16 object-cover rounded-lg border-2 border-secondary cursor-pointer hover:opacity-90 transition-all" src="images/interior_apartment.png" data-index="0" alt="Thumbnail 1">
-        <img class="lightbox-thumb w-20 h-16 object-cover rounded-lg border-2 border-transparent cursor-pointer hover:opacity-90 transition-all" src="images/exterior_house.png" data-index="1" alt="Thumbnail 2">
-        <img class="lightbox-thumb w-20 h-16 object-cover rounded-lg border-2 border-transparent cursor-pointer hover:opacity-90 transition-all" src="images/hero.png" data-index="2" alt="Thumbnail 3">
+      <div id="lightbox-thumbs-container" class="flex gap-4 mt-6 overflow-x-auto w-full justify-center py-2 no-scrollbar">
+        <!-- miniaturas dinamicas -->
       </div>
     </div>
   </div>
