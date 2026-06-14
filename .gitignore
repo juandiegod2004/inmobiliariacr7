@@ -3,3 +3,10 @@ node_modules/
 dist/
 .gemini/
 *.log
+
+# Variables de entorno secretas
+.env
+.env.local
+.env.production
+.env.development
+.env.test
