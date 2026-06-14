@@ -67,8 +67,8 @@
 
     <!-- Credentials Status Bar -->
     <div id="status-bar" class="hidden bg-[#fff0f0] border-b border-red-200 text-red-800 px-6 py-3 text-sm flex items-center gap-2">
-        <span class="material-symbols-outlined text-red-600 font-bold">warning</span>
-        <p class="font-medium">Modo Demo Local: Completa las credenciales en <code class="bg-red-100 px-1.5 py-0.5 rounded font-mono">supabase-config.js</code> para conectar tu base de datos Supabase en tiempo real.</p>
+        <span class="material-symbols-outlined text-red-600 font-bold">error</span>
+        <p class="font-medium">Error de Inicialización: No se pudo conectar con Supabase. Por favor, verifica las credenciales en <code class="bg-red-100 px-1.5 py-0.5 rounded font-mono">supabase-config.js</code>.</p>
     </div>
 
     <!-- Main Container -->
@@ -97,11 +97,7 @@
                     </button>
                 </form>
                 
-                <div id="login-demo-notice" class="bg-surface-container p-4 rounded-2xl border border-outline-variant text-xs text-on-surface-variant text-center space-y-2">
-                    <p class="font-semibold text-primary">¿No tienes credenciales de Supabase configuradas?</p>
-                    <p>Haz clic en el botón de abajo para ingresar en <strong>Modo Demo Local</strong> y explorar el panel sin conectarte a internet.</p>
-                    <button id="bypass-login-btn" class="text-secondary font-bold hover:underline transition-all block mx-auto">Ingresar en Modo Demo</button>
-                </div>
+
             </div>
         </section>
 
@@ -317,7 +313,6 @@
         const authActions = document.getElementById('auth-actions');
         const userEmailSpan = document.getElementById('user-email');
         const logoutBtn = document.getElementById('logout-btn');
-        const bypassLoginBtn = document.getElementById('bypass-login-btn');
         const statusBar = document.getElementById('status-bar');
 
         const tabCreate = document.getElementById('tab-create');
@@ -334,21 +329,15 @@
         const seedDataBtn = document.getElementById('seed-data-btn');
 
         // State variables
-        let isDemoMode = false;
-        let localProperties = []; // Usado en modo Demo
         let uploadedFiles = []; // Guarda archivos en memoria antes de enviar
 
-        // 1. Verificar Modo de Ejecución (Demo o Supabase)
+        // 1. Verificar Inicialización de Supabase
         function checkInitMode() {
             if (!supabase) {
-                isDemoMode = true;
                 statusBar.classList.remove('hidden');
-                console.log("Corriendo en MODO DEMO LOCAL. Los datos se guardarán en LocalStorage.");
-                loadLocalProperties();
+                console.error("Supabase no está configurado o inicializado. Revisa supabase-config.js.");
             } else {
-                isDemoMode = false;
                 statusBar.classList.add('hidden');
-                // Verificar si hay sesión activa en Supabase
                 checkSupabaseSession();
             }
         }
@@ -387,44 +376,33 @@
                 const email = loginEmail.value.trim();
                 const password = loginPassword.value;
 
-                if (isDemoMode) {
-                    showToast('¡Ingreso en Modo Demo exitoso!');
-                    showDashboard('demo@cr7inmobiliaria.com');
-                } else {
-                    const { data, error } = await supabase.auth.signInWithPassword({
-                        email: email,
-                        password: password
-                    });
-
-                    if (error) {
-                        showToast(`Error de acceso: ${error.message}`);
-                    } else {
-                        showToast('¡Sesión iniciada con éxito!');
-                        showDashboard(data.user.email);
-                    }
+                if (!supabase) {
+                    showToast('Error: Supabase no está inicializado.');
+                    return;
                 }
-            });
-        }
 
-        if (bypassLoginBtn) {
-            bypassLoginBtn.addEventListener('click', () => {
-                isDemoMode = true;
-                statusBar.classList.remove('hidden');
-                showToast('Ingresando en Modo Demo Local...');
-                showDashboard('demo@cr7inmobiliaria.com');
+                showToast('Iniciando sesión...');
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) {
+                    showToast(`Error de acceso: ${error.message}`);
+                } else {
+                    showToast('¡Sesión iniciada con éxito!');
+                    showDashboard(data.user.email);
+                }
             });
         }
 
         if (logoutBtn) {
             logoutBtn.addEventListener('click', async () => {
-                if (isDemoMode) {
-                    showToast('Sesión cerrada (Modo Demo).');
-                    showLogin();
-                } else {
+                if (supabase) {
                     await supabase.auth.signOut();
                     showToast('Sesión cerrada correctamente.');
-                    showLogin();
                 }
+                showLogin();
             });
         }
 
@@ -448,38 +426,20 @@
         tabList.addEventListener('click', () => switchTab('list'));
 
         // 5. Gestión del listado de propiedades
-        function loadLocalProperties() {
-            const stored = localStorage.getItem('cr7_properties');
-            if (stored) {
-                localProperties = JSON.parse(stored);
-            } else {
-                // Seed inicial con las propiedades estáticas de properties.js
-                localProperties = PROPERTIES;
-                localStorage.setItem('cr7_properties', JSON.stringify(localProperties));
-            }
-            propCount.textContent = localProperties.length;
-        }
-
         async function refreshPropertiesList() {
-            let list = [];
-            if (isDemoMode) {
-                loadLocalProperties();
-                list = localProperties;
-            } else {
-                const { data, error } = await supabase
-                    .from('properties')
-                    .select('*')
-                    .order('id', { ascending: false });
+            if (!supabase) return;
+            const { data, error } = await supabase
+                .from('properties')
+                .select('*')
+                .order('id', { ascending: false });
 
-                if (error) {
-                    showToast(`Error al obtener inmuebles: ${error.message}`);
-                    return;
-                }
-                list = data;
+            if (error) {
+                showToast(`Error al obtener inmuebles: ${error.message}`);
+                return;
             }
 
-            propCount.textContent = list.length;
-            renderPropertiesTable(list);
+            propCount.textContent = data.length;
+            renderPropertiesTable(data);
         }
 
         function renderPropertiesTable(list) {
@@ -489,7 +449,7 @@
                 propertiesTableBody.innerHTML = `
                     <tr>
                         <td colspan="7" class="p-8 text-center text-on-surface-variant">
-                            No hay propiedades activas. ¡Usa el formulario para añadir una!
+                            No hay propiedades activas en tu base de datos Supabase. ¡Usa el formulario para añadir una!
                         </td>
                     </tr>
                 `;
@@ -500,7 +460,6 @@
                 const row = document.createElement('tr');
                 row.className = "border-b border-outline-variant hover:bg-surface-container-lowest transition-colors";
                 
-                // Asegurarse de tener imágenes
                 const imgSrc = (p.images && p.images.length > 0) ? p.images[0] : 'images/interior_apartment.png';
                 
                 row.innerHTML = `
@@ -528,92 +487,87 @@
                 return;
             }
 
-            if (isDemoMode) {
-                localProperties = localProperties.filter(p => p.id !== id);
-                localStorage.setItem('cr7_properties', JSON.stringify(localProperties));
-                showToast('Propiedad eliminada localmente.');
-                refreshPropertiesList();
+            if (!supabase) {
+                showToast('Error: Supabase no está inicializado.');
+                return;
+            }
+
+            // 1. Obtener la propiedad para saber qué imágenes eliminar del Storage
+            const { data: propData } = await supabase
+                .from('properties')
+                .select('images')
+                .eq('id', id)
+                .single();
+
+            // 2. Eliminar registro de base de datos
+            const { error } = await supabase
+                .from('properties')
+                .delete()
+                .eq('id', id);
+
+            if (error) {
+                showToast(`Error al eliminar: ${error.message}`);
             } else {
-                // 1. Obtener la propiedad para saber qué imágenes eliminar del Storage
-                const { data: propData } = await supabase
-                    .from('properties')
-                    .select('images')
-                    .eq('id', id)
-                    .single();
-
-                // 2. Eliminar registro de base de datos
-                const { error } = await supabase
-                    .from('properties')
-                    .delete()
-                    .eq('id', id);
-
-                if (error) {
-                    showToast(`Error al eliminar: ${error.message}`);
-                } else {
-                    // Intentar borrar las imágenes del storage
-                    if (propData && propData.images) {
-                        for (const url of propData.images) {
-                            if (url.includes('property-images')) {
-                                const filename = url.substring(url.lastIndexOf('/') + 1);
-                                await supabase.storage.from('property-images').remove([filename]);
-                            }
+                // Intentar borrar las imágenes del storage
+                if (propData && propData.images) {
+                    for (const url of propData.images) {
+                        if (url.includes('property-images')) {
+                            const filename = url.substring(url.lastIndexOf('/') + 1);
+                            await supabase.storage.from('property-images').remove([filename]);
                         }
                     }
-                    showToast('Propiedad e imágenes eliminadas con éxito.');
-                    refreshPropertiesList();
                 }
+                showToast('Propiedad e imágenes eliminadas con éxito.');
+                refreshPropertiesList();
             }
         };
 
         // 7. Siembra rápida de propiedades (Seeding)
         if (seedDataBtn) {
             seedDataBtn.addEventListener('click', async () => {
-                if (!confirm('Esto agregará las 8 propiedades predefinidas de prueba a la base de datos. ¿Deseas continuar?')) {
+                if (!confirm('Esto agregará las 8 propiedades predefinidas de prueba directamente a tu base de datos de Supabase. ¿Deseas continuar?')) {
                     return;
                 }
 
-                if (isDemoMode) {
-                    localProperties = PROPERTIES;
-                    localStorage.setItem('cr7_properties', JSON.stringify(localProperties));
-                    showToast('Base de datos Demo inicializada con 8 registros.');
+                if (!supabase) {
+                    showToast('Error: Supabase no está inicializado.');
+                    return;
+                }
+
+                showToast('Sembrando datos en Supabase...');
+                const formatted = PROPERTIES.map(p => ({
+                    title: p.title,
+                    location: p.location,
+                    price: p.price,
+                    price_formatted: p.priceFormatted,
+                    type: p.type,
+                    subtype: p.subtype,
+                    operation: p.operation,
+                    rooms: p.rooms,
+                    baths: p.baths,
+                    garages: p.garages,
+                    area: p.area,
+                    stratum: p.stratum,
+                    floor: p.floor,
+                    year: p.year,
+                    private_area: p.privateArea,
+                    furnished: p.furnished,
+                    pets: p.pets,
+                    description: p.description,
+                    images: p.images,
+                    exclusive: p.exclusive
+                }));
+
+                const { error } = await supabase
+                    .from('properties')
+                    .insert(formatted);
+
+                if (error) {
+                    showToast(`Error al sembrar datos: ${error.message}`);
+                } else {
+                    showToast('¡Base de datos Supabase sembrada con 8 propiedades!');
                     refreshPropertiesList();
                     switchTab('list');
-                } else {
-                    // Formatear para Supabase
-                    const formatted = PROPERTIES.map(p => ({
-                        title: p.title,
-                        location: p.location,
-                        price: p.price,
-                        price_formatted: p.priceFormatted,
-                        type: p.type,
-                        subtype: p.subtype,
-                        operation: p.operation,
-                        rooms: p.rooms,
-                        baths: p.baths,
-                        garages: p.garages,
-                        area: p.area,
-                        stratum: p.stratum,
-                        floor: p.floor,
-                        year: p.year,
-                        private_area: p.privateArea,
-                        furnished: p.furnished,
-                        pets: p.pets,
-                        description: p.description,
-                        images: p.images,
-                        exclusive: p.exclusive
-                    }));
-
-                    const { error } = await supabase
-                        .from('properties')
-                        .insert(formatted);
-
-                    if (error) {
-                        showToast(`Error al sembrar datos: ${error.message}`);
-                    } else {
-                        showToast('¡Base de datos Supabase sembrada con 8 propiedades!');
-                        refreshPropertiesList();
-                        switchTab('list');
-                    }
                 }
             });
         }
@@ -629,7 +583,6 @@
                 if (!file.type.startsWith('image/')) return;
                 uploadedFiles.push(file);
 
-                // Mostrar previsualización
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     const previewCard = document.createElement('div');
@@ -640,7 +593,6 @@
                             <span class="material-symbols-outlined text-[18px]">close</span>
                         </button>
                     `;
-                    // Guardar referencia del archivo
                     previewCard.fileRef = file;
                     previewContainer.appendChild(previewCard);
                 };
@@ -659,6 +611,11 @@
         if (propertyForm) {
             propertyForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
+
+                if (!supabase) {
+                    showToast('Error: Supabase no está inicializado.');
+                    return;
+                }
 
                 const title = document.getElementById('prop-title').value.trim();
                 const location = document.getElementById('prop-location').value.trim();
@@ -682,110 +639,71 @@
                 const pets = document.getElementById('prop-pets').checked;
                 const exclusive = document.getElementById('prop-exclusive').checked;
 
-                showToast('Procesando subida e imágenes...');
+                showToast('Procesando subida de imágenes...');
 
                 let imageUrls = [];
 
-                if (isDemoMode) {
-                    // En modo Demo local, usamos placeholders o imágenes estáticas
-                    imageUrls = uploadedFiles.map((f, idx) => {
-                        return idx === 0 ? "images/interior_apartment.png" : "images/exterior_house.png";
-                    });
-                    if (imageUrls.length === 0) imageUrls = ["images/interior_apartment.png"];
+                try {
+                    // 1. Subir archivos a Supabase Storage
+                    for (const file of uploadedFiles) {
+                        const fileExt = file.name.split('.').pop();
+                        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}.${fileExt}`;
+                        
+                        const { data: uploadData, error: uploadError } = await supabase.storage
+                            .from('property-images')
+                            .upload(fileName, file);
 
-                    const newProp = {
-                        id: Date.now(),
-                        title,
-                        location,
-                        price,
-                        priceFormatted,
-                        type,
-                        subtype,
-                        operation,
-                        rooms,
-                        baths,
-                        garages,
-                        area,
-                        stratum,
-                        floor,
-                        year,
-                        privateArea,
-                        furnished,
-                        pets,
-                        description,
-                        images: imageUrls,
-                        exclusive
-                    };
+                        if (uploadError) {
+                            throw new Error(`Error subiendo imagen: ${uploadError.message}`);
+                        }
 
-                    localProperties.push(newProp);
-                    localStorage.setItem('cr7_properties', JSON.stringify(localProperties));
-                    showToast('¡Propiedad creada localmente con éxito!');
+                        const { data: publicUrlData } = supabase.storage
+                            .from('property-images')
+                            .getPublicUrl(fileName);
+
+                        imageUrls.push(publicUrlData.publicUrl);
+                    }
+
+                    if (imageUrls.length === 0) {
+                        imageUrls = ["images/interior_apartment.png"];
+                    }
+
+                    // 2. Insertar registro en Supabase Database
+                    const { error: dbError } = await supabase
+                        .from('properties')
+                        .insert({
+                            title,
+                            location,
+                            price,
+                            price_formatted: priceFormatted,
+                            type,
+                            subtype,
+                            operation,
+                            rooms,
+                            baths,
+                            garages,
+                            area,
+                            stratum,
+                            floor,
+                            year,
+                            private_area: privateArea,
+                            furnished,
+                            pets,
+                            description,
+                            images: imageUrls,
+                            exclusive
+                        });
+
+                    if (dbError) {
+                        throw dbError;
+                    }
+
+                    showToast('¡Inmueble publicado con éxito en Supabase!');
                     resetForm();
                     switchTab('list');
-                } else {
-                    try {
-                        // 1. Subir archivos a Supabase Storage
-                        for (const file of uploadedFiles) {
-                            const fileExt = file.name.split('.').pop();
-                            const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}.${fileExt}`;
-                            
-                            const { data: uploadData, error: uploadError } = await supabase.storage
-                                .from('property-images')
-                                .upload(fileName, file);
-
-                            if (uploadError) {
-                                throw new Error(`Error subiendo imagen: ${uploadError.message}`);
-                            }
-
-                            // Obtener URL Pública
-                            const { data: publicUrlData } = supabase.storage
-                                .from('property-images')
-                                .getPublicUrl(fileName);
-
-                            imageUrls.push(publicUrlData.publicUrl);
-                        }
-
-                        if (imageUrls.length === 0) {
-                            imageUrls = ["images/interior_apartment.png"];
-                        }
-
-                        // 2. Insertar registro en Supabase Database
-                        const { error: dbError } = await supabase
-                            .from('properties')
-                            .insert({
-                                title,
-                                location,
-                                price,
-                                price_formatted: priceFormatted,
-                                type,
-                                subtype,
-                                operation,
-                                rooms,
-                                baths,
-                                garages,
-                                area,
-                                stratum,
-                                floor,
-                                year,
-                                private_area: privateArea,
-                                furnished,
-                                pets,
-                                description,
-                                images: imageUrls,
-                                exclusive
-                            });
-
-                        if (dbError) {
-                            throw dbError;
-                        }
-
-                        showToast('¡Inmueble publicado con éxito en Supabase!');
-                        resetForm();
-                        switchTab('list');
-                    } catch (err) {
-                        showToast(`Error al guardar: ${err.message}`);
-                        console.error(err);
-                    }
+                } catch (err) {
+                    showToast(`Error al guardar: ${err.message}`);
+                    console.error(err);
                 }
             });
         }

@@ -557,7 +557,6 @@
 
                     if (error) {
                         console.error("Error al obtener propiedades de Supabase:", error);
-                        loadLocalFallback();
                     } else if (data && data.length > 0) {
                         activeProperties = data.map(p => ({
                             id: p.id,
@@ -575,24 +574,13 @@
                             exclusive: p.exclusive
                         }));
                     } else {
-                        loadLocalFallback();
+                        console.log("No hay propiedades en la base de datos de Supabase.");
                     }
                 } catch (err) {
                     console.error("Fallo al conectar a Supabase:", err);
-                    loadLocalFallback();
                 }
             } else {
-                loadLocalFallback();
-            }
-        }
-
-        function loadLocalFallback() {
-            // Si el usuario guardó cambios locales en el admin.html en modo Demo
-            const stored = localStorage.getItem('cr7_properties');
-            if (stored) {
-                activeProperties = JSON.parse(stored);
-            } else {
-                activeProperties = PROPERTIES;
+                console.error("Supabase no inicializado.");
             }
         }
 
