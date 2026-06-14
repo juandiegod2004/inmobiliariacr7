@@ -113,8 +113,16 @@
             },
         }
     </script>
+    <link rel="icon" type="image/png" href="logo_inmobiliaria.png"/>
 </head>
 <body class="bg-background text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Full-screen Loading Spinner -->
+<div id="loading-spinner" class="fixed inset-0 z-50 bg-[#f7f9ff] flex flex-col items-center justify-center transition-opacity duration-300">
+  <div class="relative flex flex-col items-center">
+    <div class="w-16 h-16 border-4 border-[#002046]/20 border-t-[#006c47] rounded-full animate-spin"></div>
+    <p class="text-primary font-headline-sm mt-4 font-semibold">Cargando...</p>
+  </div>
+</div>
 <!-- Top AppBar (Desktop Hidden on Task Scroll/Mobile specific shell) -->
 <header class="bg-surface sticky top-0 z-50 border-b border-outline-variant shadow-sm flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full max-w-container-max mx-auto">
 <div class="flex items-center gap-4">
@@ -452,6 +460,15 @@ Enviar Solicitud
                     `;
                 }
             }
+
+            // Ocultar el spinner de carga con una suave transición
+            const spinner = document.getElementById('loading-spinner');
+            if (spinner) {
+                spinner.classList.add('opacity-0');
+                setTimeout(() => {
+                    spinner.style.display = 'none';
+                }, 300);
+            }
         }
 
         function renderPropertyDetails() {
@@ -787,6 +804,20 @@ Enviar Solicitud
                     </div>
                 `;
                 similarGrid.appendChild(card);
+            });
+        }
+
+        // Acceso oculto al administrador (doble clic en el logo o en el copyright del footer)
+        const logoImg = document.getElementById('nav-logo-img') || document.querySelector('img[alt*="Logo"]') || document.querySelector('img[src*="logo"]');
+        if (logoImg) {
+            logoImg.addEventListener('dblclick', () => {
+                window.location.href = 'admin.html';
+            });
+        }
+        const footerCopy = document.querySelector('footer p');
+        if (footerCopy) {
+            footerCopy.addEventListener('dblclick', () => {
+                window.location.href = 'admin.html';
             });
         }
 

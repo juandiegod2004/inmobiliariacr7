@@ -114,6 +114,7 @@
             transform: translateY(0);
         }
     </style>
+    <link rel="icon" type="image/png" href="logo_inmobiliaria.png"/>
 </head>
 <body class="bg-background text-on-surface font-body-md">
 <!-- 1. Sticky Navbar -->
@@ -124,7 +125,7 @@
 </a>
 <div class="hidden md:flex gap-6 items-center">
 <a class="text-secondary font-semibold border-b-2 border-secondary font-label-md text-label-md" id="nav-home-link" href="#">Inicio</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" id="nav-sale-link" href="#featured">Vender</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" id="nav-sale-link" href="#vender">Vender</a>
 <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" id="nav-rent-link" href="#featured">Arrendar</a>
 <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" id="nav-about-link" href="#about">Nosotros</a>
 <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" id="nav-contact-link" href="#contact">Contacto</a>
@@ -233,19 +234,14 @@
 </div>
 </section>
 <!-- 5. Sell/Rent Section -->
-<section class="py-16 px-margin-mobile max-w-container-max mx-auto reveal">
+<section id="vender" class="py-16 px-margin-mobile max-w-container-max mx-auto reveal">
 <div class="bg-primary-container rounded-3xl overflow-hidden shadow-2xl text-on-primary flex flex-col lg:flex-row">
 <div class="p-8 lg:p-16 flex-1 flex flex-col justify-center">
 <h2 class="font-display-lg-mobile text-display-lg-mobile mb-6">¿Quieres vender o arrendar tu propiedad?</h2>
 <p class="font-body-lg text-body-lg mb-8 text-on-primary-container">
                     Ponemos tu inmueble frente a miles de compradores calificados. Nuestra estrategia de marketing digital y conocimiento local garantizan el mejor precio en el menor tiempo.
                 </p>
-<div class="flex flex-col gap-4 sm:flex-row">
-<button id="offer-property-btn" class="bg-secondary text-white px-8 py-4 rounded-xl font-headline-sm text-headline-sm flex items-center justify-center gap-2 hover:bg-secondary-fixed transition-colors">
-<span class="material-symbols-outlined">sell</span>
-                        Ofertar mi inmueble
-                    </button>
-</div>
+
 </div>
 <div class="bg-white p-8 lg:p-12 text-on-surface flex-1">
 <h3 class="text-primary font-headline-md text-headline-md mb-6">Solicita una valoración gratuita</h3>
@@ -279,7 +275,7 @@
 <input class="w-full border-outline-variant rounded-lg focus:ring-primary focus:border-primary" id="valuation-zone-input" placeholder="Sector o barrio" type="text"/>
 </div>
 <button id="valuation-submit-btn" class="w-full bg-primary text-white py-4 rounded-xl font-headline-sm text-headline-sm hover:opacity-95 transition-all" type="submit">
-                        Quiero que me contacten
+                        Enviar información WhatsApp
                     </button>
 </form>
 </div>
@@ -511,7 +507,7 @@
 <ul class="space-y-3 font-body-sm text-on-primary/80">
 <li><a class="hover:text-white transition-colors" id="footer-home-link" href="#">Inicio</a></li>
 <li><a class="hover:text-white transition-colors" href="#">Propiedades</a></li>
-<li><a class="hover:text-white transition-colors" href="#">Vender</a></li>
+<li><a class="hover:text-white transition-colors" href="#vender">Vender</a></li>
 <li><a class="hover:text-white transition-colors" href="#">Nosotros</a></li>
 </ul>
 </div>
@@ -745,6 +741,50 @@
                     setTimeout(reveal, 50);
                 }
             });
+        }
+
+        // 7. Formulario de Valoración con WhatsApp
+        const valuationForm = document.getElementById('valuation-submit-btn')?.form;
+        if (valuationForm) {
+            valuationForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('valuation-name-input').value.trim();
+                const phone = document.getElementById('valuation-phone-input').value.trim();
+                const type = document.getElementById('valuation-property-type').value;
+                const zone = document.getElementById('valuation-zone-input').value.trim();
+
+                if (!name || !phone) {
+                    alert('Por favor, ingresa al menos tu nombre y número de teléfono.');
+                    return;
+                }
+
+                const message = `Hola CR7 Inmobiliaria, me gustaría solicitar una valoración gratuita de mi inmueble. Aquí están mis detalles:\n\n` +
+                                `• Nombre: ${name}\n` +
+                                `• Teléfono: ${phone}\n` +
+                                `• Tipo de Inmueble: ${type}\n` +
+                                `• Zona/Barrio: ${zone || 'No especificada'}`;
+
+                const encoded = encodeURIComponent(message);
+                const whatsappUrl = `https://wa.me/573002510313?text=${encoded}`;
+                
+                window.open(whatsappUrl, '_blank');
+            });
+        }
+
+        // Acceso oculto al administrador (doble clic en el logo o en el copyright del footer)
+        const logoImg = document.getElementById('nav-logo-img') || document.querySelector('img[alt*="Logo"]') || document.querySelector('img[src*="logo"]');
+        if (logoImg) {
+            logoImg.addEventListener('dblclick', () => {
+                window.location.href = 'admin.html';
+            });
+            logoImg.title = 'CR7 Inmobiliaria';
+        }
+        const footerCopy = document.querySelector('footer p');
+        if (footerCopy) {
+            footerCopy.addEventListener('dblclick', () => {
+                window.location.href = 'admin.html';
+            });
+            footerCopy.style.cursor = 'default';
         }
 
         // Renderizado inicial
