@@ -1,0 +1,12 @@
+{
+  "name": "cr7-inmobiliaria",
+  "version": "1.0.0",
+  "description": "CR7 Inmobiliaria web page and assets",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite --host localhost"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CR7 Inmobiliaria | Propiedades en Santa Marta</title>
+<meta content="Encuentra tu propiedad ideal en Santa Marta con CR7 Inmobiliaria. Venta, arriendo y asesoría inmobiliaria experta." name="description"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#e9eef6",
+                    "surface-container-low": "#eff4fc",
+                    "primary-fixed-dim": "#aec7f7",
+                    "on-surface": "#161c22",
+                    "surface": "#f7f9ff",
+                    "tertiary-fixed-dim": "#3de273",
+                    "on-tertiary-fixed-variant": "#005322",
+                    "primary-container": "#1b365d",
+                    "inverse-on-surface": "#ecf1f9",
+                    "on-surface-variant": "#44474e",
+                    "on-tertiary-fixed": "#002109",
+                    "outline-variant": "#c4c6cf",
+                    "surface-bright": "#f7f9ff",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#00714b",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed-variant": "#2e476f",
+                    "surface-container-high": "#e3e9f0",
+                    "secondary-container": "#8af5be",
+                    "background": "#f7f9ff",
+                    "secondary-fixed-dim": "#71dba6",
+                    "on-secondary-fixed-variant": "#005235",
+                    "surface-container-highest": "#dde3eb",
+                    "tertiary-fixed": "#66ff8e",
+                    "surface-dim": "#d5dae2",
+                    "surface-tint": "#465f88",
+                    "primary": "#002046",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#002113",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed": "#001b3d",
+                    "primary-fixed": "#d6e3ff",
+                    "inverse-primary": "#aec7f7",
+                    "on-primary-container": "#87a0cd",
+                    "surface-variant": "#dde3eb",
+                    "tertiary-container": "#003f18",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#161c22",
+                    "secondary": "#006c47",
+                    "outline": "#74777f",
+                    "inverse-surface": "#2b3137",
+                    "on-tertiary-container": "#00b754",
+                    "tertiary": "#00270c",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#8df7c1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px",
+                    "unit": "8px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Montserrat"],
+                    "display-lg": ["Montserrat"],
+                    "body-sm": ["Inter"],
+                    "display-lg-mobile": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "headline-sm": ["Montserrat"],
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md">
+<!-- 1. Sticky Navbar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-md shadow-md shadow-primary/5">
+<div class="flex justify-between items-center px-margin-mobile py-3 max-w-container-max mx-auto">
+<a class="flex items-center" href="#">
+<img id="nav-logo-img" alt="CR7 Inmobiliaria Logo" class="h-10" src="images/logo.svg"/>
+</a>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-secondary font-semibold border-b-2 border-secondary font-label-md text-label-md" id="nav-home-link" href="#">Inicio</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" id="nav-sale-link" href="#featured">Vender</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" id="nav-rent-link" href="#featured">Arrendar</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" id="nav-about-link" href="#about">Nosotros</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" id="nav-contact-link" href="#contact">Contacto</a>
+</div>
+<button class="flex items-center gap-2 bg-secondary text-on-secondary px-4 py-2 rounded-full font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all" id="header-whatsapp-btn" onclick="window.location.href='https://wa.me/573002510313'">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+                Hablar con un asesor
+            </button>
+</div>
+</nav>
+<!-- 2. Hero Section -->
+<section class="relative pt-24 pb-12 px-margin-mobile">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-primary/40 z-10"></div>
+<img id="hero-bg-img" alt="Vista de Santa Marta" class="w-full h-full object-cover" src="images/hero.png" fetchpriority="high"/>
+</div>
+<div class="relative z-20 flex flex-col items-center text-center max-w-2xl mx-auto py-12">
+<h1 class="text-white font-display-lg-mobile text-display-lg-mobile mb-4 drop-shadow-lg">
+                Encuentra tu propiedad ideal en Santa Marta
+            </h1>
+<p class="text-white/90 font-body-lg text-body-lg mb-8 drop-shadow-md">
+                Venta, arriendo y asesoría inmobiliaria con más de 183 propiedades disponibles.
+            </p>
+<!-- Floating Search Card -->
+<div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-md reveal">
+<div class="grid grid-cols-1 gap-4 text-left">
+<div>
+<label class="block text-primary font-label-md text-label-md mb-1 ml-1">Tipo de negocio</label>
+<select id="search-business-type" class="w-full border-outline-variant rounded-lg font-body-md text-on-surface-variant focus:ring-primary focus:border-primary">
+<option>Comprar</option>
+<option>Arrendar</option>
+</select>
+</div>
+<div>
+<label class="block text-primary font-label-md text-label-md mb-1 ml-1">Tipo de inmueble</label>
+<select id="search-property-type" class="w-full border-outline-variant rounded-lg font-body-md text-on-surface-variant focus:ring-primary focus:border-primary">
+<option>Apartamento</option>
+<option>Casa</option>
+<option>Lote/Terreno</option>
+<option>Local Comercial</option>
+</select>
+</div>
+<div>
+<label class="block text-primary font-label-md text-label-md mb-1 ml-1">Zona/Barrio</label>
+<input class="w-full border-outline-variant rounded-lg font-body-md text-on-surface-variant focus:ring-primary focus:border-primary" id="search-zone-input" placeholder="Ej: El Rodadero" type="text"/>
+</div>
+<button id="search-submit-btn" class="w-full bg-secondary text-on-secondary font-headline-sm text-headline-sm py-3 rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">search</span>
+                        Buscar
+                    </button>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Trust Stats Banner -->
+<section class="bg-primary py-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6 px-margin-mobile max-w-container-max mx-auto text-center">
+<div class="flex flex-col items-center gap-2 reveal">
+<span class="material-symbols-outlined text-secondary-fixed text-4xl" style="font-variation-settings: 'FILL' 1;">apartment</span>
+<span class="text-white font-headline-sm text-headline-sm">183+</span>
+<span class="text-white/70 font-body-sm text-body-sm">propiedades activas</span>
+</div>
+<div class="flex flex-col items-center gap-2 reveal">
+<span class="material-symbols-outlined text-secondary-fixed text-4xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-white font-headline-sm text-headline-sm">10+ años</span>
+<span class="text-white/70 font-body-sm text-body-sm">experiencia</span>
+</div>
+<div class="flex flex-col items-center gap-2 reveal">
+<span class="material-symbols-outlined text-secondary-fixed text-4xl" style="font-variation-settings: 'FILL' 1;">support_agent</span>
+<span class="text-white font-headline-sm text-headline-sm">Personalizado</span>
+<span class="text-white/70 font-body-sm text-body-sm">atención directa</span>
+</div>
+<div class="flex flex-col items-center gap-2 reveal">
+<span class="material-symbols-outlined text-secondary-fixed text-4xl" style="font-variation-settings: 'FILL' 1;">handshake</span>
+<span class="text-white font-headline-sm text-headline-sm">Gratuita</span>
+<span class="text-white/70 font-body-sm text-body-sm">asesoría experta</span>
+</div>
+</div>
+</section>
+<!-- 4. Featured Properties -->
+<section class="py-16 bg-surface" id="featured">
+<div class="px-margin-mobile max-w-container-max mx-auto">
+<div class="flex flex-col items-center mb-10 text-center">
+<h2 class="text-primary font-display-lg-mobile text-display-lg-mobile mb-4">Propiedades Destacadas</h2>
+<div class="flex bg-surface-container rounded-full p-1 w-full max-w-xs overflow-hidden">
+<button id="filter-all-btn" class="flex-1 py-2 px-4 rounded-full bg-secondary text-on-secondary font-label-md text-label-md">Todos</button>
+<button id="filter-sale-btn" class="flex-1 py-2 px-4 rounded-full text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors">En Venta</button>
+<button id="filter-rent-btn" class="flex-1 py-2 px-4 rounded-full text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors">En Arriendo</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter mb-10">
+<!-- Card 1 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all reveal">
+<div class="relative h-64">
+<img id="card-apartment-img" alt="Apartamento Vista al Mar" class="w-full h-full object-cover" src="images/interior_apartment.png"/>
+<div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-label-md font-label-md">Venta</div>
+<div class="absolute top-4 right-4 bg-secondary text-white px-3 py-1 rounded-full text-label-md font-label-md">Exclusivo</div>
+</div>
+<div class="p-6">
+<h3 class="text-primary font-headline-sm text-headline-sm mb-1">Apartamento Vista al Mar</h3>
+<p class="text-on-surface-variant text-body-sm flex items-center gap-1 mb-4">
+<span class="material-symbols-outlined text-[18px]">location_on</span> Bello Horizonte, Santa Marta
+                        </p>
+<p class="text-secondary font-headline-md text-headline-md mb-4">$850.000.000 COP</p>
+<div class="flex justify-between border-t border-outline-variant pt-4 text-on-surface-variant font-body-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> 3 Hab</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> 2 Baños</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> 115 m²</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all reveal">
+<div class="relative h-64">
+<img id="card-house-img" alt="Casa Oasis Tropical" class="w-full h-full object-cover" src="images/exterior_house.png"/>
+<div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-label-md font-label-md">Venta</div>
+</div>
+<div class="p-6">
+<h3 class="text-primary font-headline-sm text-headline-sm mb-1">Casa Oasis Tropical</h3>
+<p class="text-on-surface-variant text-body-sm flex items-center gap-1 mb-4">
+<span class="material-symbols-outlined text-[18px]">location_on</span> Mamatoco, Santa Marta
+                        </p>
+<p class="text-secondary font-headline-md text-headline-md mb-4">$1.200.000.000 COP</p>
+<div class="flex justify-between border-t border-outline-variant pt-4 text-on-surface-variant font-body-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> 4 Hab</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> 3 Baños</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> 240 m²</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all reveal">
+<div class="relative h-64">
+<img alt="Penthouse Moderno" class="w-full h-full object-cover" data-alt="Modern penthouse apartment in Santa Marta Colombia with a terrace overlooking the Caribbean sea. Bright blue skies, white furniture on the balcony, and palm trees in the background. The style is professional architectural photography with high-end luxury vibes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHlMbAl8TILkAYalrAjNzgq9b1BPBBhDARX0gzkN8ujOLu6Ku7V8nu-fLGNnR8SW93dJz1RDH7RbBaENd5TsJ6I54U4YdrZKpIxpdICc4Fintkx_v2quFueS3K-cVQ4wq31drWuh99m4KR1Jn8UdCKfSLdM73eAgyMP9WE9phsAwg9WM6oQmTckA738XXGYyYoY0z2ryN1gUkwsO5M4JxZK03BqNpX3dDlZk-XWpXhZWbB78UOaNfy1cOhkBmmKBvxSohAJb5NAxk"/>
+<div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-label-md font-label-md">Arriendo</div>
+</div>
+<div class="p-6">
+<h3 class="text-primary font-headline-sm text-headline-sm mb-1">Penthouse El Rodadero</h3>
+<p class="text-on-surface-variant text-body-sm flex items-center gap-1 mb-4">
+<span class="material-symbols-outlined text-[18px]">location_on</span> El Rodadero, Santa Marta
+                        </p>
+<p class="text-secondary font-headline-md text-headline-md mb-4">$4.500.000 / mes</p>
+<div class="flex justify-between border-t border-outline-variant pt-4 text-on-surface-variant font-body-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> 2 Hab</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> 2 Baños</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> 95 m²</span>
+</div>
+</div>
+</div>
+</div>
+<div class="text-center">
+<button class="bg-primary text-on-primary px-8 py-3 rounded-full font-headline-sm text-headline-sm hover:opacity-90 transition-all shadow-lg">
+                    Ver todas las propiedades
+                </button>
+</div>
+</div>
+</section>
+<!-- 5. Sell/Rent Section -->
+<section class="py-16 px-margin-mobile max-w-container-max mx-auto reveal">
+<div class="bg-primary-container rounded-3xl overflow-hidden shadow-2xl text-on-primary flex flex-col lg:flex-row">
+<div class="p-8 lg:p-16 flex-1 flex flex-col justify-center">
+<h2 class="font-display-lg-mobile text-display-lg-mobile mb-6">¿Quieres vender o arrendar tu propiedad?</h2>
+<p class="font-body-lg text-body-lg mb-8 text-on-primary-container">
+                    Ponemos tu inmueble frente a miles de compradores calificados. Nuestra estrategia de marketing digital y conocimiento local garantizan el mejor precio en el menor tiempo.
+                </p>
+<div class="flex flex-col gap-4 sm:flex-row">
+<button id="offer-property-btn" class="bg-secondary text-white px-8 py-4 rounded-xl font-headline-sm text-headline-sm flex items-center justify-center gap-2 hover:bg-secondary-fixed transition-colors">
+<span class="material-symbols-outlined">sell</span>
+                        Ofertar mi inmueble
+                    </button>
+</div>
+</div>
+<div class="bg-white p-8 lg:p-12 text-on-surface flex-1">
+<h3 class="text-primary font-headline-md text-headline-md mb-6">Solicita una valoración gratuita</h3>
+<form class="space-y-4">
+<div>
+<label class="block text-primary font-label-md text-label-md mb-1">Nombre completo</label>
+<input class="w-full border-outline-variant rounded-lg focus:ring-primary focus:border-primary" id="valuation-name-input" placeholder="Tu nombre" type="text"/>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<label class="block text-primary font-label-md text-label-md mb-1">Teléfono</label>
+<input class="w-full border-outline-variant rounded-lg focus:ring-primary focus:border-primary" id="valuation-phone-input" placeholder="+57" type="tel"/>
+</div>
+<div>
+<label class="block text-primary font-label-md text-label-md mb-1">Tipo de inmueble</label>
+<select id="valuation-property-type" class="w-full border-outline-variant rounded-lg font-body-md text-on-surface-variant focus:ring-primary focus:border-primary">
+<option>Apartamento</option>
+<option>Casa</option>
+<option>Lote</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block text-primary font-label-md text-label-md mb-1">Zona del inmueble</label>
+<input class="w-full border-outline-variant rounded-lg focus:ring-primary focus:border-primary" id="valuation-zone-input" placeholder="Sector o barrio" type="text"/>
+</div>
+<button id="valuation-submit-btn" class="w-full bg-primary text-white py-4 rounded-xl font-headline-sm text-headline-sm hover:opacity-95 transition-all" type="submit">
+                        Quiero que me contacten
+                    </button>
+</form>
+</div>
+</div>
+</section>
+<!-- 6. Benefits Grid -->
+<section class="py-16 bg-surface-container-low" id="about">
+<div class="px-margin-mobile max-w-container-max mx-auto">
+<h2 class="text-primary font-display-lg-mobile text-display-lg-mobile mb-12 text-center">¿Por qué elegir CR7 Inmobiliaria?</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="bg-white p-8 rounded-2xl shadow-md reveal text-center flex flex-col items-center">
+<div class="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl">location_city</span>
+</div>
+<h3 class="text-primary font-headline-sm text-headline-sm mb-3">Experiencia local</h3>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Conocemos cada rincón de Santa Marta, ofreciéndote las mejores oportunidades de inversión.</p>
+</div>
+<div class="bg-white p-8 rounded-2xl shadow-md reveal text-center flex flex-col items-center">
+<div class="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl">account_balance_wallet</span>
+</div>
+<h3 class="text-primary font-headline-sm text-headline-sm mb-3">Portafolio amplio</h3>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Más de 180 propiedades verificadas que se ajustan a todos los presupuestos y estilos.</p>
+</div>
+<div class="bg-white p-8 rounded-2xl shadow-md reveal text-center flex flex-col items-center">
+<div class="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl">diversity_3</span>
+</div>
+<h3 class="text-primary font-headline-sm text-headline-sm mb-3">Acompañamiento</h3>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Te guiamos en todo el proceso legal y comercial, desde la búsqueda hasta la firma.</p>
+</div>
+<div class="bg-white p-8 rounded-2xl shadow-md reveal text-center flex flex-col items-center">
+<div class="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl">speed</span>
+</div>
+<h3 class="text-primary font-headline-sm text-headline-sm mb-3">Respuesta rápida</h3>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Atención inmediata a tus dudas para que no pierdas la oportunidad de tu vida.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. Testimonials -->
+<section class="py-16 px-margin-mobile max-w-container-max mx-auto overflow-hidden">
+<h2 class="text-primary font-display-lg-mobile text-display-lg-mobile mb-12 text-center">Nuestros Clientes Dicen</h2>
+<div class="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory hide-scrollbar">
+<!-- Testimonial 1 -->
+<div class="min-w-[300px] bg-white p-8 rounded-2xl shadow-lg snap-center reveal">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold">JD</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary">Juan Delgado</h4>
+<div class="flex text-yellow-500">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant font-body-md italic">"Excelente servicio. Me ayudaron a encontrar el apartamento de mis sueños frente al mar en tiempo récord."</p>
+</div>
+<!-- Testimonial 2 -->
+<div class="min-w-[300px] bg-white p-8 rounded-2xl shadow-lg snap-center reveal">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold">MC</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary">Maria Castro</h4>
+<div class="flex text-yellow-500">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant font-body-md italic">"Vendí mi casa en Mamatoco en menos de un mes. Muy profesionales y transparentes en todo el proceso."</p>
+</div>
+<!-- Testimonial 3 -->
+<div class="min-w-[300px] bg-white p-8 rounded-2xl shadow-lg snap-center reveal">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold">RL</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary">Roberto Luna</h4>
+<div class="flex text-yellow-500">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant font-body-md italic">"La mejor inmobiliaria de la costa. La asesoría legal fue impecable, me sentí seguro en todo momento."</p>
+</div>
+</div>
+</section>
+<!-- 8. Zones Grid -->
+<section class="py-16 bg-white">
+<div class="px-margin-mobile max-w-container-max mx-auto">
+<h2 class="text-primary font-display-lg-mobile text-display-lg-mobile mb-12 text-center">Explora las Mejores Zonas</h2>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<div class="relative h-48 rounded-xl overflow-hidden group reveal">
+<img alt="El Rodadero" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="The beautiful beach of El Rodadero in Santa Marta Colombia at sunset with golden light reflecting on the calm Caribbean sea. High rise buildings line the shore with palm trees and a vibrant atmosphere of people enjoying the evening. Premium travel photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJp15n4CTP1LzELBauRGCxZJLzhWh85tBlT9hp_gMu9GJPRcXo9aJIov7nS4jnuX63sBI4oajtMSBOPIBfP-z-p2zzUi18HehZk4-t31gYU3feLdZQDTlRS_Q01U50jx5abHgrWwzJbfyyWcQ-9iWdYW9mT-LjiNs8-wLLQMKWSZ1Tn4_P10MhSWtixwnhFxvkugq4ofoOl33xpgTOJUE1yd6gpsTW6KjZmwh53fdE5Unu6jSkmhBhOpebrG4_89TVNIa46J7oLjk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
+<span class="text-white font-headline-sm text-headline-sm">El Rodadero</span>
+</div>
+</div>
+<div class="relative h-48 rounded-xl overflow-hidden group reveal">
+<img alt="Bello Horizonte" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Bello Horizonte beach in Santa Marta Colombia showing pristine white sand and modern luxury apartment towers along the coast. The turquoise Caribbean sea is calm under a clear blue sky. Professional real estate and architectural drone perspective." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDf1ZMz5H_H9pFNVQW8A78wpO9d9q0syT0qivZeV8YFslZopyp7qTPa_f1W_XxxDbbq_i3UpmTxJE71ERvCoQffXSRBMaWlkKh0B69ZZqayVA8OzPNRGhKY4uZSGFjKKQleq13CPHbtls980VAWlDITLrtdvHGBhJe8unaJeuuj5J5OKePgxG3KB3tztOQlrct4SoOyBumNpQchzgOrWW1BIGin99Gz_R0twgwxGkL7zDE1fYV3UjnUWZI6tGXUOyGgqkFXPiJhag8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
+<span class="text-white font-headline-sm text-headline-sm">Bello Horizonte</span>
+</div>
+</div>
+<div class="relative h-48 rounded-xl overflow-hidden group reveal">
+<img alt="Centro Histórico" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Traditional and colorful colonial architecture in the Centro Histórico of Santa Marta Colombia. Vibrant street scene with narrow cobblestone roads, balconies overflowing with tropical flowers, and a clear blue sky. Bright daytime lighting with high contrast and saturation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCokZ6sS06aL38C6_7kXbSWl4pAX09RBdTydaR6cSgem4p_sk_XY1SnzeZGPW86lMAa8lb9qW_uQwWpk5AHHPpJerBypeUCTMEg4Z8z-bFNtz6GZaUxdUxpljo01nBGnNLvgCzuNJU7ckdkIstPicRD57VQF7V3ICCMZAAJ9jAzU1CTJTe0iPeYJYi2YgP1nJzIqFmBiLWuVHU1W8Mi5rjQ0vVBiXTUKRPbaL5DBxXK6rvAXROaG14sVem_FTSKGZVdN4tYTVuAbuY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
+<span class="text-white font-headline-sm text-headline-sm">Centro Histórico</span>
+</div>
+</div>
+<div class="relative h-48 rounded-xl overflow-hidden group reveal">
+<img alt="Mamatoco" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Modern residential area in Mamatoco Santa Marta showing new house developments with green parks and wide streets. Surrounded by lush coastal mountains. Soft morning light with clean, family-friendly suburban aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlQsHBXYNncXKNd-KHt1ZT_EGCfTR7qjtQ-CLlg5BgYqu01E4-DEuZI1UvjgZpZ3OGVi5kRCx8YbaH5vGGAe1hOym3WzA6cyG-kOhBVIcdI-BpKEQ-ptwlWKzXCLzff8glbEaywsAMMeLOWS_poN1DXmJsvTDU5YjAKdixY69Mun07SFDAsAQi2Xp3HVXeUJU3Sib5C7iMQdfetjHIzP9Yw3Lv0LQWN4EFKi3djKEiaKuHdYbIP9-Hq69-RgVpx_mbRaFgVirzr0Q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
+<span class="text-white font-headline-sm text-headline-sm">Mamatoco</span>
+</div>
+</div>
+<div class="relative h-48 rounded-xl overflow-hidden group reveal">
+<img alt="Parques de Bolívar" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Cozy residential neighborhood in Parques de Bolivar Santa Marta featuring modern apartment blocks and community gardens. Clear sunny day with families walking and high-quality urban planning visible. Professional real estate photo." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5P27ISqea3rR7WlIv2VMKI8y2nkndTlS8aO-QAv2V0E0uOMtMmcXkPq6mtcmCyUnpklZk4fin_L35bM5OC7h736hpi1QRF9J75tcW-NBalvruLyW1IgDRL7bEZtp2DLU1XuuBiAGbTorc-l8Et5J_JYL9Iy1kf88SxJ1B1UJLdm7zZN_zppe5CIJg9ehmSyC-nZ5qKgQdDetIS-PawmUajxHViXxarbSqz-KKvps2ncJrdK0HNr9LQ0hzyeTFYVswYgnKz6KH6oY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
+<span class="text-white font-headline-sm text-headline-sm">P. de Bolívar</span>
+</div>
+</div>
+<div class="relative h-48 rounded-xl overflow-hidden group reveal">
+<img alt="Gaira" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Authentic coastal village scene in Gaira Santa Marta showing local homes near the beach with fishing boats and palm trees. Vibrant tropical mood with warm sunlight and blue skies. Authentic lifestyle photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2BhdxXetWP0yiwMJ8zZp4sslX-gS4GB-WNHRmDfdSviTWsOZvsTK6gmwvgeNiWWNSiZ7gui3Yegh8-zCB_1dCoQfCvS4pf3A9tkbHmMfZqvpkLAnFIrt4b8lZlEs7VWcqjV4YAX9Zl6FifwJQ_z3uqAo2d2r7fdBiCzToOHEoTrlQGs8BoTN7MhmIHIizzGTCXwo6-FO5xg57gtB589Iu13I_n1cI3qJ6kbre8l23KYEPYfZybB38Z1UYME64mv3Fu03mkGqnML0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
+<span class="text-white font-headline-sm text-headline-sm">Gaira</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 9. Contact & Location -->
+<section class="py-16 px-margin-mobile bg-surface" id="contact">
+<div class="max-w-container-max mx-auto">
+<div class="flex flex-col lg:flex-row gap-12">
+<div class="flex-1 reveal">
+<h2 class="text-primary font-display-lg-mobile text-display-lg-mobile mb-8">Contáctanos</h2>
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">call</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-body-sm">Teléfono / WhatsApp</p>
+<p class="text-primary font-headline-sm">+57 300 251 0313</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-body-sm">Correo electrónico</p>
+<p class="text-primary font-headline-sm">cr7inmobiliaria@gmail.com</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-body-sm">Oficina principal</p>
+<p class="text-primary font-headline-sm">Santa Marta, Colombia</p>
+</div>
+</div>
+</div>
+<div class="mt-8 flex gap-4">
+<a class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-secondary transition-colors" href="#"><span class="material-symbols-outlined">face_nod</span></a>
+<a class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-secondary transition-colors" href="#"><span class="material-symbols-outlined">camera_enhance</span></a>
+</div>
+</div>
+<div class="flex-1 h-[400px] rounded-3xl overflow-hidden shadow-xl reveal">
+<iframe allowfullscreen="" data-location="Santa Marta, Colombia" frameborder="0" height="100%" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA_REAL_KEY_NEEDED&amp;q=Santa+Marta,Colombia" style="border:0" width="100%">
+</iframe>
+</div>
+</div>
+</div>
+</section>
+<!-- 10. Floating WhatsApp Button -->
+<a class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl animate-bounce hover:scale-110 transition-transform" id="floating-whatsapp-btn" href="https://wa.me/573002510313">
+<svg fill="currentColor" height="32" viewbox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg">
+<path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.319 1.592 5.448 0 9.886-4.438 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.735-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path>
+</svg>
+</a>
+<!-- 11. Footer -->
+<footer class="bg-primary text-on-primary pt-16 pb-8">
+<div class="px-margin-mobile max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between gap-12 mb-12">
+<div class="flex-1">
+<img id="footer-logo-img" alt="CR7 Inmobiliaria" class="h-12 mb-6 brightness-0 invert" src="images/logo.svg"/>
+<p class="text-on-primary/70 font-body-sm max-w-xs">
+                        Tu aliado experto en el mercado inmobiliario de Santa Marta. Transparencia, compromiso y resultados garantizados.
+                    </p>
+</div>
+<div class="flex-1 grid grid-cols-2 gap-8">
+<div>
+<h4 class="font-headline-sm mb-6">Enlaces</h4>
+<ul class="space-y-3 font-body-sm text-on-primary/80">
+<li><a class="hover:text-white transition-colors" id="footer-home-link" href="#">Inicio</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Propiedades</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Vender</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Nosotros</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-headline-sm mb-6">Legal</h4>
+<ul class="space-y-3 font-body-sm text-on-primary/80">
+<li><a class="hover:text-white transition-colors" href="#">Privacidad</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Términos</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Cookies</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="border-t border-white/10 pt-8 flex flex-col items-center text-center gap-4">
+<p class="font-body-sm text-on-primary/60">
+                    © 2026 CR7 Inmobiliaria Santa Marta. Todos los derechos reservados.
+                </p>
+</div>
+</div>
+</footer>
+<script>
+        // Reveal animation on scroll
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Initial check
+        reveal();
+    </script>
+</body></html>
