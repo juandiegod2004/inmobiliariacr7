@@ -25,6 +25,12 @@ export default function PropertiesPage() {
     fetchProperties()
   }, [filters]) // Recargar cada vez que cambien los filtros
 
+  useEffect(() => {
+    if (location.state?.filters) {
+      setFilters(location.state.filters)
+    }
+  }, [location.state])
+
   const fetchProperties = async () => {
     setLoading(true)
     setError('')

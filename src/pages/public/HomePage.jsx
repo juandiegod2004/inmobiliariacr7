@@ -577,7 +577,18 @@ export default function HomePage() {
           <h2 className="text-primary font-display-lg-mobile text-display-lg-mobile mb-12 text-center">Explora las Mejores Zonas</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             
-            <div className="relative h-48 rounded-xl overflow-hidden group reveal">
+            <Link
+              to="/propiedades"
+              state={{
+                filters: {
+                  type: 'TODOS',
+                  operation: 'TODOS',
+                  rooms: 'TODOS',
+                  zone: 'El Rodadero'
+                }
+              }}
+              className="relative h-48 rounded-xl overflow-hidden group reveal block cursor-pointer"
+            >
               <img 
                 alt="El Rodadero" 
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
@@ -586,9 +597,20 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
                 <span className="text-white font-headline-sm text-headline-sm">El Rodadero</span>
               </div>
-            </div>
+            </Link>
 
-            <div className="relative h-48 rounded-xl overflow-hidden group reveal">
+            <Link
+              to="/propiedades"
+              state={{
+                filters: {
+                  type: 'TODOS',
+                  operation: 'TODOS',
+                  rooms: 'TODOS',
+                  zone: 'Bello Horizonte'
+                }
+              }}
+              className="relative h-48 rounded-xl overflow-hidden group reveal block cursor-pointer"
+            >
               <img 
                 alt="Bello Horizonte" 
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
@@ -597,9 +619,20 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
                 <span className="text-white font-headline-sm text-headline-sm">Bello Horizonte</span>
               </div>
-            </div>
+            </Link>
 
-            <div className="relative h-48 rounded-xl overflow-hidden group reveal">
+            <Link
+              to="/propiedades"
+              state={{
+                filters: {
+                  type: 'TODOS',
+                  operation: 'TODOS',
+                  rooms: 'TODOS',
+                  zone: 'Centro Histórico'
+                }
+              }}
+              className="relative h-48 rounded-xl overflow-hidden group reveal block cursor-pointer"
+            >
               <img 
                 alt="Centro Histórico" 
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
@@ -608,9 +641,20 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
                 <span className="text-white font-headline-sm text-headline-sm">Centro Histórico</span>
               </div>
-            </div>
+            </Link>
 
-            <div className="relative h-48 rounded-xl overflow-hidden group reveal">
+            <Link
+              to="/propiedades"
+              state={{
+                filters: {
+                  type: 'TODOS',
+                  operation: 'TODOS',
+                  rooms: 'TODOS',
+                  zone: 'Mamatoco'
+                }
+              }}
+              className="relative h-48 rounded-xl overflow-hidden group reveal block cursor-pointer"
+            >
               <img 
                 alt="Mamatoco" 
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
@@ -619,9 +663,20 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
                 <span className="text-white font-headline-sm text-headline-sm">Mamatoco</span>
               </div>
-            </div>
+            </Link>
 
-            <div className="relative h-48 rounded-xl overflow-hidden group reveal">
+            <Link
+              to="/propiedades"
+              state={{
+                filters: {
+                  type: 'TODOS',
+                  operation: 'TODOS',
+                  rooms: 'TODOS',
+                  zone: 'P. de Bolívar'
+                }
+              }}
+              className="relative h-48 rounded-xl overflow-hidden group reveal block cursor-pointer"
+            >
               <img 
                 alt="Parques de Bolívar" 
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
@@ -630,9 +685,20 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
                 <span className="text-white font-headline-sm text-headline-sm">P. de Bolívar</span>
               </div>
-            </div>
+            </Link>
 
-            <div className="relative h-48 rounded-xl overflow-hidden group reveal">
+            <Link
+              to="/propiedades"
+              state={{
+                filters: {
+                  type: 'TODOS',
+                  operation: 'TODOS',
+                  rooms: 'TODOS',
+                  zone: 'Gaira'
+                }
+              }}
+              className="relative h-48 rounded-xl overflow-hidden group reveal block cursor-pointer"
+            >
               <img 
                 alt="Gaira" 
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
@@ -641,7 +707,7 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
                 <span className="text-white font-headline-sm text-headline-sm">Gaira</span>
               </div>
-            </div>
+            </Link>
 
           </div>
         </div>
