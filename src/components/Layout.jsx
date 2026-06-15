@@ -344,7 +344,18 @@ export default function Layout({ children }) {
                 <h4 className="font-headline-sm mb-6 text-white font-bold">Enlaces</h4>
                 <ul className="space-y-3 font-body-sm text-on-primary/80">
                   <li>
-                    <Link to="/" className="hover:text-white transition-colors">Inicio</Link>
+                    <Link 
+                      to="/" 
+                      onClick={(e) => {
+                        if (location.pathname === '/') {
+                          e.preventDefault()
+                          window.scrollTo({ top: 0, behavior: 'smooth' })
+                        }
+                      }} 
+                      className="hover:text-white transition-colors"
+                    >
+                      Inicio
+                    </Link>
                   </li>
                   <li>
                     <a href="#featured" onClick={(e) => handleScrollToSection(e, 'featured')} className="hover:text-white transition-colors">Propiedades</a>
