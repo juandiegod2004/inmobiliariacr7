@@ -102,13 +102,13 @@ export default function AdminDashboardPage() {
 
       {/* Cartas de Estadísticas */}
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-pulse">
-          {[1, 2, 3, 4].map(n => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-pulse max-w-2xl">
+          {[1, 2].map(n => (
             <div key={n} className="h-28 bg-slate-100 rounded-2xl border border-outline-variant/20"></div>
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl">
           <div className="bg-white border border-outline-variant/30 p-6 rounded-2xl shadow-soft-coastal flex items-center gap-4">
             <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
               <span className="material-symbols-outlined text-2xl">real_estate_agent</span>
@@ -126,26 +126,6 @@ export default function AdminDashboardPage() {
             <div>
               <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Propiedades Activas</p>
               <p className="text-2xl font-extrabold text-secondary">{stats.activeProperties}</p>
-            </div>
-          </div>
-
-          <div className="bg-white border border-outline-variant/30 p-6 rounded-2xl shadow-soft-coastal flex items-center gap-4">
-            <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
-              <span className="material-symbols-outlined text-2xl">badge</span>
-            </div>
-            <div>
-              <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Agentes Activos</p>
-              <p className="text-2xl font-extrabold text-blue-600">{stats.totalAgents}</p>
-            </div>
-          </div>
-
-          <div className="bg-white border border-outline-variant/30 p-6 rounded-2xl shadow-soft-coastal flex items-center gap-4">
-            <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600">
-              <span className="material-symbols-outlined text-2xl">group</span>
-            </div>
-            <div>
-              <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Clientes Registrados</p>
-              <p className="text-2xl font-extrabold text-orange-600">{stats.totalClients}</p>
             </div>
           </div>
         </div>
