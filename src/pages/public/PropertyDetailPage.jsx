@@ -408,16 +408,16 @@ export default function PropertyDetailPage() {
 
               <div className="flex items-center gap-4 mb-6">
                 <img
-                  className="w-16 h-16 rounded-full object-cover border-2 border-secondary"
-                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80"
-                  alt="Carlos Rodriguez"
+                  className="w-16 h-16 rounded-full object-contain border-2 border-secondary bg-white p-1"
+                  src="/logo_inmobiliaria.png"
+                  onError={(e) => { e.target.src = '/images/logo.png' }}
+                  alt="CR7 Inmobiliaria"
                 />
                 <div>
                   <h3 className="font-headline-sm text-headline-sm text-primary font-bold">
-                    {property.profiles?.name || 'Carlos Rodriguez'}
+                    {property.profiles?.name === 'Administrador' ? 'Agente Inmobiliario' : (property.profiles?.name || 'Agente Inmobiliario')}
                   </h3>
                   <p className="text-body-sm text-on-surface-variant">Asesor CR7 Inmobiliaria</p>
-                  <p className="text-label-md text-outline font-label-md mt-1">Ref. #10034161</p>
                 </div>
               </div>
 
@@ -469,6 +469,7 @@ export default function PropertyDetailPage() {
                   <textarea
                     placeholder="Mensaje"
                     rows="3"
+                    required
                     value={visitForm.message}
                     onChange={(e) => setVisitForm(prev => ({ ...prev, message: e.target.value }))}
                     className="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 text-body-sm focus:ring-primary focus:border-primary resize-none outline-none"
