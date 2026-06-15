@@ -21,7 +21,30 @@ export async function getProperties(filters = {}) {
     query = query.eq('rooms', parseInt(filters.rooms, 10))
   }
   if (filters.zone && filters.zone.trim() !== '') {
-    query = query.ilike('location', `%${filters.zone.trim()}%`)
+    const term = filters.zone.trim().toLowerCase();
+    
+    // Normalizar zonas comunes de Santa Marta para soportar abreviaciones y tildes
+    if (term.includes('bolivar') || term.includes('bolívar') || term.includes('p. de') || term.includes('parques de') || term.includes('p. bolivar') || term.includes('p. bolívar')) {
+      query = query.or('location.ilike.%Bolivar%,location.ilike.%Bolívar%');
+    } else if (term.includes('rodadero')) {
+      query = query.ilike('location', '%Rodadero%');
+    } else if (term.includes('bello horizonte') || term.includes('horizonte') || term.includes('bello')) {
+      query = query.or('location.ilike.%Bello Horizonte%,location.ilike.%Bello%,location.ilike.%Horizonte%');
+    } else if (term.includes('centro') || term.includes('historico') || term.includes('histórico')) {
+      query = query.or('location.ilike.%Centro%,location.ilike.%Histórico%,location.ilike.%Historico%');
+    } else if (term.includes('mamatoco')) {
+      query = query.ilike('location', '%Mamatoco%');
+    } else if (term.includes('gaira')) {
+      query = query.ilike('location', '%Gaira%');
+    } else {
+      // Búsqueda genérica: enviamos la versión original y la desacentuada para compatibilidad
+      const unaccented = term.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      if (unaccented !== term) {
+        query = query.or(`location.ilike.%${term}%,location.ilike.%${unaccented}%`);
+      } else {
+        query = query.ilike('location', `%${term}%`);
+      }
+    }
   }
 
   // Ordenar por ID descendente
