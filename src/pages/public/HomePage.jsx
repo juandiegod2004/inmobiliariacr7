@@ -789,6 +789,7 @@ export default function HomePage() {
                 src="https://maps.google.com/maps?q=Santa%20Marta,%20Colombia&t=&z=13&ie=UTF8&iwloc=&output=embed" 
                 style={{ border: 0 }} 
                 width="100%"
+                loading="lazy"
               ></iframe>
             </div>
 
