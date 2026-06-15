@@ -370,7 +370,9 @@ export default function Layout({ children }) {
               <div>
                 <h4 className="font-headline-sm mb-6 text-white font-bold">Legal</h4>
                 <ul className="space-y-3 font-body-sm text-on-primary/80">
-                  <li><a class="hover:text-white transition-colors" href="#">Privacidad</a></li>
+                  <li>
+                    <Link to="/privacidad" className="hover:text-white transition-colors">Privacidad</Link>
+                  </li>
                   <li><a class="hover:text-white transition-colors" href="#">Términos</a></li>
                   <li><a class="hover:text-white transition-colors" href="#">Cookies</a></li>
                 </ul>

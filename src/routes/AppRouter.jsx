@@ -8,6 +8,7 @@ import PublicOnlyRoute from './PublicOnlyRoute'
 import HomePage from '../pages/public/HomePage'
 import PropertiesPage from '../pages/public/PropertiesPage'
 import PropertyDetailPage from '../pages/public/PropertyDetailPage'
+import PrivacyPolicyPage from '../pages/public/PrivacyPolicyPage'
 import LoginPage from '../pages/public/LoginPage'
 import NotFoundPage from '../pages/public/NotFoundPage'
 
@@ -36,6 +37,7 @@ export default function AppRouter() {
         <Route element={<Layout><HomePage /></Layout>} path="/" />
         <Route element={<Layout><PropertiesPage /></Layout>} path="/propiedades" />
         <Route element={<Layout><PropertyDetailPage /></Layout>} path="/propiedad/:id" />
+        <Route element={<Layout><PrivacyPolicyPage /></Layout>} path="/privacidad" />
 
         {/* Rutas solo para No Autenticados (Login) */}
         <Route element={<PublicOnlyRoute />}>
