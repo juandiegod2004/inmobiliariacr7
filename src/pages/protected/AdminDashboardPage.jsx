@@ -5,7 +5,7 @@ import { getAllPropertiesAdmin } from '../../api/properties.api'
 import { supabase } from '../../api/supabase'
 
 export default function AdminDashboardPage() {
-  const { user } = useAuth()
+  const { user, settings, updateSetting } = useAuth()
   const [stats, setStats] = useState({
     totalProperties: 0,
     activeProperties: 0,
@@ -14,9 +14,24 @@ export default function AdminDashboardPage() {
   })
   const [loading, setLoading] = useState(true)
 
+  // Estados para Configuración de Contacto
+  const [contactForm, setContactForm] = useState({ phone: '', email: '' })
+  const [updatingContact, setUpdatingContact] = useState(false)
+  const [contactSuccess, setContactSuccess] = useState('')
+  const [contactError, setContactError] = useState('')
+
   useEffect(() => {
     fetchStats()
   }, [])
+
+  useEffect(() => {
+    if (settings) {
+      setContactForm({
+        phone: settings.phone || '',
+        email: settings.email || ''
+      })
+    }
+  }, [settings])
 
   const fetchStats = async () => {
     setLoading(true)
@@ -45,6 +60,23 @@ export default function AdminDashboardPage() {
       console.error('Error al cargar estadísticas del administrador:', err)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleContactUpdate = async (e) => {
+    e.preventDefault()
+    setUpdatingContact(true)
+    setContactSuccess('')
+    setContactError('')
+    try {
+      await updateSetting('phone', contactForm.phone.trim())
+      await updateSetting('email', contactForm.email.trim())
+      setContactSuccess('Configuración de contacto guardada con éxito.')
+    } catch (err) {
+      console.error(err)
+      setContactError('Fallo al guardar la configuración de contacto.')
+    } finally {
+      setUpdatingContact(false)
     }
   }
 
@@ -138,21 +170,53 @@ export default function AdminDashboardPage() {
           </Link>
         </div>
 
-        {/* Gestión de Usuarios */}
+        {/* Configuración de Contacto */}
         <div className="bg-glass border border-outline-variant/30 p-8 rounded-3xl shadow-soft-coastal flex flex-col justify-between space-y-6">
           <div className="space-y-2">
-            <h3 className="font-display font-extrabold text-lg text-primary">Control de Usuarios</h3>
+            <h3 className="font-display font-extrabold text-lg text-primary">Configuración de Contacto</h3>
             <p className="text-xs text-on-surface-variant leading-relaxed">
-              Visualiza el listado de perfiles registrados, promueve clientes a agentes, suspende cuentas de agentes o administradores y asigna permisos específicos.
+              Actualiza el número de WhatsApp y el correo electrónico de contacto mostrados en toda la página web.
             </p>
           </div>
-          <Link 
-            to="/admin/usuarios"
-            className="w-full py-3 bg-secondary hover:bg-secondary/90 text-white font-bold rounded-xl text-center text-xs transition-all shadow-md inline-flex items-center justify-center gap-2"
-          >
-            <span className="material-symbols-outlined text-sm">group</span>
-            Administrar Usuarios
-          </Link>
+          
+          <form onSubmit={handleContactUpdate} className="space-y-4 text-left w-full">
+            <div>
+              <label className="block text-primary font-label-md text-[10px] font-bold mb-1">WhatsApp (con código de país, ej: 573002510313)</label>
+              <input 
+                type="text" 
+                required
+                value={contactForm.phone}
+                onChange={(e) => setContactForm(prev => ({ ...prev, phone: e.target.value }))}
+                className="w-full border border-outline-variant/60 rounded-lg px-3 py-2 text-xs focus:ring-primary focus:border-primary outline-none bg-white font-medium"
+              />
+            </div>
+            <div>
+              <label className="block text-primary font-label-md text-[10px] font-bold mb-1">Correo Electrónico de Contacto</label>
+              <input 
+                type="email" 
+                required
+                value={contactForm.email}
+                onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
+                className="w-full border border-outline-variant/60 rounded-lg px-3 py-2 text-xs focus:ring-primary focus:border-primary outline-none bg-white font-medium"
+              />
+            </div>
+
+            {contactError && (
+              <p className="text-[10px] text-red-600 font-bold">{contactError}</p>
+            )}
+            {contactSuccess && (
+              <p className="text-[10px] text-green-600 font-bold">{contactSuccess}</p>
+            )}
+
+            <button 
+              type="submit"
+              disabled={updatingContact}
+              className="w-full py-3 bg-secondary hover:bg-secondary/90 text-white font-bold rounded-xl text-center text-xs transition-all shadow-md inline-flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined text-sm">save</span>
+              {updatingContact ? 'Guardando...' : 'Guardar Cambios'}
+            </button>
+          </form>
         </div>
       </div>
 

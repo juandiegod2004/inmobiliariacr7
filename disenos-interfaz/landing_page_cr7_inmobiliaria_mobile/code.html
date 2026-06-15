@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CR7 Inmobiliaria | Propiedades en Santa Marta</title>
+<meta content="Encuentra tu propiedad ideal en Santa Marta con CR7 Inmobiliaria. Venta, arriendo y asesoría inmobiliaria experta." name="description"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#e9eef6",
+                    "surface-container-low": "#eff4fc",
+                    "primary-fixed-dim": "#aec7f7",
+                    "on-surface": "#161c22",
+                    "surface": "#f7f9ff",
+                    "tertiary-fixed-dim": "#3de273",
+                    "on-tertiary-fixed-variant": "#005322",
+                    "primary-container": "#1b365d",
+                    "inverse-on-surface": "#ecf1f9",
+                    "on-surface-variant": "#44474e",
+                    "on-tertiary-fixed": "#002109",
+                    "outline-variant": "#c4c6cf",
+                    "surface-bright": "#f7f9ff",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#00714b",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed-variant": "#2e476f",
+                    "surface-container-high": "#e3e9f0",
+                    "secondary-container": "#8af5be",
+                    "background": "#f7f9ff",
+                    "secondary-fixed-dim": "#71dba6",
+                    "on-secondary-fixed-variant": "#005235",
+                    "surface-container-highest": "#dde3eb",
+                    "tertiary-fixed": "#66ff8e",
+                    "surface-dim": "#d5dae2",
+                    "surface-tint": "#465f88",
+                    "primary": "#002046",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#002113",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed": "#001b3d",
+                    "primary-fixed": "#d6e3ff",
+                    "inverse-primary": "#aec7f7",
+                    "on-primary-container": "#87a0cd",
+                    "surface-variant": "#dde3eb",
+                    "tertiary-container": "#003f18",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#161c22",
+                    "secondary": "#006c47",
+                    "outline": "#74777f",
+                    "inverse-surface": "#2b3137",
+                    "on-tertiary-container": "#00b754",
+                    "tertiary": "#00270c",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#8df7c1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px",
+                    "unit": "8px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Montserrat"],
+                    "display-lg": ["Montserrat"],
+                    "body-sm": ["Inter"],
+                    "display-lg-mobile": ["Montserrat"],
+                    "body-lg": ["Inter"],
+                    "headline-sm": ["Montserrat"],
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md">
+<!-- 1. Sticky Navbar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-md shadow-md shadow-primary/5">
+<div class="flex justify-between items-center px-margin-mobile py-3 max-w-container-max mx-auto">
+<a class="flex items-center" href="#">
+<img alt="CR7 Inmobiliaria Logo" class="h-10" src="data:image/png;base64,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"/>
+</a>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-secondary font-semibold border-b-2 border-secondary font-label-md text-label-md" href="#">Inicio</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#featured">Vender</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#featured">Arrendar</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#about">Nosotros</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#contact">Contacto</a>
+</div>
+<button class="flex items-center gap-2 bg-secondary text-on-secondary px-4 py-2 rounded-full font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all" onclick="window.location.href='https://wa.me/573002510313'">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+                Hablar con un asesor
+            </button>
+</div>
+</nav>
+<!-- 2. Hero Section -->
+<section class="relative pt-24 pb-12 px-margin-mobile">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-primary/40 z-10"></div>
+<img alt="Vista de Santa Marta" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJ3rVRcy_kRrJ8F1sCJFkZ5aTMpK2xZ5yDktxi_i3AZBwyJFvA-94cvW8eatF_Q1hS7-Q383fzYGaa4ZtmMcm2kKvwQHtxttjlvgbqHrVVViM4tmLtPz-ycRo-spyXXcmM62Uv7In5PAxj3RCcQm3ZX6-UzUKT2FqmPR4JDfJnkSFT1E7CkdR6zs9majoBx2Ewnv3zEpWobJacJWW1mDOWzzdxcVrsscLdzSR30uSgZ6fCBXsTBSBfFfpb7jdBqlnZc2Cqm7cOAe4"/>
+</div>
+<div class="relative z-20 flex flex-col items-center text-center max-w-2xl mx-auto py-12">
+<h1 class="text-white font-display-lg-mobile text-display-lg-mobile mb-4 drop-shadow-lg">
+                Encuentra tu propiedad ideal en Santa Marta
+            </h1>
+<p class="text-white/90 font-body-lg text-body-lg mb-8 drop-shadow-md">
+                Venta, arriendo y asesoría inmobiliaria con más de 183 propiedades disponibles.
+            </p>
+<!-- Floating Search Card -->
+<div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-md reveal">
+<div class="grid grid-cols-1 gap-4 text-left">
+<div>
+<label class="block text-primary font-label-md text-label-md mb-1 ml-1">Tipo de negocio</label>
+<select class="w-full border-outline-variant rounded-lg font-body-md text-on-surface-variant focus:ring-primary focus:border-primary">
+<option>Comprar</option>
+<option>Arrendar</option>
+</select>
+</div>
+<div>
+<label class="block text-primary font-label-md text-label-md mb-1 ml-1">Tipo de inmueble</label>
+<select class="w-full border-outline-variant rounded-lg font-body-md text-on-surface-variant focus:ring-primary focus:border-primary">
+<option>Apartamento</option>
+<option>Casa</option>
+<option>Lote/Terreno</option>
+<option>Local Comercial</option>
+</select>
+</div>
+<div>
+<label class="block text-primary font-label-md text-label-md mb-1 ml-1">Zona/Barrio</label>
+<input class="w-full border-outline-variant rounded-lg font-body-md text-on-surface-variant focus:ring-primary focus:border-primary" placeholder="Ej: El Rodadero" type="text"/>
+</div>
+<button class="w-full bg-secondary text-on-secondary font-headline-sm text-headline-sm py-3 rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">search</span>
+                        Buscar
+                    </button>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Trust Stats Banner -->
+<section class="bg-primary py-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6 px-margin-mobile max-w-container-max mx-auto text-center">
+<div class="flex flex-col items-center gap-2 reveal">
+<span class="material-symbols-outlined text-secondary-fixed text-4xl" style="font-variation-settings: 'FILL' 1;">apartment</span>
+<span class="text-white font-headline-sm text-headline-sm">183+</span>
+<span class="text-white/70 font-body-sm text-body-sm">propiedades activas</span>
+</div>
+<div class="flex flex-col items-center gap-2 reveal">
+<span class="material-symbols-outlined text-secondary-fixed text-4xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-white font-headline-sm text-headline-sm">10+ años</span>
+<span class="text-white/70 font-body-sm text-body-sm">experiencia</span>
+</div>
+<div class="flex flex-col items-center gap-2 reveal">
+<span class="material-symbols-outlined text-secondary-fixed text-4xl" style="font-variation-settings: 'FILL' 1;">support_agent</span>
+<span class="text-white font-headline-sm text-headline-sm">Personalizado</span>
+<span class="text-white/70 font-body-sm text-body-sm">atención directa</span>
+</div>
+<div class="flex flex-col items-center gap-2 reveal">
+<span class="material-symbols-outlined text-secondary-fixed text-4xl" style="font-variation-settings: 'FILL' 1;">handshake</span>
+<span class="text-white font-headline-sm text-headline-sm">Gratuita</span>
+<span class="text-white/70 font-body-sm text-body-sm">asesoría experta</span>
+</div>
+</div>
+</section>
+<!-- 4. Featured Properties -->
+<section class="py-16 bg-surface" id="featured">
+<div class="px-margin-mobile max-w-container-max mx-auto">
+<div class="flex flex-col items-center mb-10 text-center">
+<h2 class="text-primary font-display-lg-mobile text-display-lg-mobile mb-4">Propiedades Destacadas</h2>
+<div class="flex bg-surface-container rounded-full p-1 w-full max-w-xs overflow-hidden">
+<button class="flex-1 py-2 px-4 rounded-full bg-secondary text-on-secondary font-label-md text-label-md">Todos</button>
+<button class="flex-1 py-2 px-4 rounded-full text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors">En Venta</button>
+<button class="flex-1 py-2 px-4 rounded-full text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors">En Arriendo</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter mb-10">
+<!-- Card 1 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all reveal">
+<div class="relative h-64">
+<img alt="Apartamento de Lujo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGZORAYSrvbOFKtQbpmUHpsFahaZMK2Ows2cjsqyEcklUyVulXKKvrkjjlWWR9kaNZGs-wY4AHAL3TaiiaeXEhUiZsr1eAR2AG-FCH3gt51hOS0jPKCJpBJMBOT-Sf36UeajkgJZh8kf5i5DPFQvR8oWAS19zddrBhUxy8e7UQArP90SUN50WlKIJ8qBTlAQpjsBvdnDlpSDHrf0f3HrI2kny5RoW9DDPON62lN8IttLZSCpTpChTp2zCv7Ry9fyAtMLLn8lRr1e0"/>
+<div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-label-md font-label-md">Venta</div>
+<div class="absolute top-4 right-4 bg-secondary text-white px-3 py-1 rounded-full text-label-md font-label-md">Exclusivo</div>
+</div>
+<div class="p-6">
+<h3 class="text-primary font-headline-sm text-headline-sm mb-1">Apartamento Vista al Mar</h3>
+<p class="text-on-surface-variant text-body-sm flex items-center gap-1 mb-4">
+<span class="material-symbols-outlined text-[18px]">location_on</span> Bello Horizonte, Santa Marta
+                        </p>
+<p class="text-secondary font-headline-md text-headline-md mb-4">$850.000.000 COP</p>
+<div class="flex justify-between border-t border-outline-variant pt-4 text-on-surface-variant font-body-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> 3 Hab</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> 2 Baños</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> 115 m²</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all reveal">
+<div class="relative h-64">
+<img alt="Casa en Condominio" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl1RhCsjV3r6fX--EVLWujPqiEdsB44g7ajLDfHx3YGx8CE2oe26QZ48qewsAPKUnhn03L2utl5p-F-d6Y-KEMt6n1y47OMkid7kzehTbyYWfjt0CH4oGq7tthhNJOvvqlzNl7XrUawL-Dsl4h0ZN3yztqJnPFBTdyKEJmR5O2bx1uFDrJYPrBAMjhZO419_ROSyPU_5_nBNeqiNnJcR4bV7KlrCLzbASJKcvUX20vEUXKGJLRimNebN2B34uEKJIhhZGr_LudIGo"/>
+<div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-label-md font-label-md">Venta</div>
+</div>
+<div class="p-6">
+<h3 class="text-primary font-headline-sm text-headline-sm mb-1">Casa Oasis Tropical</h3>
+<p class="text-on-surface-variant text-body-sm flex items-center gap-1 mb-4">
+<span class="material-symbols-outlined text-[18px]">location_on</span> Mamatoco, Santa Marta
+                        </p>
+<p class="text-secondary font-headline-md text-headline-md mb-4">$1.200.000.000 COP</p>
+<div class="flex justify-between border-t border-outline-variant pt-4 text-on-surface-variant font-body-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> 4 Hab</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> 3 Baños</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> 240 m²</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all reveal">
+<div class="relative h-64">
+<img alt="Penthouse Moderno" class="w-full h-full object-cover" data-alt="Modern penthouse apartment in Santa Marta Colombia with a terrace overlooking the Caribbean sea. Bright blue skies, white furniture on the balcony, and palm trees in the background. The style is professional architectural photography with high-end luxury vibes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHlMbAl8TILkAYalrAjNzgq9b1BPBBhDARX0gzkN8ujOLu6Ku7V8nu-fLGNnR8SW93dJz1RDH7RbBaENd5TsJ6I54U4YdrZKpIxpdICc4Fintkx_v2quFueS3K-cVQ4wq31drWuh99m4KR1Jn8UdCKfSLdM73eAgyMP9WE9phsAwg9WM6oQmTckA738XXGYyYoY0z2ryN1gUkwsO5M4JxZK03BqNpX3dDlZk-XWpXhZWbB78UOaNfy1cOhkBmmKBvxSohAJb5NAxk"/>
+<div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-label-md font-label-md">Arriendo</div>
+</div>
+<div class="p-6">
+<h3 class="text-primary font-headline-sm text-headline-sm mb-1">Penthouse El Rodadero</h3>
+<p class="text-on-surface-variant text-body-sm flex items-center gap-1 mb-4">
+<span class="material-symbols-outlined text-[18px]">location_on</span> El Rodadero, Santa Marta
+                        </p>
+<p class="text-secondary font-headline-md text-headline-md mb-4">$4.500.000 / mes</p>
+<div class="flex justify-between border-t border-outline-variant pt-4 text-on-surface-variant font-body-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bed</span> 2 Hab</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">bathtub</span> 2 Baños</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">square_foot</span> 95 m²</span>
+</div>
+</div>
+</div>
+</div>
+<div class="text-center">
+<button class="bg-primary text-on-primary px-8 py-3 rounded-full font-headline-sm text-headline-sm hover:opacity-90 transition-all shadow-lg">
+                    Ver todas las propiedades
+                </button>
+</div>
+</div>
+</section>
+<!-- 5. Sell/Rent Section -->
+<section class="py-16 px-margin-mobile max-w-container-max mx-auto reveal">
+<div class="bg-primary-container rounded-3xl overflow-hidden shadow-2xl text-on-primary flex flex-col lg:flex-row">
+<div class="p-8 lg:p-16 flex-1 flex flex-col justify-center">
+<h2 class="font-display-lg-mobile text-display-lg-mobile mb-6">¿Quieres vender o arrendar tu propiedad?</h2>
+<p class="font-body-lg text-body-lg mb-8 text-on-primary-container">
+                    Ponemos tu inmueble frente a miles de compradores calificados. Nuestra estrategia de marketing digital y conocimiento local garantizan el mejor precio en el menor tiempo.
+                </p>
+<div class="flex flex-col gap-4 sm:flex-row">
+<button class="bg-secondary text-white px-8 py-4 rounded-xl font-headline-sm text-headline-sm flex items-center justify-center gap-2 hover:bg-secondary-fixed transition-colors">
+<span class="material-symbols-outlined">sell</span>
+                        Ofertar mi inmueble
+                    </button>
+</div>
+</div>
+<div class="bg-white p-8 lg:p-12 text-on-surface flex-1">
+<h3 class="text-primary font-headline-md text-headline-md mb-6">Solicita una valoración gratuita</h3>
+<form class="space-y-4">
+<div>
+<label class="block text-primary font-label-md text-label-md mb-1">Nombre completo</label>
+<input class="w-full border-outline-variant rounded-lg focus:ring-primary focus:border-primary" placeholder="Tu nombre" type="text"/>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<label class="block text-primary font-label-md text-label-md mb-1">Teléfono</label>
+<input class="w-full border-outline-variant rounded-lg focus:ring-primary focus:border-primary" placeholder="+57" type="tel"/>
+</div>
+<div>
+<label class="block text-primary font-label-md text-label-md mb-1">Tipo de inmueble</label>
+<select class="w-full border-outline-variant rounded-lg focus:ring-primary focus:border-primary">
+<option>Apartamento</option>
+<option>Casa</option>
+<option>Lote</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block text-primary font-label-md text-label-md mb-1">Zona del inmueble</label>
+<input class="w-full border-outline-variant rounded-lg focus:ring-primary focus:border-primary" placeholder="Sector o barrio" type="text"/>
+</div>
+<button class="w-full bg-primary text-white py-4 rounded-xl font-headline-sm text-headline-sm hover:opacity-95 transition-all" type="submit">
+                        Quiero que me contacten
+                    </button>
+</form>
+</div>
+</div>
+</section>
+<!-- 6. Benefits Grid -->
+<section class="py-16 bg-surface-container-low" id="about">
+<div class="px-margin-mobile max-w-container-max mx-auto">
+<h2 class="text-primary font-display-lg-mobile text-display-lg-mobile mb-12 text-center">¿Por qué elegir CR7 Inmobiliaria?</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div class="bg-white p-8 rounded-2xl shadow-md reveal text-center flex flex-col items-center">
+<div class="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl">location_city</span>
+</div>
+<h3 class="text-primary font-headline-sm text-headline-sm mb-3">Experiencia local</h3>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Conocemos cada rincón de Santa Marta, ofreciéndote las mejores oportunidades de inversión.</p>
+</div>
+<div class="bg-white p-8 rounded-2xl shadow-md reveal text-center flex flex-col items-center">
+<div class="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl">account_balance_wallet</span>
+</div>
+<h3 class="text-primary font-headline-sm text-headline-sm mb-3">Portafolio amplio</h3>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Más de 180 propiedades verificadas que se ajustan a todos los presupuestos y estilos.</p>
+</div>
+<div class="bg-white p-8 rounded-2xl shadow-md reveal text-center flex flex-col items-center">
+<div class="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl">diversity_3</span>
+</div>
+<h3 class="text-primary font-headline-sm text-headline-sm mb-3">Acompañamiento</h3>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Te guiamos en todo el proceso legal y comercial, desde la búsqueda hasta la firma.</p>
+</div>
+<div class="bg-white p-8 rounded-2xl shadow-md reveal text-center flex flex-col items-center">
+<div class="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl">speed</span>
+</div>
+<h3 class="text-primary font-headline-sm text-headline-sm mb-3">Respuesta rápida</h3>
+<p class="text-on-surface-variant font-body-sm text-body-sm">Atención inmediata a tus dudas para que no pierdas la oportunidad de tu vida.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. Testimonials -->
+<section class="py-16 px-margin-mobile max-w-container-max mx-auto overflow-hidden">
+<h2 class="text-primary font-display-lg-mobile text-display-lg-mobile mb-12 text-center">Nuestros Clientes Dicen</h2>
+<div class="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory hide-scrollbar">
+<!-- Testimonial 1 -->
+<div class="min-w-[300px] bg-white p-8 rounded-2xl shadow-lg snap-center reveal">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold">JD</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary">Juan Delgado</h4>
+<div class="flex text-yellow-500">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant font-body-md italic">"Excelente servicio. Me ayudaron a encontrar el apartamento de mis sueños frente al mar en tiempo récord."</p>
+</div>
+<!-- Testimonial 2 -->
+<div class="min-w-[300px] bg-white p-8 rounded-2xl shadow-lg snap-center reveal">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold">MC</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary">Maria Castro</h4>
+<div class="flex text-yellow-500">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant font-body-md italic">"Vendí mi casa en Mamatoco en menos de un mes. Muy profesionales y transparentes en todo el proceso."</p>
+</div>
+<!-- Testimonial 3 -->
+<div class="min-w-[300px] bg-white p-8 rounded-2xl shadow-lg snap-center reveal">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold">RL</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary">Roberto Luna</h4>
+<div class="flex text-yellow-500">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant font-body-md italic">"La mejor inmobiliaria de la costa. La asesoría legal fue impecable, me sentí seguro en todo momento."</p>
+</div>
+</div>
+</section>
+<!-- 8. Zones Grid -->
+<section class="py-16 bg-white">
+<div class="px-margin-mobile max-w-container-max mx-auto">
+<h2 class="text-primary font-display-lg-mobile text-display-lg-mobile mb-12 text-center">Explora las Mejores Zonas</h2>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<div class="relative h-48 rounded-xl overflow-hidden group reveal">
+<img alt="El Rodadero" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="The beautiful beach of El Rodadero in Santa Marta Colombia at sunset with golden light reflecting on the calm Caribbean sea. High rise buildings line the shore with palm trees and a vibrant atmosphere of people enjoying the evening. Premium travel photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJp15n4CTP1LzELBauRGCxZJLzhWh85tBlT9hp_gMu9GJPRcXo9aJIov7nS4jnuX63sBI4oajtMSBOPIBfP-z-p2zzUi18HehZk4-t31gYU3feLdZQDTlRS_Q01U50jx5abHgrWwzJbfyyWcQ-9iWdYW9mT-LjiNs8-wLLQMKWSZ1Tn4_P10MhSWtixwnhFxvkugq4ofoOl33xpgTOJUE1yd6gpsTW6KjZmwh53fdE5Unu6jSkmhBhOpebrG4_89TVNIa46J7oLjk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
+<span class="text-white font-headline-sm text-headline-sm">El Rodadero</span>
+</div>
+</div>
+<div class="relative h-48 rounded-xl overflow-hidden group reveal">
+<img alt="Bello Horizonte" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Bello Horizonte beach in Santa Marta Colombia showing pristine white sand and modern luxury apartment towers along the coast. The turquoise Caribbean sea is calm under a clear blue sky. Professional real estate and architectural drone perspective." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDf1ZMz5H_H9pFNVQW8A78wpO9d9q0syT0qivZeV8YFslZopyp7qTPa_f1W_XxxDbbq_i3UpmTxJE71ERvCoQffXSRBMaWlkKh0B69ZZqayVA8OzPNRGhKY4uZSGFjKKQleq13CPHbtls980VAWlDITLrtdvHGBhJe8unaJeuuj5J5OKePgxG3KB3tztOQlrct4SoOyBumNpQchzgOrWW1BIGin99Gz_R0twgwxGkL7zDE1fYV3UjnUWZI6tGXUOyGgqkFXPiJhag8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
+<span class="text-white font-headline-sm text-headline-sm">Bello Horizonte</span>
+</div>
+</div>
+<div class="relative h-48 rounded-xl overflow-hidden group reveal">
+<img alt="Centro Histórico" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Traditional and colorful colonial architecture in the Centro Histórico of Santa Marta Colombia. Vibrant street scene with narrow cobblestone roads, balconies overflowing with tropical flowers, and a clear blue sky. Bright daytime lighting with high contrast and saturation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCokZ6sS06aL38C6_7kXbSWl4pAX09RBdTydaR6cSgem4p_sk_XY1SnzeZGPW86lMAa8lb9qW_uQwWpk5AHHPpJerBypeUCTMEg4Z8z-bFNtz6GZaUxdUxpljo01nBGnNLvgCzuNJU7ckdkIstPicRD57VQF7V3ICCMZAAJ9jAzU1CTJTe0iPeYJYi2YgP1nJzIqFmBiLWuVHU1W8Mi5rjQ0vVBiXTUKRPbaL5DBxXK6rvAXROaG14sVem_FTSKGZVdN4tYTVuAbuY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
+<span class="text-white font-headline-sm text-headline-sm">Centro Histórico</span>
+</div>
+</div>
+<div class="relative h-48 rounded-xl overflow-hidden group reveal">
+<img alt="Mamatoco" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Modern residential area in Mamatoco Santa Marta showing new house developments with green parks and wide streets. Surrounded by lush coastal mountains. Soft morning light with clean, family-friendly suburban aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlQsHBXYNncXKNd-KHt1ZT_EGCfTR7qjtQ-CLlg5BgYqu01E4-DEuZI1UvjgZpZ3OGVi5kRCx8YbaH5vGGAe1hOym3WzA6cyG-kOhBVIcdI-BpKEQ-ptwlWKzXCLzff8glbEaywsAMMeLOWS_poN1DXmJsvTDU5YjAKdixY69Mun07SFDAsAQi2Xp3HVXeUJU3Sib5C7iMQdfetjHIzP9Yw3Lv0LQWN4EFKi3djKEiaKuHdYbIP9-Hq69-RgVpx_mbRaFgVirzr0Q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
+<span class="text-white font-headline-sm text-headline-sm">Mamatoco</span>
+</div>
+</div>
+<div class="relative h-48 rounded-xl overflow-hidden group reveal">
+<img alt="Parques de Bolívar" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Cozy residential neighborhood in Parques de Bolivar Santa Marta featuring modern apartment blocks and community gardens. Clear sunny day with families walking and high-quality urban planning visible. Professional real estate photo." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5P27ISqea3rR7WlIv2VMKI8y2nkndTlS8aO-QAv2V0E0uOMtMmcXkPq6mtcmCyUnpklZk4fin_L35bM5OC7h736hpi1QRF9J75tcW-NBalvruLyW1IgDRL7bEZtp2DLU1XuuBiAGbTorc-l8Et5J_JYL9Iy1kf88SxJ1B1UJLdm7zZN_zppe5CIJg9ehmSyC-nZ5qKgQdDetIS-PawmUajxHViXxarbSqz-KKvps2ncJrdK0HNr9LQ0hzyeTFYVswYgnKz6KH6oY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
+<span class="text-white font-headline-sm text-headline-sm">P. de Bolívar</span>
+</div>
+</div>
+<div class="relative h-48 rounded-xl overflow-hidden group reveal">
+<img alt="Gaira" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Authentic coastal village scene in Gaira Santa Marta showing local homes near the beach with fishing boats and palm trees. Vibrant tropical mood with warm sunlight and blue skies. Authentic lifestyle photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2BhdxXetWP0yiwMJ8zZp4sslX-gS4GB-WNHRmDfdSviTWsOZvsTK6gmwvgeNiWWNSiZ7gui3Yegh8-zCB_1dCoQfCvS4pf3A9tkbHmMfZqvpkLAnFIrt4b8lZlEs7VWcqjV4YAX9Zl6FifwJQ_z3uqAo2d2r7fdBiCzToOHEoTrlQGs8BoTN7MhmIHIizzGTCXwo6-FO5xg57gtB589Iu13I_n1cI3qJ6kbre8l23KYEPYfZybB38Z1UYME64mv3Fu03mkGqnML0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-4">
+<span class="text-white font-headline-sm text-headline-sm">Gaira</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 9. Contact & Location -->
+<section class="py-16 px-margin-mobile bg-surface" id="contact">
+<div class="max-w-container-max mx-auto">
+<div class="flex flex-col lg:flex-row gap-12">
+<div class="flex-1 reveal">
+<h2 class="text-primary font-display-lg-mobile text-display-lg-mobile mb-8">Contáctanos</h2>
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">call</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-body-sm">Teléfono / WhatsApp</p>
+<p class="text-primary font-headline-sm">+57 300 251 0313</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-body-sm">Correo electrónico</p>
+<p class="text-primary font-headline-sm">cr7inmobiliaria@gmail.com</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-body-sm">Oficina principal</p>
+<p class="text-primary font-headline-sm">Santa Marta, Colombia</p>
+</div>
+</div>
+</div>
+<div class="mt-8 flex gap-4">
+<a class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-secondary transition-colors" href="#"><span class="material-symbols-outlined">face_nod</span></a>
+<a class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-secondary transition-colors" href="#"><span class="material-symbols-outlined">camera_enhance</span></a>
+</div>
+</div>
+<div class="flex-1 h-[400px] rounded-3xl overflow-hidden shadow-xl reveal">
+<iframe allowfullscreen="" data-location="Santa Marta, Colombia" frameborder="0" height="100%" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA_REAL_KEY_NEEDED&amp;q=Santa+Marta,Colombia" style="border:0" width="100%">
+</iframe>
+</div>
+</div>
+</div>
+</section>
+<!-- 10. Floating WhatsApp Button -->
+<a class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl animate-bounce hover:scale-110 transition-transform" href="https://wa.me/573002510313">
+<svg fill="currentColor" height="32" viewbox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg">
+<path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.319 1.592 5.448 0 9.886-4.438 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.735-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path>
+</svg>
+</a>
+<!-- 11. Footer -->
+<footer class="bg-primary text-on-primary pt-16 pb-8">
+<div class="px-margin-mobile max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between gap-12 mb-12">
+<div class="flex-1">
+<img alt="CR7 Inmobiliaria" class="h-12 mb-6 brightness-0 invert" src="data:image/png;base64,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"/>
+<p class="text-on-primary/70 font-body-sm max-w-xs">
+                        Tu aliado experto en el mercado inmobiliario de Santa Marta. Transparencia, compromiso y resultados garantizados.
+                    </p>
+</div>
+<div class="flex-1 grid grid-cols-2 gap-8">
+<div>
+<h4 class="font-headline-sm mb-6">Enlaces</h4>
+<ul class="space-y-3 font-body-sm text-on-primary/80">
+<li><a class="hover:text-white transition-colors" href="#">Inicio</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Propiedades</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Vender</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Nosotros</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-headline-sm mb-6">Legal</h4>
+<ul class="space-y-3 font-body-sm text-on-primary/80">
+<li><a class="hover:text-white transition-colors" href="#">Privacidad</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Términos</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Cookies</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="border-t border-white/10 pt-8 flex flex-col items-center text-center gap-4">
+<p class="font-body-sm text-on-primary/60">
+                    © 2026 CR7 Inmobiliaria Santa Marta. Todos los derechos reservados.
+                </p>
+</div>
+</div>
+</footer>
+<script>
+        // Reveal animation on scroll
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Initial check
+        reveal();
+    </script>
+</body></html>

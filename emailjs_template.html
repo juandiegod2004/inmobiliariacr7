@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Nueva Solicitud de Visita - CR7 Inmobiliaria</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f7f9ff;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 32, 70, 0.08);
+      border: 1px solid #e1e7f5;
+    }
+    .header {
+      background-color: #002046;
+      padding: 30px;
+      text-align: center;
+      border-bottom: 4px solid #006c47;
+    }
+    .header h1 {
+      color: #ffffff;
+      margin: 10px 0 0 0;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .content {
+      padding: 35px 30px;
+    }
+    .welcome-text {
+      font-size: 16px;
+      color: #002046;
+      margin-top: 0;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #006c47;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #e1e7f5;
+      padding-bottom: 5px;
+    }
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+    .info-table td {
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f4fd;
+    }
+    .info-table td.label {
+      width: 35%;
+      font-size: 13px;
+      font-weight: 600;
+      color: #718096;
+      text-transform: uppercase;
+    }
+    .info-table td.value {
+      width: 65%;
+      font-size: 15px;
+      font-weight: 700;
+      color: #002046;
+    }
+    .property-card {
+      background-color: #f7f9ff;
+      border-left: 4px solid #006c47;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+    .property-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #002046;
+      margin: 0 0 8px 0;
+    }
+    .property-detail {
+      font-size: 14px;
+      color: #4a5568;
+      margin: 0 0 5px 0;
+    }
+    .property-price {
+      font-size: 18px;
+      font-weight: 800;
+      color: #006c47;
+      margin: 12px 0 0 0;
+    }
+    .actions {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      margin: 5px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .btn-whatsapp {
+      background-color: #25D366;
+      color: #ffffff !important;
+    }
+    .btn-call {
+      background-color: #002046;
+      color: #ffffff !important;
+      border: 1px solid #002046;
+    }
+    .footer {
+      background-color: #f7f9ff;
+      padding: 20px 30px;
+      text-align: center;
+      font-size: 12px;
+      color: #718096;
+      border-top: 1px solid #e1e7f5;
+    }
+    .footer p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="email-container">
+    
+    <!-- Encabezado con marca corporativa -->
+    <div class="header">
+      <img src="https://ewxxjintjcwvlxaibnvx.supabase.co/storage/v1/object/public/property-images/logo.png" alt="CR7 Inmobiliaria" style="height: 45px; max-height: 45px; width: auto;" onError="this.style.display='none'">
+      <h1>Nueva Solicitud de Visita</h1>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="content">
+      <p class="welcome-text">
+        Hola, se ha registrado una nueva solicitud de visita desde el formulario web de <strong>CR7 Inmobiliaria</strong>. A continuación, tienes los detalles para contactar al cliente:
+      </p>
+
+      <!-- Sección Cliente -->
+      <div class="section-title">Datos del Cliente</div>
+      <table class="info-table">
+        <tr>
+          <td class="label">Nombre</td>
+          <td class="value">{{client_name}}</td>
+        </tr>
+        <tr>
+          <td class="label">Teléfono</td>
+          <td class="value">{{client_phone}}</td>
+        </tr>
+        <tr>
+          <td class="label">Fecha Solicitada</td>
+          <td class="value">{{visit_date}}</td>
+        </tr>
+        <tr>
+          <td class="label">Mensaje</td>
+          <td class="value" style="font-weight: normal; font-style: italic; color: #4a5568;">
+            {{message}}
+          </td>
+        </tr>
+      </table>
+
+      <!-- Sección Inmueble -->
+      <div class="section-title">Inmueble de Interés</div>
+      <div class="property-card">
+        <h3 class="property-title">{{property_title}}</h3>
+        <p class="property-detail"><strong>Referencia:</strong> #{{property_ref}}</p>
+        <p class="property-detail"><strong>Ubicación:</strong> {{property_location}}</p>
+        <p class="property-price">{{property_price}}</p>
+      </div>
+
+      <!-- Acciones de Respuesta Rápida -->
+      <div class="section-title" style="border: none;">Contacto Rápido</div>
+      <div class="actions">
+        <a href="https://wa.me/{{client_phone}}" target="_blank" class="btn btn-whatsapp">
+          Abrir en WhatsApp
+        </a>
+        <a href="tel:{{client_phone}}" class="btn btn-call">
+          Llamar Directamente
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Pie de página -->
+    <div class="footer">
+      <p>Este correo ha sido generado de manera automática por el sitio web de CR7 Inmobiliaria.</p>
+      <p>&copy; 2026 CR7 Inmobiliaria. Todos los derechos reservados.</p>
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,38 +1,47 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import { getAgentProperties, createProperty, updateProperty, deleteProperty, uploadPropertyImage } from '../../api/properties.api'
+import { getAgentProperties, createProperty, deleteProperty, uploadPropertyImage } from '../../api/properties.api'
+import { supabase } from '../../api/supabase'
 
 export default function AgentPropertiesPage() {
   const { user } = useAuth()
   const [properties, setProperties] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
+  const [toastMessage, setToastMessage] = useState('')
+  const [showToast, setShowToast] = useState(false)
+  const [activeTab, setActiveTab] = useState('create') // 'create' o 'list'
 
-  // Control de Formulario / Modal
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
-  const [editingId, setEditingId] = useState(null)
-
-  // Datos del Formulario (con agent_id fijado automáticamente en el ID del agente logueado)
+  // Formulario
   const [formData, setFormData] = useState({
     title: '',
-    description: '',
+    location: '',
     price: '',
-    type: 'APARTAMENTO',
-    operation: 'VENTA',
-    zone: '',
-    bedrooms: '',
-    bathrooms: '',
-    area: '',
-    is_active: true,
-    agent_id: '',
+    price_formatted: '',
+    operation: 'Venta',
+    type: 'Apartamentos',
+    subtype: 'Apartamento',
+    description: '',
+    rooms: 3,
+    baths: 2,
+    garages: 1,
+    area: 115,
+    stratum: 6,
+    floor: 12,
+    year: 2023,
+    private_area: 108,
+    furnished: false,
+    pets: true,
+    exclusive: false,
     images: []
   })
 
-  // Carga de imágenes locales
-  const [uploadingImage, setUploadingImage] = useState(false)
+  const [uploading, setUploading] = useState(false)
+
+  const triggerToast = (msg) => {
+    setToastMessage(msg)
+    setShowToast(true)
+    setTimeout(() => setShowToast(false), 3000)
+  }
 
   useEffect(() => {
     if (user?.id) {
@@ -42,30 +51,28 @@ export default function AgentPropertiesPage() {
 
   const loadProperties = async () => {
     setLoading(true)
-    setError('')
     try {
-      const data = await getAgentProperties(user.id)
-      setProperties(data)
+      const list = await getAgentProperties(user.id)
+      setProperties(list)
     } catch (err) {
       console.error(err)
-      setError('Error al obtener tus propiedades consignadas.')
+      triggerToast('Error al obtener tus propiedades.')
     } finally {
       setLoading(false)
     }
   }
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target
+    const { id, value, type, checked } = e.target
+    const name = id.replace('prop-', '').replace('-', '_')
     const val = type === 'checkbox' ? checked : value
     setFormData(prev => ({ ...prev, [name]: val }))
   }
 
-  const handleImageUpload = async (e) => {
+  const handleFileChange = async (e) => {
     const files = e.target.files
     if (!files || files.length === 0) return
-
-    setUploadingImage(true)
-    setError('')
+    setUploading(true)
     try {
       const urls = []
       for (let i = 0; i < files.length; i++) {
@@ -76,423 +83,524 @@ export default function AgentPropertiesPage() {
         ...prev,
         images: [...prev.images, ...urls]
       }))
-      setSuccess('Imágenes subidas correctamente.')
+      triggerToast('Imágenes subidas con éxito.')
     } catch (err) {
       console.error(err)
-      setError('Error al subir imágenes al bucket publico en Supabase.')
+      triggerToast('Error al subir imágenes.')
     } finally {
-      setUploadingImage(false)
+      setUploading(false)
     }
   }
 
-  const handleRemoveImage = (indexToRemove) => {
+  const handleRemoveImage = (index) => {
     setFormData(prev => ({
       ...prev,
-      images: prev.images.filter((_, index) => index !== indexToRemove)
+      images: prev.images.filter((_, i) => i !== index)
     }))
   }
 
-  const handleOpenAddModal = () => {
-    setIsEditing(false)
-    setEditingId(null)
+  const handleFormReset = () => {
     setFormData({
       title: '',
-      description: '',
+      location: '',
       price: '',
-      type: 'APARTAMENTO',
-      operation: 'VENTA',
-      zone: '',
-      bedrooms: '',
-      bathrooms: '',
-      area: '',
-      is_active: true,
-      agent_id: user.id, // ID del asesor asignado automáticamente
+      price_formatted: '',
+      operation: 'Venta',
+      type: 'Apartamentos',
+      subtype: 'Apartamento',
+      description: '',
+      rooms: 3,
+      baths: 2,
+      garages: 1,
+      area: 115,
+      stratum: 6,
+      floor: 12,
+      year: 2023,
+      private_area: 108,
+      furnished: false,
+      pets: true,
+      exclusive: false,
       images: []
     })
-    setIsModalOpen(true)
   }
 
-  const handleOpenEditModal = (prop) => {
-    setIsEditing(true)
-    setEditingId(prop.id)
-    setFormData({
-      title: prop.title,
-      description: prop.description || '',
-      price: prop.price,
-      type: prop.type,
-      operation: prop.operation,
-      zone: prop.zone || '',
-      bedrooms: prop.bedrooms || '',
-      bathrooms: prop.bathrooms || '',
-      area: prop.area || '',
-      is_active: prop.is_active,
-      agent_id: user.id,
-      images: prop.images || []
-    })
-    setIsModalOpen(true)
-  }
-
-  const handleSubmit = async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault()
-    setError('')
-    setSuccess('')
-
-    const formattedData = {
+    
+    const dataToInsert = {
       ...formData,
       price: parseFloat(formData.price),
-      bedrooms: formData.bedrooms ? parseInt(formData.bedrooms, 10) : null,
-      bathrooms: formData.bathrooms ? parseInt(formData.bathrooms, 10) : null,
-      area: formData.area ? parseFloat(formData.area) : null
+      rooms: parseInt(formData.rooms, 10),
+      baths: parseInt(formData.baths, 10),
+      garages: parseInt(formData.garages, 10),
+      area: parseFloat(formData.area),
+      stratum: parseInt(formData.stratum, 10),
+      floor: parseInt(formData.floor, 10),
+      year: parseInt(formData.year, 10),
+      private_area: parseFloat(formData.private_area),
+      agent_id: user.id, // ID del agente asignado automáticamente
+      is_active: true
+    }
+
+    if (dataToInsert.images.length === 0) {
+      dataToInsert.images = ["/images/interior_apartment.png"]
     }
 
     try {
-      if (isEditing) {
-        await updateProperty(editingId, formattedData)
-        setSuccess('Inmueble actualizado exitosamente.')
-      } else {
-        await createProperty(formattedData)
-        setSuccess('Inmueble publicado exitosamente.')
-      }
-      setIsModalOpen(false)
+      await createProperty(dataToInsert)
+      triggerToast('¡Inmueble publicado con éxito en tu catálogo!')
+      handleFormReset()
       loadProperties()
+      setActiveTab('list')
     } catch (err) {
       console.error(err)
-      setError(err.message || 'Error al guardar el inmueble.')
+      triggerToast(`Error al guardar: ${err.message}`)
     }
   }
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('¿Deseas eliminar permanentemente esta propiedad de tu catálogo?')) return
-    setError('')
-    setSuccess('')
+  const handleDelete = async (propId) => {
+    if (!window.confirm('¿Estás seguro de que deseas eliminar esta propiedad? Esta acción no se puede deshacer.')) return
     try {
-      await deleteProperty(id)
-      setSuccess('Propiedad eliminada correctamente.')
+      await deleteProperty(propId)
+      triggerToast('Propiedad eliminada correctamente.')
       loadProperties()
     } catch (err) {
       console.error(err)
-      setError('Fallo al eliminar. Solo los administradores pueden eliminar inmuebles físicamente.')
+      triggerToast(`Fallo al eliminar: ${err.message}`)
     }
   }
 
   return (
-    <div className="max-w-container-max mx-auto px-6 py-12 space-y-8 min-h-screen">
+    <div className="max-w-6xl w-full mx-auto p-6 flex flex-col justify-center text-left">
       
-      {/* Cabecera */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-outline-variant/20 pb-6">
-        <div>
-          <span className="text-xs font-bold text-secondary uppercase tracking-widest">Panel de Agente</span>
-          <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-primary mt-1">
-            Mis Propiedades Consignadas
-          </h1>
-          <p className="text-sm text-on-surface-variant mt-1">
-            Administra tus inmuebles asignados y promueve publicaciones en Santa Marta.
-          </p>
+      {/* Agent Welcome Header */}
+      <section className="space-y-8 py-6">
+        
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-outline-variant pb-6">
+          <div>
+            <h1 className="font-display text-3xl font-bold text-primary">Mis Propiedades Consignadas</h1>
+            <p className="text-sm text-on-surface-variant">Publica y administra tus inmuebles en catálogo.</p>
+          </div>
+          <div className="bg-primary/5 border border-primary/10 rounded-xl px-4 py-2 text-xs font-bold text-primary flex items-center gap-2">
+            <span className="material-symbols-outlined text-secondary text-sm">badge</span>
+            Panel de Agente Autorizado
+          </div>
         </div>
 
-        <button
-          onClick={handleOpenAddModal}
-          className="py-3 px-5 bg-secondary hover:bg-secondary/90 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-md"
-        >
-          <span className="material-symbols-outlined text-sm">add</span>
-          Consignar Inmueble
-        </button>
-      </div>
+        {/* Tab Selectors */}
+        <div className="flex gap-4 border-b border-outline-variant select-none">
+          <button 
+            onClick={() => setActiveTab('create')}
+            className={`pb-3 font-semibold text-sm transition-all outline-none ${activeTab === 'create' ? 'border-b-2 border-primary text-primary' : 'text-on-surface-variant hover:text-primary'}`}
+          >
+            Crear Nueva Propiedad
+          </button>
+          <button 
+            onClick={() => setActiveTab('list')}
+            className={`pb-3 font-semibold text-sm transition-all outline-none ${activeTab === 'list' ? 'border-b-2 border-primary text-primary' : 'text-on-surface-variant hover:text-primary'}`}
+          >
+            Ver Mis Propiedades ({properties.length})
+          </button>
+        </div>
 
-      {/* Alertas */}
-      {error && (
-        <div className="p-4 bg-red-50 border-l-4 border-red-500 rounded-r-xl text-red-700 text-sm flex items-center gap-2">
-          <span className="material-symbols-outlined text-base">error</span>
-          <span>{error}</span>
-        </div>
-      )}
-      {success && (
-        <div className="p-4 bg-green-50 border-l-4 border-green-500 rounded-r-xl text-green-700 text-sm flex items-center gap-2">
-          <span className="material-symbols-outlined text-base">check_circle</span>
-          <span>{success}</span>
-        </div>
-      )}
+        {/* Tab Content 1: CREATE FORM */}
+        {activeTab === 'create' && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-3xl p-6 md:p-8 shadow-soft-coastal border border-outline-variant/60">
+              <form onSubmit={handleFormSubmit} className="space-y-6">
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  
+                  {/* Columna Izquierda */}
+                  <div className="space-y-4">
+                    <h3 className="font-display font-bold text-primary border-b pb-2">Información Principal</h3>
+                    
+                    <div>
+                      <label className="block text-xs font-semibold text-primary mb-1">Título de la propiedad</label>
+                      <input 
+                        id="prop-title" 
+                        type="text" 
+                        required 
+                        placeholder="Ej: Apartamento Vista al Mar - Bello Horizonte" 
+                        value={formData.title}
+                        onChange={handleInputChange}
+                        className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary outline-none border"
+                      />
+                    </div>
 
-      {/* Listado */}
-      {loading ? (
-        <div className="py-20 flex flex-col items-center justify-center">
-          <div className="w-12 h-12 border-4 border-primary/20 border-t-secondary rounded-full animate-spin"></div>
-          <p className="text-xs text-on-surface-variant font-bold mt-4">Actualizando tu listado...</p>
-        </div>
-      ) : properties.length === 0 ? (
-        <div className="py-16 text-center border border-dashed border-outline-variant/60 rounded-3xl bg-surface/40 p-8 flex flex-col items-center justify-center">
-          <span className="material-symbols-outlined text-5xl text-outline mb-2">house</span>
-          <p className="font-bold text-primary">Aún no tienes propiedades en catálogo</p>
-          <p className="text-xs text-on-surface-variant mt-1">Comienza haciendo clic en "Consignar Inmueble".</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {properties.map((prop) => (
-            <div 
-              key={prop.id} 
-              className="bg-white border border-outline-variant/30 rounded-2xl overflow-hidden shadow-soft-coastal flex flex-col justify-between h-full group"
-            >
-              <div className="relative h-48 bg-slate-100 overflow-hidden">
-                <img 
-                  src={prop.images && prop.images[0] ? prop.images[0] : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=400&q=80'} 
-                  alt="" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-3 left-3 flex gap-2">
-                  <span className="text-[9px] font-bold px-2 py-0.5 bg-primary text-white rounded-full uppercase">
-                    {prop.operation}
-                  </span>
-                  <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full uppercase ${
-                    prop.is_active ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-                  }`}>
-                    {prop.is_active ? 'Activo' : 'Inactivo'}
-                  </span>
-                </div>
-              </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-primary mb-1">Ubicación / Dirección</label>
+                      <input 
+                        id="prop-location" 
+                        type="text" 
+                        required 
+                        placeholder="Ej: Bello Horizonte, Santa Marta" 
+                        value={formData.location}
+                        onChange={handleInputChange}
+                        className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary outline-none border"
+                      />
+                    </div>
 
-              <div className="p-5 flex-grow space-y-4">
-                <div>
-                  <span className="text-xs text-secondary font-bold inline-flex items-center gap-1">
-                    <span className="material-symbols-outlined text-xs">location_on</span>
-                    {prop.zone}
-                  </span>
-                  <h3 className="font-display font-bold text-sm sm:text-base text-primary line-clamp-1">
-                    {prop.title}
-                  </h3>
-                  <div className="text-sm font-bold text-secondary mt-1">
-                    $ {parseFloat(prop.price).toLocaleString('es-CO')}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold text-primary mb-1">Precio (COP)</label>
+                        <input 
+                          id="prop-price" 
+                          type="number" 
+                          required 
+                          placeholder="Ej: 850000000" 
+                          value={formData.price}
+                          onChange={handleInputChange}
+                          className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary outline-none border"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-primary mb-1">Precio Formateado</label>
+                        <input 
+                          id="prop-price-formatted" 
+                          type="text" 
+                          required 
+                          placeholder="Ej: $850.000.000 COP" 
+                          value={formData.price_formatted}
+                          onChange={handleInputChange}
+                          className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary outline-none border"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold text-primary mb-1">Tipo Negocio</label>
+                        <select 
+                          id="prop-operation"
+                          value={formData.operation}
+                          onChange={handleInputChange}
+                          className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary outline-none border"
+                        >
+                          <option value="Venta">Venta</option>
+                          <option value="Arriendo">Arriendo</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-primary mb-1">Categoría Macro</label>
+                        <select 
+                          id="prop-type"
+                          value={formData.type}
+                          onChange={handleInputChange}
+                          className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary outline-none border"
+                        >
+                          <option value="Apartaestudios">Apartaestudios</option>
+                          <option value="Apartamentos">Apartamentos</option>
+                          <option value="Casas">Casas</option>
+                          <option value="Locales">Locales</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-primary mb-1">Subtipo Inmueble</label>
+                        <select 
+                          id="prop-subtype"
+                          value={formData.subtype}
+                          onChange={handleInputChange}
+                          className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary outline-none border"
+                        >
+                          <option value="Apartaestudio">Apartaestudio</option>
+                          <option value="Apartamento">Apartamento</option>
+                          <option value="Cabaña">Cabaña</option>
+                          <option value="Campos, Chacras y Quintas">Campos, Chacras y Quintas</option>
+                          <option value="Casa">Casa</option>
+                          <option value="Casa de Playa">Casa de Playa</option>
+                          <option value="Dúplex">Dúplex</option>
+                          <option value="Hostal">Hostal</option>
+                          <option value="Lote / Terreno">Lote / Terreno</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-primary mb-1">Descripción Completa</label>
+                      <textarea 
+                        id="prop-description" 
+                        required 
+                        rows="4" 
+                        placeholder="Describe los detalles de la propiedad, vistas, acabados..." 
+                        value={formData.description}
+                        onChange={handleInputChange}
+                        className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary resize-none outline-none border"
+                      ></textarea>
+                    </div>
                   </div>
+
+                  {/* Columna Derecha */}
+                  <div className="space-y-4">
+                    <h3 className="font-display font-bold text-primary border-b pb-2">Características y Detalles</h3>
+                    
+                    <div className="grid grid-cols-4 gap-2">
+                      <div>
+                        <label className="block text-xs font-semibold text-primary mb-1">Habitaciones</label>
+                        <input 
+                          id="prop-rooms" 
+                          type="number" 
+                          required 
+                          value={formData.rooms}
+                          onChange={handleInputChange}
+                          className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary border outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-primary mb-1">Baños</label>
+                        <input 
+                          id="prop-baths" 
+                          type="number" 
+                          required 
+                          value={formData.baths}
+                          onChange={handleInputChange}
+                          className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary border outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-primary mb-1">Garajes</label>
+                        <input 
+                          id="prop-garages" 
+                          type="number" 
+                          required 
+                          value={formData.garages}
+                          onChange={handleInputChange}
+                          className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary border outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-primary mb-1">Área m²</label>
+                        <input 
+                          id="prop-area" 
+                          type="number" 
+                          required 
+                          value={formData.area}
+                          onChange={handleInputChange}
+                          className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary border outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-4 gap-2">
+                      <div>
+                        <label className="block text-xs font-semibold text-primary mb-1">Estrato</label>
+                        <input 
+                          id="prop-stratum" 
+                          type="number" 
+                          required 
+                          value={formData.stratum}
+                          onChange={handleInputChange}
+                          className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary border outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-primary mb-1">Piso</label>
+                        <input 
+                          id="prop-floor" 
+                          type="number" 
+                          required 
+                          value={formData.floor}
+                          onChange={handleInputChange}
+                          className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary border outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-primary mb-1">Año</label>
+                        <input 
+                          id="prop-year" 
+                          type="number" 
+                          required 
+                          value={formData.year}
+                          onChange={handleInputChange}
+                          className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary border outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-primary mb-1">Área Privada</label>
+                        <input 
+                          id="prop-private-area" 
+                          type="number" 
+                          required 
+                          value={formData.private_area}
+                          onChange={handleInputChange}
+                          className="w-full border-outline-variant rounded-xl text-sm p-3 focus:ring-primary focus:border-primary border outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-6 pt-2">
+                      <label className="flex items-center gap-2 cursor-pointer select-none">
+                        <input 
+                          id="prop-furnished" 
+                          type="checkbox" 
+                          checked={formData.furnished}
+                          onChange={handleInputChange}
+                          className="rounded text-secondary focus:ring-secondary border-outline-variant w-5 h-5 border"
+                        />
+                        <span className="text-xs font-semibold text-primary">Amoblado</span>
+                      </label>
+                      <label className="flex items-center gap-2 cursor-pointer select-none">
+                        <input 
+                          id="prop-pets" 
+                          type="checkbox" 
+                          checked={formData.pets}
+                          onChange={handleInputChange}
+                          className="rounded text-secondary focus:ring-secondary border-outline-variant w-5 h-5 border"
+                        />
+                        <span className="text-xs font-semibold text-primary">Admite Mascotas</span>
+                      </label>
+                      <label className="flex items-center gap-2 cursor-pointer select-none">
+                        <input 
+                          id="prop-exclusive" 
+                          type="checkbox" 
+                          checked={formData.exclusive}
+                          onChange={handleInputChange}
+                          className="rounded text-secondary focus:ring-secondary border-outline-variant w-5 h-5 border"
+                        />
+                        <span className="text-xs font-semibold text-primary">Exclusivo (Badge)</span>
+                      </label>
+                    </div>
+
+                    <h3 className="font-display font-bold text-primary border-b pb-2 pt-4">Imágenes de la Propiedad</h3>
+                    <div className="border-2 border-dashed border-outline-variant rounded-2xl p-6 text-center hover:bg-surface-container-low transition-colors cursor-pointer relative">
+                      <input 
+                        type="file" 
+                        multiple 
+                        accept="image/*" 
+                        onChange={handleFileChange}
+                        disabled={uploading}
+                        className="absolute inset-0 opacity-0 cursor-pointer" 
+                      />
+                      <span className="material-symbols-outlined text-4xl text-primary mb-2">upload_file</span>
+                      <p className="text-sm font-semibold text-primary">
+                        {uploading ? 'Subiendo imágenes...' : 'Arrastra las fotos aquí o haz clic para subir'}
+                      </p>
+                      <p className="text-xs text-on-surface-variant mt-1">Soporta PNG, JPG y JPEG.</p>
+                    </div>
+
+                    {/* Previsualización de fotos */}
+                    {formData.images.length > 0 && (
+                      <div className="grid grid-cols-4 gap-2 py-2">
+                        {formData.images.map((imgUrl, idx) => (
+                          <div key={idx} className="relative group rounded-lg overflow-hidden border shadow-sm h-16">
+                            <img className="w-full h-full object-cover" src={imgUrl} alt="Preview"/>
+                            <button 
+                              type="button" 
+                              onClick={() => handleRemoveImage(idx)}
+                              className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white"
+                            >
+                              <span className="material-symbols-outlined text-[18px]">close</span>
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
                 </div>
 
-                <div className="grid grid-cols-3 gap-1 py-2 border-y border-outline-variant/15 text-[10px] text-on-surface-variant text-center font-bold">
-                  <div>{prop.bedrooms || 0} Hab</div>
-                  <div>{prop.bathrooms || 0} Baños</div>
-                  <div>{prop.area || 0} m²</div>
-                </div>
-              </div>
-
-              <div className="px-5 pb-5 pt-2 flex gap-2">
-                <button
-                  onClick={() => handleOpenEditModal(prop)}
-                  className="flex-1 py-2 border border-outline-variant hover:bg-background text-primary text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1"
-                >
-                  <span className="material-symbols-outlined text-xs">edit</span>
-                  Editar
-                </button>
-                {/* Nota: solo el admin puede borrar físicamente según RLS o podemos intentar borrar si es de su autoría */}
-                {user.role === 'ADMIN' && (
-                  <button
-                    onClick={() => handleDelete(prop.id)}
-                    className="py-2 px-3 bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold rounded-lg transition-colors"
+                <div className="border-t pt-6 flex justify-end gap-3">
+                  <button 
+                    type="button" 
+                    onClick={handleFormReset}
+                    className="border border-outline-variant text-on-surface-variant px-6 py-3 rounded-xl font-bold text-sm hover:bg-surface-container-low transition-colors"
                   >
-                    Eliminar
+                    Limpiar
                   </button>
-                )}
+                  <button 
+                    type="submit" 
+                    disabled={uploading}
+                    className="bg-primary text-white px-8 py-3 rounded-xl font-bold text-sm hover:opacity-95 transition-all shadow-md flex items-center gap-2 border border-primary disabled:opacity-50"
+                  >
+                    <span className="material-symbols-outlined text-[20px]">save</span>
+                    Guardar Propiedad
+                  </button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Tab Content 2: LIST VIEW */}
+        {activeTab === 'list' && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-3xl overflow-hidden shadow-soft-coastal border border-outline-variant/60">
+              <div className="overflow-x-auto w-full">
+                <table className="w-full text-left border-collapse text-xs">
+                  <thead>
+                    <tr className="bg-surface-container-low text-primary border-b border-outline-variant font-bold uppercase tracking-wider text-left">
+                      <th className="p-4">Imagen</th>
+                      <th className="p-4">Título</th>
+                      <th className="p-4">Ubicación</th>
+                      <th className="p-4">Precio</th>
+                      <th className="p-4">Tipo</th>
+                      <th className="p-4">Operación</th>
+                      <th className="p-4 text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-outline-variant/20 font-medium text-primary">
+                    {properties.length === 0 ? (
+                      <tr>
+                        <td colSpan="7" className="p-8 text-center text-on-surface-variant">
+                          No tienes propiedades activas registradas en Supabase.
+                        </td>
+                      </tr>
+                    ) : (
+                      properties.map((p) => {
+                        const imgSrc = (p.images && p.images.length > 0) ? p.images[0] : '/images/interior_apartment.png'
+                        const formattedPrice = p.price_formatted || p.priceFormatted || `$ ${parseFloat(p.price).toLocaleString('es-CO')} COP`
+
+                        return (
+                          <tr key={p.id} className="hover:bg-surface-container-lowest transition-colors border-b border-outline-variant/10">
+                            <td className="p-4">
+                              <img 
+                                className="w-16 h-12 object-cover rounded-lg border shadow-sm bg-slate-100" 
+                                src={imgSrc} 
+                                alt={p.title} 
+                                onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=100&q=80' }}
+                              />
+                            </td>
+                            <td className="p-4 font-bold text-primary max-w-[200px] truncate">{p.title}</td>
+                            <td className="p-4 text-on-surface-variant">{p.location}</td>
+                            <td className="p-4 font-semibold text-secondary">{formattedPrice}</td>
+                            <td className="p-4">
+                              <span className="bg-surface-container px-2.5 py-1 rounded-full border text-[9px] font-bold">
+                                {p.subtype || p.type}
+                              </span>
+                            </td>
+                            <td className="p-4">
+                              <span className="bg-secondary-container text-on-secondary-container px-2.5 py-1 rounded-full text-[9px] font-bold">
+                                {p.operation}
+                              </span>
+                            </td>
+                            <td className="p-4 text-center">
+                              <button 
+                                onClick={() => handleDelete(p.id)}
+                                className="bg-red-50 hover:bg-red-100 text-red-600 p-2 rounded-xl transition-all shadow-sm border border-red-200"
+                              >
+                                <span className="material-symbols-outlined text-[18px] block">delete</span>
+                              </button>
+                            </td>
+                          </tr>
+                        )
+                      })
+                    )}
+                  </tbody>
+                </table>
               </div>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        )}
 
-      {/* MODAL MÓVIL/DESKTOP AGREGAR O EDITAR */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 md:p-8 shadow-2xl relative my-8">
-            <button 
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 text-outline hover:text-primary"
-            >
-              <span className="material-symbols-outlined text-2xl">close</span>
-            </button>
+      </section>
 
-            <h2 className="font-display font-extrabold text-xl md:text-2xl text-primary mb-6">
-              {isEditing ? 'Editar tu Inmueble' : 'Consignar Nuevo Inmueble'}
-            </h2>
-
-            <form onSubmit={handleSubmit} className="space-y-6 max-h-[70vh] overflow-y-auto pr-2">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="sm:col-span-2">
-                  <label className="block text-[10px] font-bold text-primary uppercase mb-2">Título de la Propiedad</label>
-                  <input
-                    type="text"
-                    name="title"
-                    required
-                    value={formData.title}
-                    onChange={handleInputChange}
-                    placeholder="Ej. Casa en Condominio Cerrado"
-                    className="w-full bg-background border border-outline-variant/60 rounded-xl text-xs py-3 px-4 outline-none focus:border-secondary"
-                  />
-                </div>
-
-                <div className="sm:col-span-2">
-                  <label className="block text-[10px] font-bold text-primary uppercase mb-2">Descripción</label>
-                  <textarea
-                    name="description"
-                    rows="3"
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    placeholder="Detalles sobre el estado del inmueble"
-                    className="w-full bg-background border border-outline-variant/60 rounded-xl text-xs py-3 px-4 outline-none focus:border-secondary resize-none"
-                  ></textarea>
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-bold text-primary uppercase mb-2">Precio (COP)</label>
-                  <input
-                    type="number"
-                    name="price"
-                    required
-                    value={formData.price}
-                    onChange={handleInputChange}
-                    placeholder="Ej. 350000000"
-                    className="w-full bg-background border border-outline-variant/60 rounded-xl text-xs py-3 px-4 outline-none focus:border-secondary"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-bold text-primary uppercase mb-2">Ubicación / Zona</label>
-                  <input
-                    type="text"
-                    name="zone"
-                    required
-                    value={formData.zone}
-                    onChange={handleInputChange}
-                    placeholder="Ej. Pozos Colorados"
-                    className="w-full bg-background border border-outline-variant/60 rounded-xl text-xs py-3 px-4 outline-none focus:border-secondary"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-bold text-primary uppercase mb-2">Tipo</label>
-                  <select
-                    name="type"
-                    value={formData.type}
-                    onChange={handleInputChange}
-                    className="w-full bg-background border border-outline-variant/60 rounded-xl text-xs py-3 px-4 outline-none focus:border-secondary"
-                  >
-                    <option value="APARTAMENTO">Apartamento</option>
-                    <option value="CASA">Casa</option>
-                    <option value="APARTAESTUDIO">Apartaestudio</option>
-                    <option value="LOCAL">Local Comercial</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-bold text-primary uppercase mb-2">Operación</label>
-                  <select
-                    name="operation"
-                    value={formData.operation}
-                    onChange={handleInputChange}
-                    className="w-full bg-background border border-outline-variant/60 rounded-xl text-xs py-3 px-4 outline-none focus:border-secondary"
-                  >
-                    <option value="VENTA">Venta</option>
-                    <option value="ARRIENDO">Arriendo</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-bold text-primary uppercase mb-2">Habitaciones</label>
-                  <input
-                    type="number"
-                    name="bedrooms"
-                    value={formData.bedrooms}
-                    onChange={handleInputChange}
-                    placeholder="Ej. 2"
-                    className="w-full bg-background border border-outline-variant/60 rounded-xl text-xs py-3 px-4 outline-none focus:border-secondary"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-bold text-primary uppercase mb-2">Baños</label>
-                  <input
-                    type="number"
-                    name="bathrooms"
-                    value={formData.bathrooms}
-                    onChange={handleInputChange}
-                    placeholder="Ej. 2"
-                    className="w-full bg-background border border-outline-variant/60 rounded-xl text-xs py-3 px-4 outline-none focus:border-secondary"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-bold text-primary uppercase mb-2">Área (m²)</label>
-                  <input
-                    type="number"
-                    name="area"
-                    value={formData.area}
-                    onChange={handleInputChange}
-                    placeholder="Ej. 80"
-                    className="w-full bg-background border border-outline-variant/60 rounded-xl text-xs py-3 px-4 outline-none focus:border-secondary"
-                  />
-                </div>
-              </div>
-
-              {/* Subida de Imágenes */}
-              <div className="space-y-3">
-                <label className="block text-[10px] font-bold text-primary uppercase">Cargar Imágenes de la Propiedad</label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    disabled={uploadingImage}
-                    className="block w-full text-xs text-on-surface-variant file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-primary/5 file:text-primary hover:file:bg-primary/10 file:cursor-pointer"
-                  />
-                  {uploadingImage && (
-                    <div className="w-5 h-5 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-                  )}
-                </div>
-
-                {formData.images.length > 0 && (
-                  <div className="grid grid-cols-4 gap-3 pt-2">
-                    {formData.images.map((url, index) => (
-                      <div key={index} className="relative w-full h-16 rounded-xl border border-outline-variant/40 overflow-hidden group">
-                        <img src={url} alt="" className="w-full h-full object-cover" />
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveImage(index)}
-                          className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          <span className="material-symbols-outlined text-sm">delete</span>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  id="is_active"
-                  name="is_active"
-                  checked={formData.is_active}
-                  onChange={handleInputChange}
-                  className="rounded border-outline-variant text-secondary focus:ring-secondary"
-                />
-                <label htmlFor="is_active" className="text-xs font-bold text-primary select-none cursor-pointer">
-                  Inmueble activo (públicamente visible)
-                </label>
-              </div>
-
-              <div className="pt-4 flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="flex-1 py-3 border border-outline-variant text-primary hover:bg-background font-bold rounded-xl text-xs transition-colors"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  disabled={uploadingImage}
-                  className="flex-1 py-3 bg-secondary hover:bg-secondary/95 text-white font-bold rounded-xl text-xs transition-colors shadow-md disabled:opacity-50"
-                >
-                  {isEditing ? 'Guardar Cambios' : 'Consignar Propiedad'}
-                </button>
-              </div>
-            </form>
+      {/* Toast Notification Container */}
+      {showToast && (
+        <div id="toast-container" className="fixed bottom-6 right-6 z-50 flex flex-col gap-2">
+          <div className="flex items-center gap-3 bg-surface/90 backdrop-blur-md text-primary px-6 py-4 rounded-xl shadow-soft-coastal border border-outline-variant max-w-sm pointer-events-auto transform transition-all duration-300">
+            <span className="material-symbols-outlined text-secondary font-bold">info</span>
+            <span className="font-body-sm font-semibold">{toastMessage}</span>
           </div>
         </div>
       )}

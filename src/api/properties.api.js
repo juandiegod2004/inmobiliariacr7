@@ -2,7 +2,7 @@ import { supabase } from './supabase'
 
 /**
  * Obtener lista de propiedades activas.
- * Permite filtrar por tipo, operación, habitaciones y zona si se especifican.
+ * Permite filtrar por tipo (subtype), operación, habitaciones (rooms) y ubicación (location) si se especifican.
  */
 export async function getProperties(filters = {}) {
   let query = supabase
@@ -10,21 +10,22 @@ export async function getProperties(filters = {}) {
     .select('*, profiles(name)')
     .eq('is_active', true)
 
-  if (filters.type && filters.type !== 'TODOS') {
-    query = query.eq('type', filters.type)
+  if (filters.type && filters.type !== 'todos' && filters.type !== 'TODOS') {
+    // En el index.html original, filter-type se comparaba contra subtype
+    query = query.eq('subtype', filters.type)
   }
-  if (filters.operation && filters.operation !== 'TODOS') {
+  if (filters.operation && filters.operation !== 'todos' && filters.operation !== 'TODOS') {
     query = query.eq('operation', filters.operation)
   }
-  if (filters.bedrooms && filters.bedrooms !== 'TODOS') {
-    query = query.eq('bedrooms', parseInt(filters.bedrooms, 10))
+  if (filters.rooms && filters.rooms !== 'todos' && filters.rooms !== 'TODOS') {
+    query = query.eq('rooms', parseInt(filters.rooms, 10))
   }
   if (filters.zone && filters.zone.trim() !== '') {
-    query = query.ilike('zone', `%${filters.zone.trim()}%`)
+    query = query.ilike('location', `%${filters.zone.trim()}%`)
   }
 
-  // Ordenar por fecha de creación descendente
-  query = query.order('created_at', { ascending: false })
+  // Ordenar por ID descendente
+  query = query.order('id', { ascending: false })
 
   const { data, error } = await query
   if (error) throw error
@@ -38,7 +39,7 @@ export async function getAllPropertiesAdmin() {
   const { data, error } = await supabase
     .from('properties')
     .select('*, profiles(name)')
-    .order('created_at', { ascending: false })
+    .order('id', { ascending: false })
   if (error) throw error
   return data
 }
@@ -51,13 +52,13 @@ export async function getAgentProperties(agentId) {
     .from('properties')
     .select('*, profiles(name)')
     .eq('agent_id', agentId)
-    .order('created_at', { ascending: false })
+    .order('id', { ascending: false })
   if (error) throw error
   return data
 }
 
 /**
- * Obtener una sola propiedad por su UUID.
+ * Obtener una sola propiedad por su ID numérico.
  */
 export async function getPropertyById(id) {
   const { data, error } = await supabase
@@ -71,7 +72,6 @@ export async function getPropertyById(id) {
 
 /**
  * Crear una nueva propiedad.
- * El agente/administrador logueado se asocia automáticamente en Supabase.
  */
 export async function createProperty(propertyData) {
   const { data, error } = await supabase
@@ -96,15 +96,38 @@ export async function updateProperty(id, propertyData) {
 }
 
 /**
- * Eliminar una propiedad (físicamente de la DB).
+ * Eliminar una propiedad físicamente de la DB y borrar sus imágenes del Storage.
  */
 export async function deleteProperty(id) {
+  // 1. Obtener la propiedad para saber qué imágenes eliminar
+  const { data: propData } = await supabase
+    .from('properties')
+    .select('images')
+    .eq('id', id)
+    .single()
+
+  // 2. Eliminar registro de base de datos
   const { error } = await supabase
     .from('properties')
     .delete()
     .eq('id', id)
+
   if (error) throw error
-  return true;
+
+  // 3. Eliminar archivos de almacenamiento de Supabase si existen
+  if (propData && propData.images) {
+    const filesToRemove = propData.images
+      .filter(url => url.includes('property-images'))
+      .map(url => url.substring(url.lastIndexOf('/') + 1))
+
+    if (filesToRemove.length > 0) {
+      await supabase.storage
+        .from('property-images')
+        .remove(filesToRemove)
+    }
+  }
+
+  return true
 }
 
 /**
@@ -112,24 +135,33 @@ export async function deleteProperty(id) {
  * Retorna la URL pública de la imagen cargada.
  */
 export async function uploadPropertyImage(file) {
-  // Limpiar el nombre del archivo
   const fileExt = file.name.split('.').pop()
-  const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`
-  const filePath = `properties/${fileName}`
+  const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}.${fileExt}`
 
-  // Subir el archivo al bucket
   const { error: uploadError } = await supabase.storage
     .from('property-images')
-    .upload(filePath, file)
+    .upload(fileName, file)
 
   if (uploadError) {
     throw uploadError
   }
 
-  // Obtener URL pública
   const { data } = supabase.storage
     .from('property-images')
-    .getPublicUrl(filePath)
+    .getPublicUrl(fileName)
 
   return data.publicUrl
 }
+
+/**
+ * Registrar una nueva visita en la base de datos 'visits'.
+ */
+export async function scheduleVisit(visitData) {
+  const { data, error } = await supabase
+    .from('visits')
+    .insert([visitData])
+    .select()
+  if (error) throw error
+  return data[0]
+}
+

@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import Layout from '../components/Layout'
 import PrivateRoute from './PrivateRoute'
 import PublicOnlyRoute from './PublicOnlyRoute'
@@ -13,12 +14,23 @@ import NotFoundPage from '../pages/public/NotFoundPage'
 // Páginas Protegidas
 import AdminDashboardPage from '../pages/protected/AdminDashboardPage'
 import AdminPropertiesPage from '../pages/protected/AdminPropertiesPage'
-import AdminUsersPage from '../pages/protected/AdminUsersPage'
 import AgentPropertiesPage from '../pages/protected/AgentPropertiesPage'
+
+// Componente para restaurar scroll al navegar
+function ScrollToTop() {
+  const { pathname, state } = useLocation()
+  useEffect(() => {
+    if (!state?.scrollTo) {
+      window.scrollTo(0, 0)
+    }
+  }, [pathname, state])
+  return null
+}
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* Rutas Públicas (Envueltas en el Layout general) */}
         <Route element={<Layout><HomePage /></Layout>} path="/" />
@@ -39,7 +51,6 @@ export default function AppRouter() {
         <Route element={<PrivateRoute allowedRoles={['ADMIN']} />}>
           <Route element={<Layout><AdminDashboardPage /></Layout>} path="/admin" />
           <Route element={<Layout><AdminPropertiesPage /></Layout>} path="/admin/propiedades" />
-          <Route element={<Layout><AdminUsersPage /></Layout>} path="/admin/usuarios" />
         </Route>
 
         {/* Ruta 404 */}

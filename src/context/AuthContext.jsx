@@ -6,6 +6,10 @@ const AuthContext = createContext(null)
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)        // { id, email, name, role }
   const [isLoading, setIsLoading] = useState(true)
+  const [settings, setSettings] = useState({
+    phone: '573002510313',
+    email: 'cr7inmobiliaria@gmail.com'
+  })
 
   // Función para obtener el perfil con el rol desde public.profiles
   const fetchProfile = async (supabaseUser) => {
@@ -23,6 +27,28 @@ export function AuthProvider({ children }) {
       return null
     }
   }
+
+  // Cargar settings desde base de datos
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('settings')
+          .select('key, value')
+        if (error) throw error
+        if (data) {
+          const loaded = {}
+          data.forEach(item => {
+            loaded[item.key] = item.value
+          })
+          setSettings(prev => ({ ...prev, ...loaded }))
+        }
+      } catch (err) {
+        console.error("Error al obtener configuraciones:", err)
+      }
+    }
+    fetchSettings()
+  }, [])
 
   useEffect(() => {
     // Verificar sesión activa al montar
@@ -76,6 +102,14 @@ export function AuthProvider({ children }) {
     setUser(null)
   }
 
+  const updateSetting = async (key, value) => {
+    const { error } = await supabase
+      .from('settings')
+      .upsert({ key, value })
+    if (error) throw error
+    setSettings(prev => ({ ...prev, [key]: value }))
+  }
+
   const isAuthenticated = !!user
 
   return (
@@ -85,7 +119,9 @@ export function AuthProvider({ children }) {
       isLoading,
       login,
       logout,
-      register
+      register,
+      settings,
+      updateSetting
     }}>
       {children}
     </AuthContext.Provider>

@@ -1,14 +1,63 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Layout({ children }) {
-  const { user, isAuthenticated, logout } = useAuth()
+  const { user, isAuthenticated, logout, settings } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('inicio')
+
+  useEffect(() => {
+    if (location.pathname !== '/') {
+      setActiveSection('')
+      return
+    }
+
+    const sections = ['vender', 'featured', 'about', 'contact']
+
+    const handleScroll = () => {
+      if (window.scrollY < 150) {
+        setActiveSection('inicio')
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-30% 0px -50% 0px',
+      threshold: 0
+    }
+
+    const observerCallback = (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id)
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions)
+
+    sections.forEach(id => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+
+    handleScroll()
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      sections.forEach(id => {
+        const el = document.getElementById(id)
+        if (el) observer.unobserve(el)
+      })
+    }
+  }, [location.pathname])
 
   const handleLogoDoubleClick = () => {
-    // Área secreta para iniciar sesión de administrador/agente
     navigate('/login')
   }
 
@@ -23,7 +72,6 @@ export default function Layout({ children }) {
 
   const handleScrollToSection = (e, sectionId) => {
     e.preventDefault()
-    // Si no estamos en la página de inicio, navegar allí primero
     if (window.location.pathname !== '/') {
       navigate('/', { state: { scrollTo: sectionId } })
       return
@@ -37,131 +85,215 @@ export default function Layout({ children }) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-on-surface">
-      {/* Header / Navbar */}
-      <header className="sticky top-0 z-50 bg-glass border-b border-outline-variant/20 shadow-soft-coastal">
-        <div className="max-w-container-max mx-auto px-6 py-4 flex items-center justify-between">
-          {/* Logo y Marca */}
-          <div 
-            onClick={handleLogoDoubleClick}
-            className="flex items-center gap-3 cursor-pointer select-none group"
-            title="Doble clic para acceso administrativo"
+    <div className="min-h-screen flex flex-col bg-background text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container">
+      {/* 1. Sticky Navbar */}
+      <nav className="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-md shadow-md shadow-primary/5 border-b border-outline-variant/10">
+        <div className="flex justify-between items-center px-margin-mobile py-3 max-w-container-max mx-auto">
+          {/* Logo */}
+          <Link 
+            to="/" 
+            onDoubleClick={handleLogoDoubleClick}
+            onClick={(e) => {
+              if (location.pathname === '/') {
+                e.preventDefault()
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }
+            }}
+            className="flex items-center hover:opacity-95 transition-opacity select-none"
+            title="Doble clic para administrador"
           >
             <img 
-              src="/logo_inmobiliaria.png" 
-              alt="CR7 Logo" 
-              className="h-10 w-10 object-contain rounded-lg transition-transform duration-300 group-hover:scale-110"
+              id="nav-logo-img" 
+              alt="CR7 Inmobiliaria Logo" 
+              className="h-10" 
+              src="/images/logo.png"
+              onError={(e) => { e.target.src = '/logo_inmobiliaria.png' }}
             />
-            <span className="font-display font-extrabold text-xl tracking-tight text-primary">
-              CR7 <span className="text-secondary">INMOBILIARIA</span>
-            </span>
-          </div>
+          </Link>
 
           {/* Menú Desktop */}
-          <nav className="hidden md:flex items-center gap-8 font-semibold text-sm">
-            <Link to="/" className="text-primary/80 hover:text-primary transition-colors">
+          <div className="hidden md:flex gap-6 items-center">
+            <Link 
+              to="/" 
+              onClick={(e) => {
+                if (location.pathname === '/') {
+                  e.preventDefault()
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }
+              }}
+              className={`${
+                activeSection === 'inicio' && location.pathname === '/'
+                  ? 'text-secondary font-semibold border-b-2 border-secondary'
+                  : 'text-on-surface-variant hover:text-primary transition-colors'
+              } font-label-md text-label-md py-1`}
+            >
               Inicio
             </Link>
-            <Link to="/propiedades" className="text-primary/80 hover:text-primary transition-colors">
-              Propiedades
-            </Link>
+            <a 
+              href="#featured" 
+              onClick={(e) => handleScrollToSection(e, 'featured')}
+              className={`${
+                activeSection === 'featured' && location.pathname === '/'
+                  ? 'text-secondary font-semibold border-b-2 border-secondary'
+                  : 'text-on-surface-variant hover:text-primary transition-colors'
+              } font-label-md text-label-md py-1`}
+            >
+              Arrendar
+            </a>
             <a 
               href="#vender" 
               onClick={(e) => handleScrollToSection(e, 'vender')}
-              className="text-primary/80 hover:text-primary transition-colors"
+              className={`${
+                activeSection === 'vender' && location.pathname === '/'
+                  ? 'text-secondary font-semibold border-b-2 border-secondary'
+                  : 'text-on-surface-variant hover:text-primary transition-colors'
+              } font-label-md text-label-md py-1`}
             >
               Vender
             </a>
             <a 
-              href="#contacto" 
-              onClick={(e) => handleScrollToSection(e, 'contacto')}
-              className="text-primary/80 hover:text-primary transition-colors"
+              href="#about" 
+              onClick={(e) => handleScrollToSection(e, 'about')}
+              className={`${
+                activeSection === 'about' && location.pathname === '/'
+                  ? 'text-secondary font-semibold border-b-2 border-secondary'
+                  : 'text-on-surface-variant hover:text-primary transition-colors'
+              } font-label-md text-label-md py-1`}
+            >
+              Nosotros
+            </a>
+            <a 
+              href="#contact" 
+              onClick={(e) => handleScrollToSection(e, 'contact')}
+              className={`${
+                activeSection === 'contact' && location.pathname === '/'
+                  ? 'text-secondary font-semibold border-b-2 border-secondary'
+                  : 'text-on-surface-variant hover:text-primary transition-colors'
+              } font-label-md text-label-md py-1`}
             >
               Contacto
             </a>
-          </nav>
 
-          {/* Acceso/Sesión */}
-          <div className="hidden md:flex items-center gap-4">
-            {isAuthenticated ? (
-              <div className="flex items-center gap-3">
-                <span className="text-xs px-3 py-1 bg-secondary/15 text-secondary border border-secondary/30 rounded-full font-bold uppercase tracking-wider">
-                  {user.role === 'ADMIN' ? 'Administrador' : user.role === 'AGENT' ? 'Agente' : 'Cliente'}
+            {/* Acceso/Sesión si está logueado */}
+            {isAuthenticated && (
+              <div className="flex items-center gap-3 border-l border-outline-variant pl-4">
+                <span className="text-[10px] px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded-full font-bold uppercase">
+                  {user.role}
                 </span>
-                
                 {user.role !== 'CLIENT' && (
                   <Link 
                     to={user.role === 'ADMIN' ? '/admin' : '/agente/propiedades'}
-                    className="text-xs font-bold text-white bg-primary hover:bg-primary-container px-4 py-2 rounded-lg transition-all shadow-md"
+                    className="text-xs text-primary font-bold hover:underline"
                   >
-                    Panel de Control
+                    Panel
                   </Link>
                 )}
-
                 <button 
                   onClick={handleLogout}
-                  className="text-xs font-semibold text-red-600 hover:text-white hover:bg-red-600 border border-red-200 hover:border-red-600 px-3 py-2 rounded-lg transition-all"
+                  className="text-xs text-red-600 font-bold hover:underline"
                 >
                   Salir
                 </button>
               </div>
-            ) : (
-              <span className="text-xs text-primary/40 font-medium select-none">
-                Santa Marta, Colombia
-              </span>
             )}
           </div>
 
-          {/* Hamburguesa Móvil */}
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-primary focus:outline-none"
-          >
-            <span className="material-symbols-outlined text-2xl">
-              {mobileMenuOpen ? 'close' : 'menu'}
-            </span>
-          </button>
+          {/* Hablar con Asesor / Botón Hamburguesa */}
+          <div className="flex items-center gap-3">
+            <a 
+              href={`https://wa.me/${settings?.phone || '573002510313'}`} 
+              target="_blank" 
+              rel="noreferrer" 
+              className="flex items-center gap-2 bg-secondary text-on-secondary px-4 py-2 rounded-full font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all shadow-sm"
+              id="header-whatsapp-btn"
+            >
+              <span className="material-symbols-outlined text-[18px]">chat</span>
+              <span className="hidden sm:inline">Hablar con un asesor</span>
+            </a>
+
+            <button 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden flex items-center justify-center p-2 text-primary focus:outline-none"
+            >
+              <span className="material-symbols-outlined text-2xl">
+                {mobileMenuOpen ? 'close' : 'menu'}
+              </span>
+            </button>
+          </div>
         </div>
 
         {/* Menú Móvil */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-surface border-t border-outline-variant/20 px-6 py-4 flex flex-col gap-4 animate-fade-in">
+          <div className="md:hidden bg-surface border-t border-outline-variant/30 px-margin-mobile py-4 flex flex-col gap-4 animate-fade-in shadow-lg">
             <Link 
               to="/" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="font-semibold text-primary/80 hover:text-primary"
+              onClick={(e) => {
+                if (location.pathname === '/') {
+                  e.preventDefault()
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }
+                setMobileMenuOpen(false);
+              }}
+              className={`font-semibold text-sm ${
+                activeSection === 'inicio' && location.pathname === '/'
+                  ? 'text-secondary'
+                  : 'text-on-surface-variant hover:text-primary'
+              }`}
             >
               Inicio
             </Link>
-            <Link 
-              to="/propiedades" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="font-semibold text-primary/80 hover:text-primary"
+            <a 
+              href="#featured" 
+              onClick={(e) => handleScrollToSection(e, 'featured')}
+              className={`font-semibold text-sm ${
+                activeSection === 'featured' && location.pathname === '/'
+                  ? 'text-secondary'
+                  : 'text-on-surface-variant hover:text-primary'
+              }`}
             >
-              Propiedades
-            </Link>
+              Arrendar
+            </a>
             <a 
               href="#vender" 
               onClick={(e) => handleScrollToSection(e, 'vender')}
-              className="font-semibold text-primary/80 hover:text-primary"
+              className={`font-semibold text-sm ${
+                activeSection === 'vender' && location.pathname === '/'
+                  ? 'text-secondary'
+                  : 'text-on-surface-variant hover:text-primary'
+              }`}
             >
               Vender
             </a>
             <a 
-              href="#contacto" 
-              onClick={(e) => handleScrollToSection(e, 'contacto')}
-              className="font-semibold text-primary/80 hover:text-primary"
+              href="#about" 
+              onClick={(e) => handleScrollToSection(e, 'about')}
+              className={`font-semibold text-sm ${
+                activeSection === 'about' && location.pathname === '/'
+                  ? 'text-secondary'
+                  : 'text-on-surface-variant hover:text-primary'
+              }`}
+            >
+              Nosotros
+            </a>
+            <a 
+              href="#contact" 
+              onClick={(e) => handleScrollToSection(e, 'contact')}
+              className={`font-semibold text-sm ${
+                activeSection === 'contact' && location.pathname === '/'
+                  ? 'text-secondary'
+                  : 'text-on-surface-variant hover:text-primary'
+              }`}
             >
               Contacto
             </a>
 
             {isAuthenticated ? (
               <div className="flex flex-col gap-2 pt-4 border-t border-outline-variant/20">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs px-2 py-0.5 bg-secondary/15 text-secondary rounded-full font-bold">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded-full font-bold">
                     {user.role}
                   </span>
-                  <span className="text-xs text-on-surface-variant font-medium">
+                  <span className="text-on-surface-variant font-medium">
                     {user.name}
                   </span>
                 </div>
@@ -169,24 +301,23 @@ export default function Layout({ children }) {
                   <Link 
                     to={user.role === 'ADMIN' ? '/admin' : '/agente/propiedades'}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="text-center font-bold text-white bg-primary py-2.5 rounded-lg text-sm"
+                    className="text-center font-bold text-white bg-primary py-2 rounded-lg text-sm shadow-md"
                   >
                     Panel de Control
                   </Link>
                 )}
                 <button 
                   onClick={handleLogout}
-                  className="w-full text-center font-bold text-red-600 bg-red-50 py-2.5 rounded-lg text-sm"
+                  className="w-full text-center font-bold text-red-600 bg-red-50 py-2 rounded-lg text-sm border border-red-200"
                 >
                   Cerrar Sesión
                 </button>
               </div>
             ) : (
-              <div className="pt-2 border-t border-outline-variant/20 flex justify-between items-center text-xs text-on-surface-variant">
-                <span>CR7 Inmobiliaria</span>
+              <div className="pt-2 border-t border-outline-variant/10 text-right">
                 <span 
                   onClick={handleLogoDoubleClick}
-                  className="cursor-pointer text-primary/10 hover:text-primary/30 py-1 px-2"
+                  className="cursor-pointer text-primary/10 hover:text-primary/30 py-1 px-2 text-xs"
                 >
                   Acceso
                 </span>
@@ -194,74 +325,66 @@ export default function Layout({ children }) {
             )}
           </div>
         )}
-      </header>
+      </nav>
 
       {/* Main Content */}
-      <main className="flex-grow">
+      <main className="flex-grow pt-16">
         {children}
       </main>
 
       {/* Footer */}
-      <footer className="bg-primary text-white pt-12 pb-8 border-t border-primary-container">
-        <div className="max-w-container-max mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
-          <div>
-            <div className="flex items-center gap-3 mb-4 select-none">
+      <footer className="bg-primary text-on-primary pt-16 pb-8 border-t border-white/10">
+        <div className="px-margin-mobile max-w-container-max mx-auto">
+          <div className="flex flex-col md:flex-row justify-between gap-12 mb-12">
+            <div className="flex-1">
               <img 
-                src="/logo_inmobiliaria.png" 
-                alt="CR7 Logo" 
-                className="h-9 w-9 object-contain bg-white rounded-lg p-0.5"
+                id="footer-logo-img" 
+                alt="CR7 Inmobiliaria" 
+                className="h-12 mb-6 brightness-0 invert" 
+                src="/images/logo.png"
+                onError={(e) => { e.target.src = '/logo_inmobiliaria.png' }}
               />
-              <span className="font-display font-extrabold text-lg tracking-tight text-white">
-                CR7 <span className="text-secondary-fixed">INMOBILIARIA</span>
-              </span>
+              <p className="text-on-primary/70 font-body-sm max-w-xs">
+                Tu aliado experto en el mercado inmobiliario de Santa Marta. Transparencia, compromiso y resultados garantizados.
+              </p>
             </div>
-            <p className="text-sm text-on-primary-container leading-relaxed">
-              Las mejores propiedades en la costa caribeña colombiana. Exclusividad, transparencia y el mejor servicio.
-            </p>
+            
+            <div className="flex-1 grid grid-cols-2 gap-8 text-left">
+              <div>
+                <h4 className="font-headline-sm mb-6 text-white font-bold">Enlaces</h4>
+                <ul className="space-y-3 font-body-sm text-on-primary/80">
+                  <li>
+                    <Link to="/" className="hover:text-white transition-colors">Inicio</Link>
+                  </li>
+                  <li>
+                    <a href="#featured" onClick={(e) => handleScrollToSection(e, 'featured')} className="hover:text-white transition-colors">Propiedades</a>
+                  </li>
+                  <li>
+                    <a href="#vender" onClick={(e) => handleScrollToSection(e, 'vender')} className="hover:text-white transition-colors">Vender</a>
+                  </li>
+                  <li>
+                    <a href="#about" onClick={(e) => handleScrollToSection(e, 'about')} className="hover:text-white transition-colors">Nosotros</a>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-headline-sm mb-6 text-white font-bold">Legal</h4>
+                <ul className="space-y-3 font-body-sm text-on-primary/80">
+                  <li><a class="hover:text-white transition-colors" href="#">Privacidad</a></li>
+                  <li><a class="hover:text-white transition-colors" href="#">Términos</a></li>
+                  <li><a class="hover:text-white transition-colors" href="#">Cookies</a></li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <div>
-            <h4 className="font-display font-bold text-md text-white mb-4">Enlaces Rápidos</h4>
-            <ul className="space-y-2 text-sm text-on-primary-container">
-              <li>
-                <Link to="/" className="hover:text-white transition-colors">Inicio</Link>
-              </li>
-              <li>
-                <Link to="/propiedades" className="hover:text-white transition-colors">Portafolio de Inmuebles</Link>
-              </li>
-              <li>
-                <a href="#vender" onClick={(e) => handleScrollToSection(e, 'vender')} className="hover:text-white transition-colors">Consignar Propiedad</a>
-              </li>
-              <li>
-                <a href="#contacto" onClick={(e) => handleScrollToSection(e, 'contacto')} className="hover:text-white transition-colors">Contacto directo</a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-display font-bold text-md text-white mb-4">Ubicación & Contacto</h4>
-            <p className="text-sm text-on-primary-container mb-2">
-              <span className="font-semibold">Dirección:</span> Santa Marta, Colombia
-            </p>
-            <p className="text-sm text-on-primary-container mb-2">
-              <span className="font-semibold">WhatsApp:</span> +57 (300) 123-4567
-            </p>
-            <p className="text-sm text-on-primary-container">
-              <span className="font-semibold">Email:</span> contacto@cr7inmobiliaria.com
-            </p>
-          </div>
-        </div>
 
-        <div className="max-w-container-max mx-auto px-6 mt-12 pt-6 border-t border-primary-container/40 flex flex-col md:flex-row items-center justify-between text-xs text-on-primary-container">
-          <p>
-            &copy; {new Date().getFullYear()} CR7 INMOBILIARIA. Todos los derechos reservados.
-          </p>
-          <div className="flex gap-4 mt-4 md:mt-0">
-            <span 
-              onClick={handleLogoDoubleClick}
-              className="cursor-pointer hover:text-white opacity-20 hover:opacity-100 transition-opacity"
+          <div className="border-t border-white/10 pt-8 flex flex-col items-center text-center gap-4">
+            <p 
+              onDoubleClick={handleLogoDoubleClick}
+              className="font-body-sm text-on-primary/60 cursor-pointer select-none"
             >
-              Acceso Privado
-            </span>
-            <span>Desarrollado con ❤️ para Santa Marta</span>
+              © 2026 CR7 Inmobiliaria Santa Marta. Todos los derechos reservados.
+            </p>
           </div>
         </div>
       </footer>
