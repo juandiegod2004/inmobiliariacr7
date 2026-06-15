@@ -4,203 +4,6 @@ import { useAuth } from '../../context/AuthContext'
 import { getAllPropertiesAdmin, createProperty, updateProperty, deleteProperty, uploadPropertyImage } from '../../api/properties.api'
 import { supabase } from '../../api/supabase'
 
-const DEMO_PROPERTIES = [
-  {
-    title: "Apartamento Vista al Mar",
-    location: "Bello Horizonte, Santa Marta",
-    price: 850000000,
-    price_formatted: "$850.000.000 COP",
-    type: "Apartamentos",
-    subtype: "Apartamento",
-    operation: "Venta",
-    rooms: 3,
-    baths: 2,
-    garages: 1,
-    area: 115,
-    stratum: 6,
-    floor: 12,
-    year: 2023,
-    private_area: 108,
-    furnished: false,
-    pets: true,
-    description: "Descubre el epítome del lujo costero en este espectacular apartamento ubicado en la prestigiosa zona de Bello Horizonte. Con una vista panorámica inigualable del Mar Caribe, esta propiedad ha sido diseñada para maximizar la entrada de luz natural y la brisa marina. Cuenta con acabados de alta gama, pisos de mármol, y una cocina integral moderna tipo americano. El balcón terraza es el lugar perfecto para contemplar los atardeceres más hermosos de Santa Marta.",
-    images: [
-      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80"
-    ],
-    exclusive: true
-  },
-  {
-    title: "Casa Oasis Tropical",
-    location: "Mamatoco, Santa Marta",
-    price: 1200000000,
-    price_formatted: "$1.200.000.000 COP",
-    type: "Casas",
-    subtype: "Casa",
-    operation: "Venta",
-    rooms: 4,
-    baths: 3,
-    garages: 2,
-    area: 240,
-    stratum: 4,
-    floor: 1,
-    year: 2021,
-    private_area: 220,
-    furnished: false,
-    pets: true,
-    description: "Hermosa y amplia casa familiar ubicada en Mamatoco. Con amplias zonas verdes, piscina privada, y un diseño moderno de concepto abierto. Cuenta con excelente iluminación natural, habitaciones espaciosas con aire acondicionado, cocina de chef y un patio amplio perfecto para reuniones familiares. Ubicada en una zona residencial tranquila y segura, cerca de centros comerciales y colegios.",
-    images: [
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80"
-    ],
-    exclusive: false
-  },
-  {
-    title: "Penthouse El Rodadero",
-    location: "El Rodadero, Santa Marta",
-    price: 4500000,
-    price_formatted: "$4.500.000 COP / mes",
-    type: "Apartamentos",
-    subtype: "Dúplex",
-    operation: "Arriendo",
-    rooms: 2,
-    baths: 2,
-    garages: 1,
-    area: 95,
-    stratum: 6,
-    floor: 15,
-    year: 2022,
-    private_area: 90,
-    furnished: true,
-    pets: false,
-    description: "Espectacular penthouse tipo dúplex en el corazón de El Rodadero. Amoblado con un estilo contemporáneo y minimalista. Disfruta de una terraza privada con jacuzzi e impresionantes vistas a la bahía de Santa Marta. Vigilancia 24/7, acceso a áreas sociales con piscina infinita y gimnasio. Ideal para estancias largas o ejecutivos que buscan comodidad y exclusividad.",
-    images: [
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80"
-    ],
-    exclusive: true
-  },
-  {
-    title: "Apartaestudio Moderno Rodadero",
-    location: "El Rodadero, Santa Marta",
-    price: 1800000,
-    price_formatted: "$1.800.000 COP / mes",
-    type: "Apartaestudios",
-    subtype: "Apartaestudio",
-    operation: "Arriendo",
-    rooms: 1,
-    baths: 1,
-    garages: 1,
-    area: 45,
-    stratum: 5,
-    floor: 5,
-    year: 2023,
-    private_area: 42,
-    furnished: true,
-    pets: true,
-    description: "Luminoso apartaestudio ideal para solteros o parejas. Totalmente amoblado y equipado con cocina integral, aire acondicionado, y balcón. El edificio cuenta con excelentes amenities: gimnasio, lavandería comunitaria, piscina y terraza panorámica. A solo tres cuadras de la playa de El Rodadero.",
-    images: [
-      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80"
-    ],
-    exclusive: false
-  },
-  {
-    title: "Local Comercial Centro Histórico",
-    location: "Centro Histórico, Santa Marta",
-    price: 6000000,
-    price_formatted: "$6.000.000 COP / mes",
-    type: "Locales",
-    subtype: "Hostal",
-    operation: "Arriendo",
-    rooms: 0,
-    baths: 2,
-    garages: 0,
-    area: 120,
-    stratum: 4,
-    floor: 1,
-    year: 2018,
-    private_area: 115,
-    furnished: false,
-    pets: false,
-    description: "Excelente local comercial u hostal boutique ubicado en una calle de alto tráfico peatonal en el histórico Centro de Santa Marta. Espacio abierto adaptable para restaurante, tienda o cafetería. Cuenta con dos baños adaptados, depósito y acabados de estilo colonial. Gran oportunidad para impulsar tu negocio en la zona turística más activa.",
-    images: [
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80"
-    ],
-    exclusive: true
-  },
-  {
-    title: "Cabaña Rústica Taganga",
-    location: "Taganga, Santa Marta",
-    price: 450000000,
-    price_formatted: "$450.000.000 COP",
-    type: "Casas",
-    subtype: "Cabaña",
-    operation: "Venta",
-    rooms: 2,
-    baths: 2,
-    garages: 1,
-    area: 110,
-    stratum: 2,
-    floor: 1,
-    year: 2015,
-    private_area: 100,
-    furnished: true,
-    pets: true,
-    description: "Encantadora cabaña rústica con vista a la hermosa bahía de Taganga. Construcción ecológica que combina madera y piedra local. Ambiente pacífico, terraza con hamacas, rodeado de naturaleza. Ideal como casa de descanso, retiro vacacional o inversión para rentas turísticas de corta estancia.",
-    images: [
-      "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=800&q=80"
-    ],
-    exclusive: false
-  },
-  {
-    title: "Casa de Playa Pozos Colorados",
-    location: "Pozos Colorados, Santa Marta",
-    price: 2400000000,
-    price_formatted: "$2.400.000.000 COP",
-    type: "Casas",
-    subtype: "Casa de Playa",
-    operation: "Venta",
-    rooms: 5,
-    baths: 5,
-    garages: 3,
-    area: 350,
-    stratum: 6,
-    floor: 1,
-    year: 2020,
-    private_area: 320,
-    furnished: true,
-    pets: true,
-    description: "Lujosa casa de playa con acceso directo al mar en la exclusiva zona de Pozos Colorados. Cuenta con piscina privada frente a la playa, amplias terrazas, acabados de mármol importado, sistema de automatización y climatización central. La propiedad perfecta para disfrutar del Caribe con privacidad y el más alto nivel de confort.",
-    images: [
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
-    ],
-    exclusive: true
-  },
-  {
-    title: "Lote Lomas de Bello Horizonte",
-    location: "Bello Horizonte, Santa Marta",
-    price: 380000000,
-    price_formatted: "$380.000.000 COP",
-    type: "Locales",
-    subtype: "Lote / Terreno",
-    operation: "Venta",
-    rooms: 0,
-    baths: 0,
-    garages: 0,
-    area: 500,
-    stratum: 5,
-    floor: 1,
-    year: 2024,
-    private_area: 500,
-    furnished: false,
-    pets: true,
-    description: "Excelente lote de terreno urbano listo para construir en la zona alta de Bello Horizonte. Vista despejada a la montaña y cercanía a las playas de los hoteles de cadena. Cuenta con acometida de servicios públicos instalados y documentación al día. Ideal para proyecto de vivienda unifamiliar o bifamiliar.",
-    images: [
-      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80"
-    ],
-    exclusive: false
-  }
-]
 
 export default function AdminPropertiesPage() {
   const { user } = useAuth()
@@ -421,31 +224,6 @@ export default function AdminPropertiesPage() {
     }
   }
 
-  // Siembra rápida de propiedades
-  const handleSeedData = async () => {
-    if (!window.confirm('Esto agregará las 8 propiedades predefinidas de prueba directamente a tu base de datos de Supabase asignadas a tu cuenta. ¿Deseas continuar?')) return
-    triggerToast('Sembrando datos en Supabase...')
-    
-    try {
-      const formatted = DEMO_PROPERTIES.map(p => ({
-        ...p,
-        agent_id: user?.id
-      }))
-
-      const { error } = await supabase
-        .from('properties')
-        .insert(formatted)
-
-      if (error) throw error
-
-      triggerToast('¡Base de datos Supabase sembrada con 8 propiedades!')
-      loadData()
-      setActiveTab('list')
-    } catch (err) {
-      console.error(err)
-      triggerToast(`Error al sembrar datos: ${err.message}`)
-    }
-  }
 
   return (
     <div className="max-w-6xl w-full mx-auto p-6 flex flex-col justify-center text-left">
@@ -458,15 +236,6 @@ export default function AdminPropertiesPage() {
           <div>
             <h1 className="font-display text-3xl font-bold text-primary">Gestión de Inmuebles</h1>
             <p className="text-sm text-on-surface-variant">Añade, edita o elimina propiedades de tu portafolio de Santa Marta.</p>
-          </div>
-          <div className="flex gap-3">
-            <button 
-              onClick={handleSeedData}
-              className="bg-secondary text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md flex items-center gap-2 border border-secondary"
-            >
-              <span className="material-symbols-outlined text-[20px]">database</span>
-              Sembrar 8 propiedades demo
-            </button>
           </div>
         </div>
 
@@ -853,7 +622,7 @@ export default function AdminPropertiesPage() {
                     {properties.length === 0 ? (
                       <tr>
                         <td colSpan="7" className="p-8 text-center text-on-surface-variant">
-                          No hay propiedades activas en tu base de datos Supabase. ¡Usa el formulario para añadir una o haz clic en Sembrar!
+                          No hay propiedades activas en tu base de datos Supabase. ¡Usa el formulario para añadir una!
                         </td>
                       </tr>
                     ) : (
