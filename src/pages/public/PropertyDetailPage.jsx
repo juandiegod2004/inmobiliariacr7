@@ -446,6 +446,7 @@ export default function PropertyDetailPage() {
                   <input
                     type="text"
                     required
+                    maxLength={60}
                     placeholder="Nombre completo"
                     value={visitForm.name}
                     onChange={(e) => setVisitForm(prev => ({ ...prev, name: e.target.value }))}
@@ -454,9 +455,13 @@ export default function PropertyDetailPage() {
                   <input
                     type="tel"
                     required
+                    maxLength={10}
                     placeholder="Teléfono"
                     value={visitForm.phone}
-                    onChange={(e) => setVisitForm(prev => ({ ...prev, phone: e.target.value }))}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, '');
+                      setVisitForm(prev => ({ ...prev, phone: val }));
+                    }}
                     className="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 text-body-sm focus:ring-primary focus:border-primary outline-none"
                   />
                   <input
@@ -470,6 +475,7 @@ export default function PropertyDetailPage() {
                     placeholder="Mensaje"
                     rows="3"
                     required
+                    maxLength={250}
                     value={visitForm.message}
                     onChange={(e) => setVisitForm(prev => ({ ...prev, message: e.target.value }))}
                     className="w-full bg-surface-container-low border border-outline-variant rounded-lg p-3 text-body-sm focus:ring-primary focus:border-primary resize-none outline-none"
